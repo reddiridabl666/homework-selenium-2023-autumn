@@ -4,6 +4,8 @@ from selenium.webdriver.chrome.options import Options
 from ui.pages.base_page import BasePage
 from ui.pages.main_page import MainPage
 from ui.pages.cases_page import CasesPage
+from ui.pages.registration_page import RegistrationMainPage
+from ui.pages.registration_page import RegistrationPage
 
 
 @pytest.fixture()
@@ -71,3 +73,15 @@ def main_page(driver):
 def cases_page(driver):
     driver.get(CasesPage.url)
     return CasesPage(driver=driver)
+
+
+@pytest.fixture
+def registration_main_page(driver):
+    driver.get(RegistrationMainPage.url)
+    return RegistrationMainPage(driver=driver)
+
+
+@pytest.fixture
+def registration_page(driver):
+    driver.get(RegistrationPage.url)
+    return RegistrationPage(driver=driver)

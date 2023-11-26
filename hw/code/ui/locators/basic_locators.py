@@ -16,3 +16,12 @@ class MainPageLocators(BasePageLocators):
 
     def TAB(self, tab_name):
         return (By.LINK_TEXT, tab_name)
+
+
+class RegistrationMainPageLocators(BasePageLocators):
+    GO_TO_REGISTRATION = (
+        By.CLASS_NAME, "SocialButton_socialButtonWrapper__0PXSG")
+
+
+class RegistrationPageLocators(BasePageLocators):
+    pass

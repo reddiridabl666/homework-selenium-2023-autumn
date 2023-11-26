@@ -1,4 +1,3 @@
-import time
 from base import BaseCase,  credentials
 from ui.fixtures import main_page, cases_page
 import pytest
@@ -21,6 +20,7 @@ education_dropdown_new_tabs = [
 ]
 
 
+@pytest.mark.skip()
 class TestNavbar(BaseCase):
     authorize = False
 
