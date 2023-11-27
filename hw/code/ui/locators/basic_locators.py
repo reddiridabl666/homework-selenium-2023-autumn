@@ -4,6 +4,10 @@ from selenium.webdriver.common.by import By
 class BasePageLocators:
     PARENT = (By.XPATH, '..')
 
+    @staticmethod
+    def BY_TEST_ID(id):
+        return (By.XPATH, f"//*[@data-test-id='{id}']")
+
 
 class MainPageLocators(BasePageLocators):
     LOGO = (By.CLASS_NAME, "HeaderLeft_left__a9Si1")
@@ -21,6 +25,11 @@ class MainPageLocators(BasePageLocators):
 class RegistrationMainPageLocators(BasePageLocators):
     GO_TO_REGISTRATION = (
         By.CLASS_NAME, "SocialButton_socialButtonWrapper__0PXSG")
+    MAIL_RU_AUTH = BasePageLocators.BY_TEST_ID("oAuthService_mail_ru")
+    MAIL_RU_SHOW_PASSWORD = BasePageLocators.BY_TEST_ID("next-button")
+    MAIL_RU_LOGIN = (By.NAME, "username")
+    MAIL_RU_PASSWORD = (By.NAME, "password")
+    MAIL_RU_SUBMIT = BasePageLocators.BY_TEST_ID("submit-button")
 
 
 class RegistrationPageLocators(BasePageLocators):

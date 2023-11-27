@@ -1,3 +1,4 @@
+import time
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -81,7 +82,27 @@ def registration_main_page(driver):
     return RegistrationMainPage(driver=driver)
 
 
+@pytest.fixture(scope='session')
+def account_selection_cookies(credentials, config):
+    driver = get_driver(config['browser'])
+    driver.get(RegistrationMainPage.url)
+
+    page = RegistrationMainPage(driver)
+    page.select_mail_account(*credentials)
+    page.check_url(RegistrationMainPage.url)
+    driver.get(RegistrationPage.url)
+
+    cookies = driver.get_cookies()
+    time.sleep(1)
+
+    driver.quit()
+    return cookies
+
+
 @pytest.fixture
-def registration_page(driver):
+def registration_page(driver, account_selection_cookies):
+    for cookie in account_selection_cookies:
+        print(cookie["name"])
+        driver.add_cookie(cookie)
     driver.get(RegistrationPage.url)
     return RegistrationPage(driver=driver)

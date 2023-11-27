@@ -3,6 +3,7 @@ from contextlib import contextmanager
 import pytest
 from _pytest.fixtures import FixtureRequest
 from ui.fixtures import get_driver
+import os
 
 
 class BaseCase:
@@ -23,8 +24,7 @@ class BaseCase:
 
 @pytest.fixture(scope='session')
 def credentials():
-    with open("files/credentials") as creds:
-        return creds.readline().split()
+    return (os.getenv("LOGIN"), os.getenv("PASSWORD"))
 
 
 # @pytest.fixture(scope='session')

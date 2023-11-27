@@ -1,1 +1,1 @@
-pytest hw/code
+export $(xargs < .env) && pytest -s hw/code

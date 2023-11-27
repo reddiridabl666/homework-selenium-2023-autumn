@@ -1,18 +1,28 @@
+import time
 from ui.locators import basic_locators
 from ui.pages.base_page import BasePage
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.support import expected_conditions as EC
 
 
 class RegistrationMainPage(BasePage):
     url = 'https://ads.vk.com/hq/registration'
     locators = basic_locators.RegistrationMainPageLocators()
 
-    def click_registration(self):
+    def go_to_account_creation(self, login, password):
+        # self.select_mail_account(login, password)
         self.click(self.locators.GO_TO_REGISTRATION)
         return RegistrationPage(self.driver)
+
+    def select_mail_account(self, login, password):
+        self.click(self.locators.MAIL_RU_AUTH)
+        self.fill_in(self.locators.MAIL_RU_LOGIN, login)
+        self.click(self.locators.MAIL_RU_SHOW_PASSWORD)
+        self.fill_in(self.locators.MAIL_RU_PASSWORD, password)
+        self.click(self.locators.MAIL_RU_SUBMIT)
 
 
 class RegistrationPage(BasePage):
     url = 'https://ads.vk.com/hq/registration/new'
     locators = basic_locators.RegistrationPageLocators()
+
+    def go(self):
+        self.click(basic_locators.RegistrationMainPageLocators.MAIL_RU_AUTH)
