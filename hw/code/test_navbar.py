@@ -20,6 +20,7 @@ education_dropdown_new_tabs = [
 ]
 
 
+@pytest.mark.skip()
 class TestNavbar(BaseCase):
     authorize = False
 

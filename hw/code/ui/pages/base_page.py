@@ -1,10 +1,12 @@
 import time
+from typing import List
 
 import allure
 from selenium.webdriver.remote.webelement import WebElement
 from ui.locators import basic_locators
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.select import Select
 
 
 class PageNotOpenedExeption(Exception):
@@ -14,7 +16,6 @@ class PageNotOpenedExeption(Exception):
 class BasePage(object):
 
     locators = basic_locators.BasePageLocators()
-    locators_main = basic_locators.MainPageLocators()
     url = 'https://ads.vk.com/'
 
     def is_opened(self, timeout=15):
@@ -42,7 +43,14 @@ class BasePage(object):
         self.wait(timeout).until(EC.invisibility_of_element(locator))
 
     def find(self, locator, timeout=None) -> WebElement:
-        return self.wait(timeout).until(EC.presence_of_element_located(locator))
+        return self.wait(timeout).until(EC.visibility_of_element_located(locator))
+
+    def find_from(self, elem, locator, timeout=None) -> WebElement:
+        self.wait(timeout).until(
+            lambda _: elem.find_element(*locator).is_displayed())
+
+    def find_multiple(self, locator, timeout=None) -> List[WebElement]:
+        return self.wait(timeout).until(EC.visibility_of_all_elements_located(locator))
 
     def switch_to_new_tab(self):
         assert len(self.driver.window_handles) > 1
@@ -53,7 +61,6 @@ class BasePage(object):
 
     @allure.step('Click')
     def click(self, locator, timeout=None) -> WebElement:
-        self.find(locator, timeout=timeout)
         elem = self.wait(timeout).until(EC.element_to_be_clickable(locator))
         elem.click()
         return elem
@@ -65,6 +72,14 @@ class BasePage(object):
         elem.clear()
         elem.send_keys(query)
         return elem
+
+    def get_selected_value(self, locator):
+        select = Select(self.find(locator))
+        return select.all_selected_options[0]
+
+    def select_value(self, locator, value):
+        select = Select(self.find(locator))
+        select.select_by_visible_text(value)
 
     @allure.step('Check url')
     def assert_url(self, url, timeout=None):

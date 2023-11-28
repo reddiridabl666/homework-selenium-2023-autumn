@@ -1,4 +1,3 @@
-import time
 from ui.locators import basic_locators
 from ui.pages.base_page import BasePage
 
@@ -23,3 +22,34 @@ class RegistrationMainPage(BasePage):
 class RegistrationPage(BasePage):
     url = 'https://ads.vk.com/hq/registration/new'
     locators = basic_locators.RegistrationPageLocators()
+
+    def select_country(self, country_name):
+        self.click(self.locators.COUNTRY)
+        self.click(self.locators.VK_UI_SELECT_ELEM(country_name))
+
+    def available_currencies(self):
+        self.click(self.locators.CURRENCY)
+        elems = self.find_multiple(self.locators.VK_UI_SELECT_ELEMS)
+        return tuple(elem.get_attribute("title") for elem in elems)
+
+    def fill_in_form(self, email, terms_accepted=True):
+        self.fill_in(self.locators.EMAIL_INPUT, email)
+        if not terms_accepted:
+            self.click(self.locators.TERMS)
+        self.click(self.locators.CREATE_ACCOUNT)
+
+    def has_email_error(self, error='Обязательное поле'):
+        self.has_error(self.locators.EMAIL_INPUT, error=error)
+
+    def has_terms_error(self):
+        self.has_error(self.locators.TERMS)
+
+    def has_error(self, locator, error='Обязательное поле'):
+        elem = self.find(self.locators.ERROR)
+        self.find_from(elem, locator)
+        self.find_from(elem, self.locators.BY_TEXT(error))
+
+    def has_global_error(self):
+        elem = self.find(self.locators.FORM_ERROR)
+        self.find_from(elem, self.locators.BY_TEXT('Ошибка'))
+        self.find_from(elem, self.locators.BY_TEXT('Validation failed'))
