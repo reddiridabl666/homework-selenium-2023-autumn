@@ -67,5 +67,5 @@ class BasePage(object):
         return elem
 
     @allure.step('Check url')
-    def check_url(self, url, timeout=None):
+    def assert_url(self, url, timeout=None):
         self.wait(timeout).until(EC.url_matches(url))

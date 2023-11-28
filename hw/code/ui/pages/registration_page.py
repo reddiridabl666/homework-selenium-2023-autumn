@@ -8,7 +8,7 @@ class RegistrationMainPage(BasePage):
     locators = basic_locators.RegistrationMainPageLocators()
 
     def go_to_account_creation(self, login, password):
-        # self.select_mail_account(login, password)
+        self.select_mail_account(login, password)
         self.click(self.locators.GO_TO_REGISTRATION)
         return RegistrationPage(self.driver)
 
@@ -23,6 +23,3 @@ class RegistrationMainPage(BasePage):
 class RegistrationPage(BasePage):
     url = 'https://ads.vk.com/hq/registration/new'
     locators = basic_locators.RegistrationPageLocators()
-
-    def go(self):
-        self.click(basic_locators.RegistrationMainPageLocators.MAIL_RU_AUTH)

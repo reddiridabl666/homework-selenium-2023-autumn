@@ -16,24 +16,18 @@ class BaseCase:
 
         if self.authorize:
             pass
-            # for cookie in request.getfixturevalue('cookies'):
-            #     self.driver.add_cookie(cookie)
 
-            # self.driver.refresh()
+    def add_cookies(self, cookies):
+        for cookie in cookies:
+            self.driver.add_cookie(cookie)
+        self.driver.refresh()
+
+    def print_cookies(self):
+        print(f"\nCurrent url: {self.driver.current_url}")
+        for cookie in self.driver.get_cookies():
+            print(f"{cookie['name']} : {cookie['value']}")
 
 
 @pytest.fixture(scope='session')
 def credentials():
     return (os.getenv("LOGIN"), os.getenv("PASSWORD"))
-
-
-# @pytest.fixture(scope='session')
-# def cookies(credentials, config):
-#     driver = get_driver(config['browser'])
-#     driver.get(config['url'])
-
-#     LoginPage(driver).login(*credentials)
-#     cookies = driver.get_cookies()
-
-#     driver.quit()
-#     return cookies

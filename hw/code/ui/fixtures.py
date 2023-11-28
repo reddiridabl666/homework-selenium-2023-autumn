@@ -89,20 +89,22 @@ def account_selection_cookies(credentials, config):
 
     page = RegistrationMainPage(driver)
     page.select_mail_account(*credentials)
-    page.check_url(RegistrationMainPage.url)
+    page.assert_url(RegistrationMainPage.url)
     driver.get(RegistrationPage.url)
 
     cookies = driver.get_cookies()
-    time.sleep(1)
 
     driver.quit()
     return cookies
 
 
 @pytest.fixture
-def registration_page(driver, account_selection_cookies):
-    for cookie in account_selection_cookies:
-        print(cookie["name"])
-        driver.add_cookie(cookie)
+def registration_page(driver):
     driver.get(RegistrationPage.url)
+    # print("\nCookies got from fixture")
+    # for cookie in account_selection_cookies:
+    #     print(f"{cookie['name']} : {cookie['value']}")
+    #     driver.add_cookie(cookie)
+
+    # driver.refresh()
     return RegistrationPage(driver=driver)
