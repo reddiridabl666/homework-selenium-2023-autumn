@@ -99,12 +99,5 @@ def account_selection_cookies(credentials, config):
 
 
 @pytest.fixture
-def registration_page(driver):
-    driver.get(RegistrationPage.url)
-    # print("\nCookies got from fixture")
-    # for cookie in account_selection_cookies:
-    #     print(f"{cookie['name']} : {cookie['value']}")
-    #     driver.add_cookie(cookie)
-
-    # driver.refresh()
-    return RegistrationPage(driver=driver)
+def registration_page(registration_main_page, credentials):
+    return registration_main_page.go_to_account_creation(*credentials)

@@ -35,11 +35,11 @@ class BasePage(object):
         return WebDriverWait(self.driver, timeout=timeout)
 
     def is_visible(self, locator):
-        try:
-            self.wait().until(EC.visibility_of_element_located(locator))
-            return True
-        except:
-            return False
+        elem = self.find(locator)
+        elem.location_once_scrolled_into_view
+
+    def is_not_visible(self, locator, timeout=None):
+        self.wait(timeout).until(EC.invisibility_of_element(locator))
 
     def find(self, locator, timeout=None) -> WebElement:
         return self.wait(timeout).until(EC.presence_of_element_located(locator))

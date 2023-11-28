@@ -8,6 +8,10 @@ class BasePageLocators:
     def BY_TEST_ID(id):
         return (By.XPATH, f"//*[@data-test-id='{id}']")
 
+    @staticmethod
+    def BY_TEXT(text):
+        return (By.XPATH, f"//*[text()='{text}']")
+
 
 class MainPageLocators(BasePageLocators):
     LOGO = (By.CLASS_NAME, "HeaderLeft_left__a9Si1")
@@ -33,4 +37,5 @@ class RegistrationMainPageLocators(BasePageLocators):
 
 
 class RegistrationPageLocators(BasePageLocators):
-    pass
+    AGENCY = BasePageLocators.BY_TEXT("Агентство")
+    PHYSICAL = BasePageLocators.BY_TEXT("Физическое лицо")
