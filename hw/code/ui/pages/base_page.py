@@ -5,6 +5,7 @@ from selenium.webdriver.remote.webelement import WebElement
 from ui.locators import basic_locators
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver import ActionChains
 
 
 class PageNotOpenedExeption(Exception):
@@ -52,10 +53,14 @@ class BasePage(object):
         self.driver.switch_to.window(self.driver.window_handles[0])
 
     @allure.step('Click')
-    def click(self, locator, timeout=None) -> WebElement:
-        self.find(locator, timeout=timeout)
+    def click(self, locator, timeout=5) -> WebElement:
+        elem = self.find(locator, timeout=timeout)
+
+        self.wait(timeout).until(EC.visibility_of_element_located(locator))
         elem = self.wait(timeout).until(EC.element_to_be_clickable(locator))
+
         elem.click()
+        
         return elem
 
     @allure.step('Fill in')

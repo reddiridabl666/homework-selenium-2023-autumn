@@ -4,6 +4,7 @@ from selenium.webdriver.chrome.options import Options
 from ui.pages.base_page import BasePage
 from ui.pages.main_page import MainPage
 from ui.pages.cases_page import CasesPage
+from ui.pages.partner_page import PartnerPage
 
 
 @pytest.fixture()
@@ -71,3 +72,8 @@ def main_page(driver):
 def cases_page(driver):
     driver.get(CasesPage.url)
     return CasesPage(driver=driver)
+
+@pytest.fixture
+def partner_page(driver):
+    driver.get(PartnerPage.url)
+    return PartnerPage(driver=driver)

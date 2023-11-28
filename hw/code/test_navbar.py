@@ -1,4 +1,3 @@
-import time
 from base import BaseCase,  credentials
 from ui.fixtures import main_page, cases_page
 import pytest
