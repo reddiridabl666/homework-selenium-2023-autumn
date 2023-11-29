@@ -52,9 +52,15 @@ class RegistrationPageLocators(BasePageLocators):
     PHYSICAL = BasePageLocators.BY_TEXT("Физическое лицо")
     COUNTRY = BasePageLocators.BY_TEST_ID("country")
     CURRENCY = BasePageLocators.BY_TEST_ID("currency")
-    CURRENCY_VALUES = BasePageLocators.BY_TEST_ID("currency")
     EMAIL_INPUT = (By.NAME, "email")
     ERROR = (By.CLASS_NAME, "vkuiFormItem--status-error")
     CREATE_ACCOUNT = BasePageLocators.BY_TEXT("Создать кабинет")
     TERMS = (By.CLASS_NAME, "registration_offerTitle__BqyqW")
     FORM_ERROR = (By.CLASS_NAME, "vkuiFormStatus--mode-error")
+
+
+class HqPageLocators(BasePageLocators):
+    SETTINGS = (By.LINK_TEXT, "Настройки")
+    DELETE_ACCOUNT = (By.CLASS_NAME, 'DeleteAccount_button__BEy7F')
+    CONFIRM_DELETION = BasePageLocators.BY_TEXT('Да, удалить')
+    CLOSE_HELP = BasePageLocators.BY_TEXT('Попробовать позже')

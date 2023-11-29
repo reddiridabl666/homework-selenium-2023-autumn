@@ -21,7 +21,7 @@ class BasePage(object):
     def is_opened(self, timeout=15):
         started = time.time()
         while time.time() - started < timeout:
-            if self.driver.current_url == self.url:
+            if self.driver.current_url.startswith(self.url):
                 return True
         raise PageNotOpenedExeption(
             f'{self.url} did not open in {timeout} sec, current url {self.driver.current_url}')

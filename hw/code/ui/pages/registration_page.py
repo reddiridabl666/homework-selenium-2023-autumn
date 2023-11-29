@@ -1,5 +1,7 @@
+import time
 from ui.locators import basic_locators
 from ui.pages.base_page import BasePage
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class RegistrationMainPage(BasePage):
@@ -27,7 +29,10 @@ class RegistrationPage(BasePage):
         self.click(self.locators.COUNTRY)
         self.click(self.locators.VK_UI_SELECT_ELEM(country_name))
 
-    def available_currencies(self):
+    def available_currencies_after_country_change(self, main_currency):
+        self.wait().until(EC.text_to_be_present_in_element(
+            self.locators.CURRENCY, main_currency))
+
         self.click(self.locators.CURRENCY)
         elems = self.find_multiple(self.locators.VK_UI_SELECT_ELEMS)
         return tuple(elem.get_attribute("title") for elem in elems)

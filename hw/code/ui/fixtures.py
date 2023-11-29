@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from ui.pages.base_page import BasePage
 from ui.pages.main_page import MainPage
+from ui.pages.hq_page import HqPage
 from ui.pages.cases_page import CasesPage
 from ui.pages.registration_page import RegistrationMainPage
 from ui.pages.registration_page import RegistrationPage
@@ -101,3 +102,11 @@ def account_selection_cookies(credentials, config):
 @pytest.fixture
 def registration_page(registration_main_page, credentials):
     return registration_main_page.go_to_account_creation(*credentials)
+
+
+@pytest.fixture
+def hq_page(registration_page):
+    registration_page.fill_in_form('example@mail.org')
+    hq_page = HqPage(registration_page.driver)
+    yield hq_page
+    hq_page.delete_account()

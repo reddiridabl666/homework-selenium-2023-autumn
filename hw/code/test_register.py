@@ -1,6 +1,6 @@
 import time
 from base import BaseCase,  credentials
-from ui.fixtures import registration_main_page, registration_page, account_selection_cookies
+from ui.fixtures import registration_main_page, registration_page, account_selection_cookies, hq_page
 import pytest
 
 
@@ -23,7 +23,8 @@ class TestRegistration(BaseCase):
     @pytest.mark.parametrize('country,currencies', currency_test_args)
     def test_currency_select(self, registration_page, country, currencies):
         registration_page.select_country(country)
-        assert registration_page.available_currencies() == currencies
+        assert registration_page.available_currencies_after_country_change(
+            currencies[0]) == currencies
 
     def test_no_email(self, registration_page):
         registration_page.fill_in_form('')
@@ -48,6 +49,5 @@ class TestRegistration(BaseCase):
         registration_page.fill_in_form(email)
         registration_page.has_email_error(error='Некорректный email адрес')
 
-    def test_ok(self, registration_page):
-        registration_page.fill_in_form('example@mail.org')
-        registration_page.assert_url('https://ads.vk.com/hq/dashboard')
+    def test_creation_ok(self, hq_page):
+        hq_page.assert_url('https://ads.vk.com/hq/dashboard')
