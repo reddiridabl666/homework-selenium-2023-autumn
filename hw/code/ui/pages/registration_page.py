@@ -19,6 +19,12 @@ class RegistrationMainPage(BasePage):
         self.fill_in(self.locators.MAIL_RU_PASSWORD, password)
         self.click(self.locators.MAIL_RU_SUBMIT)
 
+    def login_vk_id(self, login, password):
+        self.fill_in(self.locators.LOGIN, login)
+        self.click(self.locators.SUBMIT_BTN)
+        self.fill_in(self.locators.PASSWORD, password)
+        self.click(self.locators.SUBMIT_BTN)
+
 
 class RegistrationPage(BasePage):
     url = 'https://ads.vk.com/hq/registration/new'

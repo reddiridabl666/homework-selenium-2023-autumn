@@ -1,1 +1,1 @@
-export $(xargs < .env) && pytest -s hw/code -k test_dummy
+export $(xargs < .env_vk_id) && pytest -s hw/code -k test_dummy

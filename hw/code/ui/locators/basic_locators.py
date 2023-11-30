@@ -8,6 +8,12 @@ class BasePageLocators:
     def BY_TEST_ID(id):
         return (By.XPATH, f"//*[@data-test-id='{id}']")
 
+    @staticmethod
+    def BY_TEXT(text):
+        return (By.XPATH, f".//*[text()='{text}']")
+
+    SUBMIT_BTN = (By.XPATH, "//button[@type='submit']")
+
 
 class MainPageLocators(BasePageLocators):
     LOGO = (By.CLASS_NAME, "HeaderLeft_left__a9Si1")
@@ -30,6 +36,8 @@ class RegistrationMainPageLocators(BasePageLocators):
     MAIL_RU_LOGIN = (By.NAME, "username")
     MAIL_RU_PASSWORD = (By.NAME, "password")
     MAIL_RU_SUBMIT = BasePageLocators.BY_TEST_ID("submit-button")
+    LOGIN = (By.NAME, 'login')
+    PASSWORD = (By.NAME, 'password')
 
 
 class RegistrationPageLocators(BasePageLocators):
