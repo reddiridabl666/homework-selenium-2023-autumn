@@ -9,12 +9,14 @@ class BasePageLocators:
         return (By.XPATH, f"//*[@data-test-id='{id}']")
 
     @staticmethod
-    def BY_TEST_ID(id):
-        return (By.XPATH, f"//*[@data-testid='{id}']")
-
-    @staticmethod
     def BY_TEXT(text):
         return (By.XPATH, f".//*[text()='{text}']")
+
+    SUBMIT_BTN = (By.XPATH, "//button[@type='submit']")
+
+    @staticmethod
+    def BY_TEST_ID(id):
+        return (By.XPATH, f"//*[@data-testid='{id}']")
 
     VK_UI_SELECT_ELEMS = (
         By.XPATH, f"//*[contains(concat(' ', @class, ' '), ' vkuiCustomSelectOption ')]")
@@ -45,6 +47,8 @@ class RegistrationMainPageLocators(BasePageLocators):
     MAIL_RU_LOGIN = (By.NAME, "username")
     MAIL_RU_PASSWORD = (By.NAME, "password")
     MAIL_RU_SUBMIT = BasePageLocators.BY_MAIL_TEST_ID("submit-button")
+    LOGIN = (By.NAME, 'login')
+    PASSWORD = (By.NAME, 'password')
 
 
 class RegistrationPageLocators(BasePageLocators):

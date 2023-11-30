@@ -86,12 +86,14 @@ def registration_main_page(driver):
 @pytest.fixture(scope='session')
 def account_selection_cookies(credentials, config):
     driver = get_driver(config['browser'])
-    driver.get(RegistrationMainPage.url)
 
+    driver.get(RegistrationMainPage.url)
     page = RegistrationMainPage(driver)
-    page.select_mail_account(*credentials)
-    page.assert_url(RegistrationMainPage.url)
-    driver.get(RegistrationPage.url)
+    # page.select_mail_account(*credentials)
+    page.login_vk_id(*credentials)
+    # time.sleep(3)
+    # page.assert_url(RegistrationMainPage.url)
+    # driver.get(RegistrationPage.url)
 
     cookies = driver.get_cookies()
 

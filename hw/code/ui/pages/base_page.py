@@ -83,4 +83,10 @@ class BasePage(object):
 
     @allure.step('Check url')
     def assert_url(self, url, timeout=None):
-        self.wait(timeout).until(EC.url_matches(url))
+        if timeout is None:
+            timeout = 5
+        try:
+            self.wait(timeout).until(EC.url_matches(url))
+        except:
+            raise PageNotOpenedExeption(
+                f'{url} did not open in {timeout} sec, current url {self.driver.current_url}')
