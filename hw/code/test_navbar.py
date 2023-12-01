@@ -1,4 +1,4 @@
-from base import BaseCase,  credentials
+from base import BaseCase
 from ui.fixtures import main_page, cases_page
 import pytest
 
@@ -20,10 +20,7 @@ education_dropdown_new_tabs = [
 ]
 
 
-@pytest.mark.skip()
 class TestNavbar(BaseCase):
-    authorize = False
-
     def test_logo_redirect(self, cases_page):
         cases_page.click_logo()
 

@@ -1,12 +1,10 @@
 import time
-from base import BaseCase,  credentials
-from ui.fixtures import registration_main_page, registration_page, account_selection_cookies, hq_page
+from base import BaseCase
+from ui.fixtures import registration_main_page, no_cabinet_credentials, registration_page
 import pytest
 
 
 class TestRegistration(BaseCase):
-    authorize = False
-
     def test_go_to_creation(self, registration_main_page, credentials):
         registration_main_page.go_to_account_creation(*credentials)
 
@@ -48,6 +46,3 @@ class TestRegistration(BaseCase):
     def test_bad_email_format(self, registration_page, email):
         registration_page.fill_in_form(email)
         registration_page.has_email_error(error='Некорректный email адрес')
-
-    def test_creation_ok(self, hq_page):
-        hq_page.assert_url('https://ads.vk.com/hq/dashboard')

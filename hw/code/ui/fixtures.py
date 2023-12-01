@@ -1,3 +1,4 @@
+import os
 import time
 import pytest
 from selenium import webdriver
@@ -7,7 +8,7 @@ from ui.pages.main_page import MainPage
 from ui.pages.hq_page import HqPage
 from ui.pages.cases_page import CasesPage
 from ui.pages.registration_page import RegistrationMainPage
-from ui.pages.registration_page import RegistrationPage
+from ui.pages.audience_page import AudiencePage
 
 
 @pytest.fixture()
@@ -84,31 +85,67 @@ def registration_main_page(driver):
 
 
 @pytest.fixture(scope='session')
-def account_selection_cookies(credentials, config):
+def credentials():
+    return (os.getenv("LOGIN"), os.getenv("PASSWORD"))
+
+
+@pytest.fixture(scope='session')
+def no_cabinet_credentials():
+    return (os.getenv("NO_CABINET_LOGIN"), os.getenv("NO_CABINET_PASSWORD"))
+
+
+@pytest.fixture
+def registration_page(registration_main_page, no_cabinet_credentials):
+    page = registration_main_page.go_to_account_creation(
+        *no_cabinet_credentials, auth_method='mail')
+    yield page
+    # page.driver.quit()
+
+
+@pytest.fixture(scope='session')
+def create_account(config, credentials):
     driver = get_driver(config['browser'])
 
     driver.get(RegistrationMainPage.url)
     page = RegistrationMainPage(driver)
-    # page.select_mail_account(*credentials)
-    page.login_vk_id(*credentials)
-    # time.sleep(3)
-    # page.assert_url(RegistrationMainPage.url)
-    # driver.get(RegistrationPage.url)
 
-    cookies = driver.get_cookies()
+    acc_creation_page = page.go_to_account_creation(*credentials)
+    acc_creation_page.fill_in_form('example@mail.org')
 
+    page = HqPage(driver)
     driver.quit()
-    return cookies
+
+    yield page
+
+    driver = get_driver(config['browser'])
+
+    driver.get(RegistrationMainPage.url)
+    RegistrationMainPage(driver).login(*credentials)
+
+    page = HqPage(driver)
+    page.delete_account()
+    driver.quit()
+
+
+@pytest.fixture(scope='session')
+def delete_account(create_account, credentials, config):
+    driver = get_driver(config['browser'])
+
+    driver.get(RegistrationMainPage.url)
+    RegistrationMainPage(driver).login(*credentials)
+
+    page = HqPage(driver)
+    page.delete_account()
+    driver.quit()
 
 
 @pytest.fixture
-def registration_page(registration_main_page, credentials):
-    return registration_main_page.go_to_account_creation(*credentials)
+def hq_page(create_account, registration_main_page, credentials):
+    registration_main_page.login(*credentials)
+    return HqPage(registration_main_page.driver)
 
 
 @pytest.fixture
-def hq_page(registration_page):
-    registration_page.fill_in_form('example@mail.org')
-    hq_page = HqPage(registration_page.driver)
-    yield hq_page
-    hq_page.delete_account()
+def audience_page(hq_page):
+    hq_page.driver.get(AudiencePage.url)
+    return AudiencePage(driver=hq_page.driver)

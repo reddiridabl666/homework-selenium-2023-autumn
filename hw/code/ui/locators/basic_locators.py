@@ -68,3 +68,7 @@ class HqPageLocators(BasePageLocators):
     DELETE_ACCOUNT = (By.CLASS_NAME, 'DeleteAccount_button__BEy7F')
     CONFIRM_DELETION = BasePageLocators.BY_TEXT('Да, удалить')
     CLOSE_HELP = BasePageLocators.BY_TEXT('Попробовать позже')
+
+
+class AudiencePageLocators(HqPageLocators):
+    CREATE_AUDIENCE = HqPageLocators.BY_TEST_ID("create-audience")

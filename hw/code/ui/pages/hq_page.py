@@ -15,3 +15,4 @@ class HqPage(BasePage):
         self.click(self.locators.SETTINGS)
         self.click(self.locators.DELETE_ACCOUNT)
         self.click(self.locators.CONFIRM_DELETION)
+        self.wait_for_redirect()

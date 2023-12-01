@@ -90,3 +90,6 @@ class BasePage(object):
         except:
             raise PageNotOpenedExeption(
                 f'{url} did not open in {timeout} sec, current url {self.driver.current_url}')
+
+    def wait_for_redirect(self, timeout=None):
+        self.wait(timeout).until(EC.url_changes(self.driver.current_url))
