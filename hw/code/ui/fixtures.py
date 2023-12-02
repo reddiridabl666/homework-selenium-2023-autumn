@@ -9,6 +9,8 @@ from ui.pages.cases_page import CasesPage
 from ui.pages.registration_page import RegistrationMainPage
 from ui.pages.audience_page import AudiencePage
 
+from dotenv import load_dotenv
+
 
 @pytest.fixture()
 def driver(config):
@@ -75,12 +77,17 @@ def registration_main_page(driver):
 
 
 @pytest.fixture(scope='session')
-def credentials():
+def load_env():
+    load_dotenv()
+
+
+@pytest.fixture(scope='session')
+def credentials(load_env):
     return (os.getenv("LOGIN"), os.getenv("PASSWORD"), os.getenv("METHOD"))
 
 
 @pytest.fixture(scope='session')
-def no_cabinet_credentials():
+def no_cabinet_credentials(load_env):
     return (os.getenv("NO_CABINET_LOGIN"), os.getenv("NO_CABINET_PASSWORD"), os.getenv("NO_CABINET_METHOD"))
 
 
