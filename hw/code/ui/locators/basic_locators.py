@@ -36,7 +36,7 @@ class MainPageLocators(BasePageLocators):
     HAMBURGER = (By.CLASS_NAME, "HeaderWrapper_mobileMenuButton__D38On")
 
     def TAB(self, tab_name):
-        return (By.LINK_TEXT, tab_name)
+        return (By.XPATH, f"//*[contains(@class, 'NavigationVKAdsItem_link__9JjBI')][text()='{tab_name}']")
 
 
 class RegistrationMainPageLocators(BasePageLocators):
