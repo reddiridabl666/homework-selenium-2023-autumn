@@ -12,10 +12,17 @@ class PartnerPage(BasePage):
         self.click(self.locators.HELP)
 
     def click_site_tab(self):
-        self.click(self.locators.SITE_TAB)
+        self.scroll_click(self.locators.SITE_TAB)
 
     def click_mobile_tab(self):
-        self.click(self.locators.MOBILE_TAB)
+        self.scroll_click(self.locators.MOBILE_TAB)
 
     def check_format_presence(self, format_text):
-        return self.is_visible(self.locators.DIV_BY_TEXT(format_text))
+        return self.is_visible(self.locators.DIV_IN_ACTIVE_TAB_BY_TEXT(format_text))
+    
+    def form_submit_btn_enabled(self):
+        return self.is_enabled(self.locators.FORM_SUBMIT_BTN)
+    
+    def fill_form(self):
+        self.fill_in(self.locators.FORM_NAME_INPUT, 'test name')
+        self.fill_in(self.locators.FORM_EMAIL_INPUT, 'test@test.com')

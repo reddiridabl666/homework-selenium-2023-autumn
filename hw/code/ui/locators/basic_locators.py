@@ -6,7 +6,7 @@ class BasePageLocators:
 
     @staticmethod
     def BTN_BY_TEXT(text):
-        return (By.XPATH, f'//button[text()="{text}"]')
+        return (By.XPATH, f'//button[text()="{text}"] | //button//*[text()="{text}"]')
 
     @staticmethod
     def DIV_BY_TEXT(text):
@@ -29,6 +29,14 @@ class MainPageLocators(BasePageLocators):
 class PartnerPageLocators(BasePageLocators):
     GO_TO_ACCOUNT = (By.LINK_TEXT, "Перейти в кабинет")
     HELP = (By.LINK_TEXT, "Справка")
+
+    @staticmethod
+    def DIV_IN_ACTIVE_TAB_BY_TEXT(text):
+        return (By.XPATH, f"//div[contains(@class, 'tabContentActive')]//div[text()='{text}']")
+
     SITE_TAB = BasePageLocators.BTN_BY_TEXT("Для сайтов")
-    # MOBILE_TAB = BasePageLocators.BTN_BY_TEXT("Для приложений")
-    MOBILE_TAB = (By.XPATH, '//*[@id="__next"]/article/div/div[2]/div[2]/div[2]/button[2]')
+    MOBILE_TAB = BasePageLocators.BTN_BY_TEXT("Для приложений")
+
+    FORM_SUBMIT_BTN = BasePageLocators.BTN_BY_TEXT("Отправить")
+    FORM_NAME_INPUT = (By.NAME, 'name')
+    FORM_EMAIL_INPUT = (By.NAME, 'email')

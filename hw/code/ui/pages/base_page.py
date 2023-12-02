@@ -5,7 +5,7 @@ from selenium.webdriver.remote.webelement import WebElement
 from ui.locators import basic_locators
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver import ActionChains
+from ui.wait_conditions import element_in_viewport
 
 
 class PageNotOpenedExeption(Exception):
@@ -36,12 +36,10 @@ class BasePage(object):
         return WebDriverWait(self.driver, timeout=timeout)
 
     def is_visible(self, locator):
-        try:
-            self.wait().until(EC.visibility_of_element_located(locator))
-            return True
-        except:
-            return False
-
+        print(self.driver.find_element(*locator))
+        self.wait().until(EC.visibility_of_element_located(locator))
+        return True
+    
     def find(self, locator, timeout=None) -> WebElement:
         return self.wait(timeout).until(EC.presence_of_element_located(locator))
 
@@ -52,16 +50,31 @@ class BasePage(object):
     def switch_to_initial_tab(self):
         self.driver.switch_to.window(self.driver.window_handles[0])
 
+
     @allure.step('Click')
     def click(self, locator, timeout=5) -> WebElement:
+        elem = self.wait(timeout).until(EC.element_to_be_clickable(locator))
+
+        elem.click()
+
+        return elem
+
+
+    @allure.step('Scroll click')
+    def scroll_click(self, locator, timeout=5) -> WebElement:
         elem = self.find(locator, timeout=timeout)
 
         self.wait(timeout).until(EC.visibility_of_element_located(locator))
         elem = self.wait(timeout).until(EC.element_to_be_clickable(locator))
 
-        elem.click()
+        elem.location_once_scrolled_into_view
+
+        self.wait(timeout).until(element_in_viewport(locator))
         
+        elem.click()
+
         return elem
+
 
     @allure.step('Fill in')
     def fill_in(self, locator, query, timeout=None) -> WebElement:
@@ -73,3 +86,11 @@ class BasePage(object):
     @allure.step('Check url')
     def check_url(self, url, timeout=None):
         self.wait(timeout).until(EC.url_matches(url))
+
+    @allure.step('Check if enabled')
+    def is_enabled(self, locator, timeout=5) -> bool:
+        elem = self.find(locator, timeout=timeout)
+
+        print(elem, elem.get_attribute('disabled'))
+
+        return False
