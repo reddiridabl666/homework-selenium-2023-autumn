@@ -8,12 +8,12 @@ class RegistrationMainPage(BasePage):
     url = 'https://ads.vk.com/hq/registration'
     locators = basic_locators.RegistrationMainPageLocators()
 
-    def go_to_account_creation(self, login, password, auth_method='vk'):
-        self.login(login, password, auth_method=auth_method)
+    def go_to_account_creation(self, login, password, auth_method):
+        self.login(login, password, auth_method)
         self.click(self.locators.GO_TO_REGISTRATION)
         return RegistrationPage(self.driver)
 
-    def login(self, login, password, auth_method='vk'):
+    def login(self, login, password, auth_method='mail'):
         if auth_method == 'mail':
             self.login_mail(login, password)
         else:

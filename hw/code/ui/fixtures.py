@@ -1,5 +1,4 @@
 import os
-import time
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -53,15 +52,6 @@ def get_driver(browser_name):
     return browser
 
 
-@pytest.fixture(scope='session', params=['chrome', 'firefox'])
-def all_drivers(config, request):
-    url = config['url']
-    browser = get_driver(request.param)
-    browser.get(url)
-    yield browser
-    browser.quit()
-
-
 @pytest.fixture
 def base_page(driver):
     return BasePage(driver=driver)
@@ -86,20 +76,18 @@ def registration_main_page(driver):
 
 @pytest.fixture(scope='session')
 def credentials():
-    return (os.getenv("LOGIN"), os.getenv("PASSWORD"))
+    return (os.getenv("LOGIN"), os.getenv("PASSWORD"), os.getenv("METHOD"))
 
 
 @pytest.fixture(scope='session')
 def no_cabinet_credentials():
-    return (os.getenv("NO_CABINET_LOGIN"), os.getenv("NO_CABINET_PASSWORD"))
+    return (os.getenv("NO_CABINET_LOGIN"), os.getenv("NO_CABINET_PASSWORD"), os.getenv("NO_CABINET_METHOD"))
 
 
 @pytest.fixture
 def registration_page(registration_main_page, no_cabinet_credentials):
-    page = registration_main_page.go_to_account_creation(
-        *no_cabinet_credentials, auth_method='mail')
-    yield page
-    # page.driver.quit()
+    return registration_main_page.go_to_account_creation(
+        *no_cabinet_credentials)
 
 
 @pytest.fixture(scope='session')
@@ -117,18 +105,6 @@ def create_account(config, credentials):
 
     yield page
 
-    driver = get_driver(config['browser'])
-
-    driver.get(RegistrationMainPage.url)
-    RegistrationMainPage(driver).login(*credentials)
-
-    page = HqPage(driver)
-    page.delete_account()
-    driver.quit()
-
-
-@pytest.fixture(scope='session')
-def delete_account(create_account, credentials, config):
     driver = get_driver(config['browser'])
 
     driver.get(RegistrationMainPage.url)
