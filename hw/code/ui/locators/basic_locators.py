@@ -114,3 +114,6 @@ class AudiencePageLocators(HqPageLocators):
 
     AUDIENCE_SOURCE_ITEM = (By.CLASS_NAME, 'InfoRow_content__LN5Bb')
     AUDIENCE_SOURCE_NAME = (By.CLASS_NAME, 'vkuiHeadline')
+
+    RULE = (By.CLASS_NAME, 'SourceRuleItem_rule__FEL5b')
+    RULE_SELECTOR = (By.CLASS_NAME, 'HintSelector_hintSelectorButton__pfubH')
