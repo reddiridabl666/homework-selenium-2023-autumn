@@ -30,6 +30,9 @@ class MainPage(BasePage):
     def click_tab(self, tab_name):
         self.click(self.locators.TAB(tab_name))
 
+    def click_dropdown_tab(self, tab_name):
+        self.click(self.locators.DROPDOWN_TAB(tab_name))
+
     def click_footer_tab(self, tab_name: str):
         self.scroll_click(self.locators.FOOTER_TAB(tab_name))
 
@@ -50,9 +53,7 @@ class MainPage(BasePage):
         return self.find(self.locators.FOOTER_LANGUAGE_CONTENT).text
 
     def open_education_dropdown(self):
-        education_tab = self.find(self.locators.EDUCATION_TAB)
-        hover = ActionChains(self.driver).move_to_element(education_tab)
-        hover.perform()
+        self.hover(self.locators.EDUCATION_TAB)
 
     def is_education_dropdown_visible(self):
         return self.is_visible(self.locators.EDUCATION_DROPDOWN)

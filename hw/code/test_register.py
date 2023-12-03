@@ -5,8 +5,8 @@ import pytest
 
 
 class TestRegistration(BaseCase):
-    def test_go_to_creation(self, registration_main_page, credentials):
-        registration_main_page.go_to_account_creation(*credentials)
+    def test_go_to_creation(self, registration_main_page, no_cabinet_credentials):
+        registration_main_page.go_to_account_creation(*no_cabinet_credentials)
 
     def test_account_type_radio(self, registration_page):
         registration_page.is_visible(registration_page.locators.PHYSICAL)

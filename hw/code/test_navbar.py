@@ -48,13 +48,13 @@ class TestNavbar(BaseCase):
     @pytest.mark.parametrize("element,url", education_dropdown_redirects)
     def test_education_dropdown_redirects(self, main_page, element, url):
         main_page.open_education_dropdown()
-        main_page.click_tab(element)
+        main_page.click_dropdown_tab(element)
         main_page.assert_url(url)
 
     @pytest.mark.parametrize("element,url", education_dropdown_new_tabs)
     def test_education_dropdown_redirects_new_page(self, main_page, element, url):
         main_page.open_education_dropdown()
-        main_page.click_tab(element)
+        main_page.click_dropdown_tab(element)
         main_page.switch_to_new_tab()
         main_page.assert_url(url)
 
