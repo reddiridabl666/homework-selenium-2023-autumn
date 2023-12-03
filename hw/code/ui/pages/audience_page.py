@@ -1,10 +1,18 @@
 import time
 from ui.pages.hq_page import HqPage
 from ui.locators import basic_locators
-from ui.wait_conditions import element_stops_moving
+from ui.wait_conditions import element_visible_and_static
 
 
 def keywords_payload(name='Название', keywords='образование', days='15'):
+    return {
+        'name': name,
+        'keywords': keywords,
+        'days': days
+    }
+
+
+def audience_payload(name='Название', keywords='образование', days='15'):
     return {
         'name': name,
         'keywords': keywords,
@@ -17,27 +25,35 @@ class AudiencePage(HqPage):
     locators = basic_locators.AudiencePageLocators
 
     KEYWORDS = 'Ключевые фразы'
+    OTHER_AUDIENCE = 'Существующая аудитория'
 
     def create_audience(self, name, source=KEYWORDS, data={}):
+        self.is_not_visible(self.locators.AUDIENCE_CREATION_MODAL)
         self.set_audience_name(name)
         self.add_source(source, data)
         self.save_audience()
 
     def save_audience(self):
-        self.click(self.locators.SAVE_AUDIENCE, cond=element_stops_moving)
+        self.click(self.locators.SAVE_AUDIENCE,
+                   cond=element_visible_and_static)
 
     def add_source(self, source=KEYWORDS, data={}):
         self.click(self.locators.BY_TEXT('Добавить источник'),
-                   cond=element_stops_moving)
+                   cond=element_visible_and_static)
         self.click(self.locators.BY_TEXT(source))
 
         if (source == self.KEYWORDS):
             self.add_keywords(data)
 
+        if (source == self.OTHER_AUDIENCE):
+            self.add_other_audience(data)
+
+        self.click(self.locators.SAVE_SOURCE)
+
     def delete_audience(self, name):
         menu = self.locators.AUDIENCE_DETAILS(name)
         self.hover(menu)
-        self.click(menu)
+        self.click(menu, cond=element_visible_and_static)
         self.click(self.locators.BY_TEXT('Удалить'))
         self.click(self.locators.BY_TEXT('Удалить'))
 
@@ -58,7 +74,9 @@ class AudiencePage(HqPage):
         self.clear(self.locators.DAYS_INPUT)
         self.fill_in(self.locators.DAYS_INPUT, data['days'])
 
-        self.click(self.locators.SAVE_SOURCE)
+    def add_other_audience(self, data):
+        self.click(self.locators.AUDIENCE_SELECT)
+        self.click(self.locators.AUDIENCE_SELECT_ITEM(data))
 
     def has_long_name_error(self):
         self.has_error(self.locators.AUDIENCE_NAME,
@@ -76,10 +94,21 @@ class AudiencePage(HqPage):
         return self.find(self.locators.RULE).text.lower()
 
     def set_rule(self, rule):
-        self.click(self.locators.RULE_SELECTOR, cond=element_stops_moving)
+        self.click(self.locators.RULE_SELECTOR,
+                   cond=element_visible_and_static)
         if rule == 'или':
             self.click(self.locators.BY_TEXT('хотя бы одному из условий'))
         elif rule == 'и':
             self.click(self.locators.BY_TEXT('всем условиям'))
         elif rule == 'не':
             self.click(self.locators.BY_TEXT('ни одному из условий'))
+
+    def filter_audiences(self, shown=[KEYWORDS]):
+        self.click(self.locators.BY_TEXT('Фильтр'))
+        for item in shown:
+            self.click(self.locators.AUDIENCE_FILTER_VALUE(item))
+        self.click(self.locators.BY_TEXT('Применить'))
+
+    def get_audience_names(self):
+        elems = self.find_multiple(self.locators.SHOWN_AUDIENCES)
+        return [elem.text for elem in elems]

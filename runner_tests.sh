@@ -1,1 +1,1 @@
-pytest -s hw/code -k test_boolean_rule
+pytest -s hw/code -k test_filter_audience

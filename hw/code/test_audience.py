@@ -4,8 +4,25 @@ from ui.pages.audience_page import keywords_payload
 import pytest
 
 
+@pytest.fixture
+def keyword_audience(audience_page):
+    audience_page.create_audience(
+        TestAudience.keywords_name, data=keywords_payload())
+    yield TestAudience.keywords_name
+    audience_page.delete_audience(TestAudience.keywords_name)
+
+
+@pytest.fixture()
+def audience_based_on_other(audience_page):
+    audience_page.create_audience(
+        TestAudience.based_on_other_name, source=audience_page.OTHER_AUDIENCE, data=TestAudience.keywords_name)
+    yield TestAudience.based_on_other_name
+    audience_page.delete_audience(TestAudience.based_on_other_name)
+
+
 class TestAudience(BaseCase):
     keywords_name = 'Аудитория с ключевыми словами'
+    based_on_other_name = 'Аудитория на основе старой'
 
     def test_long_audience_name(self, audience_page):
         audience_page.set_audience_name('a'*256)
@@ -42,3 +59,16 @@ class TestAudience(BaseCase):
 
         audience_page.set_rule('или')
         assert audience_page.get_rule() == 'или'
+
+    def test_create_from_other(self, keyword_audience, audience_based_on_other):
+        pass
+
+    def test_filter_audience(self, audience_page, keyword_audience, audience_based_on_other):
+        audience_page.filter_audiences(shown=[audience_page.KEYWORDS])
+        assert audience_page.get_audience_names() == [keyword_audience]
+
+        audience_page.filter_audiences(
+            shown=[audience_page.KEYWORDS, audience_page.OTHER_AUDIENCE])
+
+        assert audience_page.get_audience_names(
+        ) == [keyword_audience, audience_based_on_other]

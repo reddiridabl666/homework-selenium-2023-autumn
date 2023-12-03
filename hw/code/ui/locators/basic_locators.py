@@ -108,12 +108,22 @@ class AudiencePageLocators(HqPageLocators):
     def AUDIENCE_SOURCE(id):
         return (By.XPATH, f"(//*[contains(@class, 'SourceListItem_sourceListItem__i81J9')])[{id+1}]")
 
-    # @staticmethod
-    # def AUDIENCE_SOURCE_ITEM(id):
-    #     return (By.XPATH, f"(//*[contains(@class, 'SourceListItem_sourceListItem__i81J9')])[{id+1}]//*[contains(@class, 'InfoRow_content__LN5Bb')]")
-
     AUDIENCE_SOURCE_ITEM = (By.CLASS_NAME, 'InfoRow_content__LN5Bb')
     AUDIENCE_SOURCE_NAME = (By.CLASS_NAME, 'vkuiHeadline')
 
     RULE = (By.CLASS_NAME, 'SourceRuleItem_rule__FEL5b')
     RULE_SELECTOR = (By.CLASS_NAME, 'HintSelector_hintSelectorButton__pfubH')
+
+    def AUDIENCE_SELECT_ITEM(audience_name):
+        return (By.XPATH, f"//*[contains(@class, 'ExistsAudience_option__VEao1')][text()='{audience_name}']")
+
+    AUDIENCE_SELECT = (By.CLASS_NAME, 'vkuiCustomSelect')
+
+    AUDIENCE_CREATION_MODAL = (
+        By.CLASS_NAME, 'ModalSidebarPage_container__Zopae')
+
+    @staticmethod
+    def AUDIENCE_FILTER_VALUE(audience_source):
+        return (By.XPATH, f"//*[contains(@class, 'vkuiCheckbox__children')][text()='{audience_source}']")
+
+    SHOWN_AUDIENCES = (By.CLASS_NAME, 'NameCell_name__lgrNA')
