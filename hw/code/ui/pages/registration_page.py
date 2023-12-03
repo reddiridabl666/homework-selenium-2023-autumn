@@ -61,11 +61,6 @@ class RegistrationPage(BasePage):
     def has_terms_error(self):
         self.has_error(self.locators.TERMS)
 
-    def has_error(self, locator, error='Обязательное поле'):
-        elem = self.find(self.locators.ERROR)
-        self.find_from(elem, locator)
-        self.find_from(elem, self.locators.BY_TEXT(error))
-
     def has_global_error(self):
         elem = self.find(self.locators.FORM_ERROR)
         self.find_from(elem, self.locators.BY_TEXT('Ошибка'))

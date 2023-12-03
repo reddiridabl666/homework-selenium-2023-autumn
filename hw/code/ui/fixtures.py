@@ -99,27 +99,28 @@ def registration_page(registration_main_page, no_cabinet_credentials):
 
 @pytest.fixture(scope='session')
 def create_account(config, credentials):
-    driver = get_driver(config['browser'])
+    pass
+    # driver = get_driver(config['browser'])
 
-    driver.get(RegistrationMainPage.url)
-    page = RegistrationMainPage(driver)
+    # driver.get(RegistrationMainPage.url)
+    # page = RegistrationMainPage(driver)
 
-    acc_creation_page = page.go_to_account_creation(*credentials)
-    acc_creation_page.fill_in_form('example@mail.org')
+    # acc_creation_page = page.go_to_account_creation(*credentials)
+    # acc_creation_page.fill_in_form('example@mail.org')
 
-    page = HqPage(driver)
-    driver.quit()
+    # page = HqPage(driver)
+    # driver.quit()
 
-    yield page
+    # yield page
 
-    driver = get_driver(config['browser'])
+    # driver = get_driver(config['browser'])
 
-    driver.get(RegistrationMainPage.url)
-    RegistrationMainPage(driver).login(*credentials)
+    # driver.get(RegistrationMainPage.url)
+    # RegistrationMainPage(driver).login(*credentials)
 
-    page = HqPage(driver)
-    page.delete_account()
-    driver.quit()
+    # page = HqPage(driver)
+    # page.delete_account()
+    # driver.quit()
 
 
 @pytest.fixture

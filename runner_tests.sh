@@ -1,1 +1,1 @@
-pytest -s hw/code -k test_long_audience_name
+pytest -s hw/code -k test_create_keywords_invalid_days

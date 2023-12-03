@@ -25,6 +25,8 @@ class BasePageLocators:
     def VK_UI_SELECT_ELEM(text):
         return (By.XPATH, f"//*[contains(@class, 'vkuiCustomSelectOption')][text()='{text}']")
 
+    ERROR = (By.CLASS_NAME, "vkuiFormItem--status-error")
+
 
 class MainPageLocators(BasePageLocators):
     LOGO = (By.CLASS_NAME, "HeaderLeft_left__a9Si1")
@@ -35,8 +37,13 @@ class MainPageLocators(BasePageLocators):
         By.CLASS_NAME, "NavigationVKAds_subNavigation__kFqx4")
     HAMBURGER = (By.CLASS_NAME, "HeaderWrapper_mobileMenuButton__D38On")
 
-    def TAB(self, tab_name):
+    @staticmethod
+    def TAB(tab_name):
         return (By.XPATH, f"//*[contains(@class, 'NavigationVKAdsItem_link__9JjBI')][text()='{tab_name}']")
+
+    @staticmethod
+    def DROPDOWN_TAB(tab_name):
+        return (By.XPATH, f"//*[contains(@class, 'SubNavigationItem_title__2kBnJ')][text()='{tab_name}']")
 
 
 class RegistrationMainPageLocators(BasePageLocators):
@@ -57,7 +64,6 @@ class RegistrationPageLocators(BasePageLocators):
     COUNTRY = BasePageLocators.BY_TEST_ID("country")
     CURRENCY = BasePageLocators.BY_TEST_ID("currency")
     EMAIL_INPUT = (By.NAME, "email")
-    ERROR = (By.CLASS_NAME, "vkuiFormItem--status-error")
     CREATE_ACCOUNT = BasePageLocators.BY_TEXT("Создать кабинет")
     TERMS = (By.CLASS_NAME, "registration_offerTitle__BqyqW")
     FORM_ERROR = (By.CLASS_NAME, "vkuiFormStatus--mode-error")
@@ -72,3 +78,39 @@ class HqPageLocators(BasePageLocators):
 
 class AudiencePageLocators(HqPageLocators):
     CREATE_AUDIENCE = HqPageLocators.BY_TEST_ID("create-audience")
+
+    AUDIENCE_NAME = (By.CLASS_NAME, 'vkuiInput__el')
+
+    SOURCE_NAME = (By.XPATH, "(//*[contains(@class, 'vkuiInput__el')])[2]")
+
+    KEYWORDS = (
+        By.XPATH, "(//*[contains(@class, 'KeyPhrases_textarea__wzycT')])[1]//textarea")
+
+    NEGATIVE_KEYWORDS = (
+        By.XPATH, "(//*[contains(@class, 'KeyPhrases_textarea__wzycT')])[2]//textarea")
+
+    SAVE_AUDIENCE = (By.XPATH, "(//button[@type='submit'])[1]")
+
+    SAVE_SOURCE = (By.XPATH, "(//button[@type='submit'])[2]")
+
+    @staticmethod
+    def AUDIENCE_CHECKBOX(name):
+        return (By.XPATH, f"*//[contains(@class, 'BaseTable__row') and contains(.//*, '{name}')]//[contains(@class, 'simpleCheckbox_simpleCheckbox__V0tiX')]")
+
+    @staticmethod
+    def AUDIENCE_DETAILS(name):
+        return (By.XPATH, f"//*[contains(.//*, '{name}')]//button[@data-testid='audience-item-menu']")
+
+    DAYS_INPUT = (
+        By.XPATH, "//*[contains(@class, 'Context_daysInput__zQlWQ')]//input")
+
+    @staticmethod
+    def AUDIENCE_SOURCE(id):
+        return (By.XPATH, f"(//*[contains(@class, 'SourceListItem_sourceListItem__i81J9')])[{id+1}]")
+
+    # @staticmethod
+    # def AUDIENCE_SOURCE_ITEM(id):
+    #     return (By.XPATH, f"(//*[contains(@class, 'SourceListItem_sourceListItem__i81J9')])[{id+1}]//*[contains(@class, 'InfoRow_content__LN5Bb')]")
+
+    AUDIENCE_SOURCE_ITEM = (By.CLASS_NAME, 'InfoRow_content__LN5Bb')
+    AUDIENCE_SOURCE_NAME = (By.CLASS_NAME, 'vkuiHeadline')
