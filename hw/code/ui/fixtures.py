@@ -18,19 +18,16 @@ def driver(config):
     url = config['url']
     selenoid = config['selenoid']
     vnc = config['vnc']
-    options = Options()
     if selenoid:
+        options = Options()
         capabilities = {
             'browserName': 'chrome',
             'version': '118.0',
         }
         if vnc:
             capabilities['enableVNC'] = True
-        driver = webdriver.Remote(
-            'http://127.0.0.1:4444/wd/hub',
-            options=options,
-            desired_capabilities=capabilities
-        )
+        options.default_capabilities = capabilities
+        driver = webdriver.Remote('http://127.0.0.1:4444/wd/hub', options=options)
     elif browser == 'chrome':
         driver = webdriver.Chrome()
     elif browser == 'firefox':
@@ -93,8 +90,7 @@ def no_cabinet_credentials(load_env):
 
 @pytest.fixture
 def registration_page(registration_main_page, no_cabinet_credentials):
-    return registration_main_page.go_to_account_creation(
-        *no_cabinet_credentials)
+    return registration_main_page.go_to_account_creation(*no_cabinet_credentials)
 
 
 @pytest.fixture(scope='session')

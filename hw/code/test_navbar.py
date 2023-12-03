@@ -2,7 +2,6 @@ from base import BaseCase
 from ui.fixtures import main_page, cases_page
 import pytest
 
-
 tabs = [
     ('Новости', 'https://ads.vk.com/news'),
     ('Кейсы', 'https://ads.vk.com/cases'),

@@ -1,8 +1,11 @@
+from typing import Literal
 from selenium.webdriver.common.by import By
 
 
 class BasePageLocators:
     PARENT = (By.XPATH, '..')
+
+    COOKIE_BANNER_BUTTON = (By.XPATH, "//button[contains(@class, 'CookieBanner_button__')]")
 
     @staticmethod
     def BY_MAIL_TEST_ID(id):
@@ -18,8 +21,7 @@ class BasePageLocators:
     def BY_TEST_ID(id):
         return (By.XPATH, f"//*[@data-testid='{id}']")
 
-    VK_UI_SELECT_ELEMS = (
-        By.XPATH, f"//*[contains(concat(' ', @class, ' '), ' vkuiCustomSelectOption ')]")
+    VK_UI_SELECT_ELEMS = (By.XPATH, "//*[contains(concat(' ', @class, ' '), ' vkuiCustomSelectOption ')]")
 
     @staticmethod
     def VK_UI_SELECT_ELEM(text):
@@ -31,17 +33,34 @@ class MainPageLocators(BasePageLocators):
     GO_TO_ACCOUNT = (By.LINK_TEXT, "Перейти в кабинет")
     HELP = (By.LINK_TEXT, "Справка")
     EDUCATION_TAB = (By.CLASS_NAME, "NavigationVKAdsItem_item__0_oac")
-    EDUCATION_DROPDOWN = (
-        By.CLASS_NAME, "NavigationVKAds_subNavigation__kFqx4")
+    EDUCATION_DROPDOWN = (By.CLASS_NAME, "NavigationVKAds_subNavigation__kFqx4")
     HAMBURGER = (By.CLASS_NAME, "HeaderWrapper_mobileMenuButton__D38On")
+    FOOTER_GO_TO_ACCOUNT = (By.XPATH, "//*[contains(@class, 'Footer_leftContent__')]/a[text()='Перейти в кабинет']")
+    FOOTER_GO_TO_BUSINESS = (
+        By.XPATH,
+        "//*[contains(@class, 'Footer_controls___')]/a[contains(@href, 'https://vk.company/ru/company/business/')]")
+    FOOTER_LANGUAGE = (By.XPATH, "//div[contains(@class, 'Footer_control__')]")
+    FOOTER_LANGUAGE_CONTENT = (By.XPATH, "//div[contains(@class, 'SelectLanguage_desktopSelect__')]/span")
+    FOOTER_ABOUT = (By.XPATH, "//*[contains(@class, 'Footer_about__')]")
 
     def TAB(self, tab_name):
         return (By.LINK_TEXT, tab_name)
 
+    @staticmethod
+    def FOOTER_TAB(tab_name: str):
+        return (By.XPATH, f"//*[contains(@class, 'Footer_item__')]/a[text()='{tab_name}']")
+
+    @staticmethod
+    def FOOTER_GROUP(url: str):
+        return (By.XPATH, f"//a[contains(@class, 'Footer_control__')][contains(@href, '{url}')]")
+
+    @staticmethod
+    def FOOTER_LANGUAGE_SELECT_ELEMENT(language: Literal["English", "Русский"]):
+        return (By.XPATH, f"//span[contains(@class, 'SelectLanguage_selectElem__')][text()='{language}']")
+
 
 class RegistrationMainPageLocators(BasePageLocators):
-    GO_TO_REGISTRATION = (
-        By.CLASS_NAME, "SocialButton_socialButtonWrapper__0PXSG")
+    GO_TO_REGISTRATION = (By.CLASS_NAME, "SocialButton_socialButtonWrapper__0PXSG")
     MAIL_RU_AUTH = BasePageLocators.BY_MAIL_TEST_ID("oAuthService_mail_ru")
     MAIL_RU_SHOW_PASSWORD = BasePageLocators.BY_MAIL_TEST_ID("next-button")
     MAIL_RU_LOGIN = (By.NAME, "username")
