@@ -1,17 +1,8 @@
-import time
 from ui.pages.hq_page import HqPage
 from ui.locators import basic_locators
 
 
 def keywords_payload(name='Название', keywords='образование', days='15'):
-    return {
-        'name': name,
-        'keywords': keywords,
-        'days': days
-    }
-
-
-def audience_payload(name='Название', keywords='образование', days='15'):
     return {
         'name': name,
         'keywords': keywords,

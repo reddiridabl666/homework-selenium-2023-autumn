@@ -1,4 +1,3 @@
-import time
 from base import BaseCase
 from ui.fixtures import audience_page, credentials
 from ui.pages.audience_page import keywords_payload

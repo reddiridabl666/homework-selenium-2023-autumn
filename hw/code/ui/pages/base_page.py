@@ -8,6 +8,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 
 
 class PageNotOpenedExeption(Exception):
@@ -79,21 +80,24 @@ class BasePage(object):
         self.driver.switch_to.window(self.driver.window_handles[0])
 
     @allure.step('Click')
-    def click(self, locator, timeout=None, cond=EC.element_to_be_clickable) -> WebElement:
-        elem = self.wait(timeout).until(cond(locator))
+    def click(self, locator, timeout=None) -> WebElement:
+        elem = self.wait(timeout).until(EC.element_to_be_clickable(locator))
         elem.click()
         return elem
 
-    def clear(self, locator) -> WebElement:
-        elem = self.find(locator)
+    def clear(self, locator, timeout=None) -> WebElement:
+        elem = self.find(locator, timeout)
         elem.clear()
         return elem
 
     @allure.step('Fill in')
     def fill_in(self, locator, query, timeout=None) -> WebElement:
-        elem = self.clear(locator)
+        elem = self.clear(locator, timeout)
         elem.send_keys(query)
         return elem
+
+    def press_enter(self, elem):
+        elem.send_keys(Keys.RETURN)
 
     def get_selected_value(self, locator):
         select = Select(self.find(locator))

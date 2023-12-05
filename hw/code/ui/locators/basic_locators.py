@@ -132,3 +132,36 @@ class AudiencePageLocators(HqPageLocators):
         return (By.XPATH, f"//*[contains(@class, 'vkuiCheckbox__children')][text()='{audience_source}']")
 
     SHOWN_AUDIENCES = (By.CLASS_NAME, 'NameCell_name__lgrNA')
+
+
+class AdGroupsPageLocators(HqPageLocators):
+    SITE_CONVERSIONS = (By.XPATH, "//*[@data-id='site_conversions']")
+
+    SITE_NAME = (By.XPATH, "//*[@placeholder='Введите ссылку на сайт']")
+
+    TARGET_PRICE = BasePageLocators.BY_TEST_ID('targeting-not-set')
+
+    NEXT = BasePageLocators.BY_TEXT('Продолжить')
+
+    CREATE = BasePageLocators.BY_TEST_ID('create-button')
+
+    ERROR_TOOLTIP = (By.CLASS_NAME, 'ErrorsTooltip_button__YyIDS')
+
+
+class AdGroupCreationPageLocators(BasePageLocators):
+    REGION_SEARCH = (
+        By.XPATH, "//*[contains(@class, 'RegionsSelector_search__j4BBI')]//input")
+
+    @staticmethod
+    def REGION_SEARCH_ITEM(region_name):
+        return (By.XPATH, f"//*[contains(@class, 'RegionsTree_branch__N7OOy') and contains(.//*, {region_name})]")
+
+    REGION_SEARCH_ITEMS = (By.CLASS_NAME, 'vkuiCheckbox__children')
+
+    REGION_LIST_ITEMS = (By.CLASS_NAME, 'RegionsList_label__KPYrN')
+
+    @staticmethod
+    def REGION_LIST_REMOVE_ITEM(region_name):
+        return (By.XPATH, f"//*[contains(@class, 'RegionsList_label__KPYrN') and contains(.//*, {region_name})]//*[contains(@class, 'RegionsList_remove__pl6kK')]")
+
+    CLEAR_REGION_LIST = (By.CLASS_NAME, 'RegionsSelector_clear__mTOGS')
