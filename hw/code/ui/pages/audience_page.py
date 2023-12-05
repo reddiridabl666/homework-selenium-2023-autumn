@@ -1,7 +1,6 @@
 import time
 from ui.pages.hq_page import HqPage
 from ui.locators import basic_locators
-from ui.wait_conditions import element_visible_and_static
 
 
 def keywords_payload(name='Название', keywords='образование', days='15'):
@@ -34,12 +33,13 @@ class AudiencePage(HqPage):
         self.save_audience()
 
     def save_audience(self):
-        self.click(self.locators.SAVE_AUDIENCE,
-                   cond=element_visible_and_static)
+        self.is_not_visible(self.locators.SOURCE_CREATION_MODAL)
+        self.click(self.locators.SAVE_AUDIENCE)
 
     def add_source(self, source=KEYWORDS, data={}):
-        self.click(self.locators.BY_TEXT('Добавить источник'),
-                   cond=element_visible_and_static)
+        self.is_not_visible(self.locators.SOURCE_CREATION_MODAL)
+
+        self.click(self.locators.BY_TEXT('Добавить источник'))
         self.click(self.locators.BY_TEXT(source))
 
         if (source == self.KEYWORDS):
@@ -53,7 +53,7 @@ class AudiencePage(HqPage):
     def delete_audience(self, name):
         menu = self.locators.AUDIENCE_DETAILS(name)
         self.hover(menu)
-        self.click(menu, cond=element_visible_and_static)
+        self.click(menu)
         self.click(self.locators.BY_TEXT('Удалить'))
         self.click(self.locators.BY_TEXT('Удалить'))
 
@@ -94,8 +94,9 @@ class AudiencePage(HqPage):
         return self.find(self.locators.RULE).text.lower()
 
     def set_rule(self, rule):
-        self.click(self.locators.RULE_SELECTOR,
-                   cond=element_visible_and_static)
+        self.is_not_visible(self.locators.SOURCE_CREATION_MODAL)
+
+        self.click(self.locators.RULE_SELECTOR)
         if rule == 'или':
             self.click(self.locators.BY_TEXT('хотя бы одному из условий'))
         elif rule == 'и':

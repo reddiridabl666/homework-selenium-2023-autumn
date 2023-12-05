@@ -120,7 +120,10 @@ class AudiencePageLocators(HqPageLocators):
     AUDIENCE_SELECT = (By.CLASS_NAME, 'vkuiCustomSelect')
 
     AUDIENCE_CREATION_MODAL = (
-        By.CLASS_NAME, 'ModalSidebarPage_container__Zopae')
+        By.XPATH, f"(//*[contains(@class, 'ModalSidebarPage_container__Zopae')])[1]")
+
+    SOURCE_CREATION_MODAL = (
+        By.XPATH, f"(//*[contains(@class, 'ModalSidebarPage_container__Zopae')])[2]")
 
     @staticmethod
     def AUDIENCE_FILTER_VALUE(audience_source):

@@ -63,7 +63,7 @@ class TestAudience(BaseCase):
     def test_create_from_other(self, keyword_audience, audience_based_on_other):
         pass
 
-    def test_filter_audience(self, audience_page, keyword_audience, audience_based_on_other):
+    def test_filter_audience(self, keyword_audience, audience_based_on_other, audience_page):
         audience_page.filter_audiences(shown=[audience_page.KEYWORDS])
         assert audience_page.get_audience_names() == [keyword_audience]
 
