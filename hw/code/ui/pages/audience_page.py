@@ -105,9 +105,16 @@ class AudiencePage(HqPage):
             self.click(self.locators.BY_TEXT('ни одному из условий'))
 
     def filter_audiences(self, shown=[KEYWORDS]):
+        self.is_not_visible(self.locators.AUDIENCE_CREATION_MODAL)
+
         self.click(self.locators.BY_TEXT('Фильтр'))
+        self.click(self.locators.BY_TEXT('Выбрать все'))
+        self.click(self.locators.BY_TEXT('Снять выделение'))
+
         for item in shown:
+            print(f'Clicking {item}')
             self.click(self.locators.AUDIENCE_FILTER_VALUE(item))
+
         self.click(self.locators.BY_TEXT('Применить'))
 
     def get_audience_names(self):

@@ -125,6 +125,8 @@ class AudiencePageLocators(HqPageLocators):
     SOURCE_CREATION_MODAL = (
         By.XPATH, f"(//*[contains(@class, 'ModalSidebarPage_container__Zopae')])[2]")
 
+    AUDIENCE_FILTERS_SELECTED = (By.CLASS_NAME, 'vkuiCheckbox__icon--on')
+
     @staticmethod
     def AUDIENCE_FILTER_VALUE(audience_source):
         return (By.XPATH, f"//*[contains(@class, 'vkuiCheckbox__children')][text()='{audience_source}']")
