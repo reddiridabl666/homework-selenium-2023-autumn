@@ -43,4 +43,4 @@ class HelpPage(BasePage):
         self.is_visible(self.locators.SEARCH_SUGGESTIONS)
 
     def check_search_suggestions_invisible(self):
-        self.has_disappeared(self.locators.SEARCH_SUGGESTIONS)
+        self.is_not_visible(self.locators.SEARCH_SUGGESTIONS)

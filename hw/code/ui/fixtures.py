@@ -1,12 +1,18 @@
+import os
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from ui.pages.base_page import BasePage
 from ui.pages.main_page import MainPage
+from ui.pages.hq_page import HqPage
 from ui.pages.cases_page import CasesPage
 from ui.pages.partner_page import PartnerPage
 from ui.pages.help_page import HelpPage
+from ui.pages.registration_page import RegistrationMainPage
+from ui.pages.audience_page import AudiencePage
+from ui.pages.ad_groups_page import AdGroupsPage
 
+from dotenv import load_dotenv
 
 @pytest.fixture()
 def driver(config):
@@ -50,15 +56,6 @@ def get_driver(browser_name):
     return browser
 
 
-@pytest.fixture(scope='session', params=['chrome', 'firefox'])
-def all_drivers(config, request):
-    url = config['url']
-    browser = get_driver(request.param)
-    browser.get(url)
-    yield browser
-    browser.quit()
-
-
 @pytest.fixture
 def base_page(driver):
     return BasePage(driver=driver)
@@ -83,3 +80,80 @@ def partner_page(driver):
 def help_page(driver):
     driver.get(HelpPage.url)
     return HelpPage(driver=driver)
+
+@pytest.fixture
+def registration_main_page(driver):
+    driver.get(RegistrationMainPage.url)
+    return RegistrationMainPage(driver=driver)
+
+
+@pytest.fixture(scope='session')
+def load_env():
+    load_dotenv()
+
+
+@pytest.fixture(scope='session')
+def credentials(load_env):
+    return (os.getenv("LOGIN"), os.getenv("PASSWORD"), os.getenv("METHOD"))
+
+
+@pytest.fixture(scope='session')
+def no_cabinet_credentials(load_env):
+    return (os.getenv("NO_CABINET_LOGIN"), os.getenv("NO_CABINET_PASSWORD"), os.getenv("NO_CABINET_METHOD"))
+
+
+@pytest.fixture
+def registration_page(registration_main_page, no_cabinet_credentials):
+    return registration_main_page.go_to_account_creation(
+        *no_cabinet_credentials)
+
+
+@pytest.fixture(scope='session')
+def create_account(config, credentials):
+    pass
+    # driver = get_driver(config['browser'])
+
+    # driver.get(RegistrationMainPage.url)
+    # page = RegistrationMainPage(driver)
+
+    # acc_creation_page = page.go_to_account_creation(*credentials)
+    # acc_creation_page.fill_in_form('example@mail.org')
+
+    # page = HqPage(driver)
+    # driver.quit()
+
+    # yield page
+
+    # driver = get_driver(config['browser'])
+
+    # driver.get(RegistrationMainPage.url)
+    # RegistrationMainPage(driver).login(*credentials)
+
+    # page = HqPage(driver)
+    # page.delete_account()
+    # driver.quit()
+
+
+@pytest.fixture
+def hq_page(create_account, registration_main_page, credentials):
+    registration_main_page.login(*credentials)
+    return HqPage(registration_main_page.driver)
+
+
+@pytest.fixture
+def audience_page(hq_page, clear_all_drafts):
+    hq_page.driver.get(AudiencePage.url)
+    return AudiencePage(driver=hq_page.driver)
+
+
+@pytest.fixture
+def ad_groups_page(hq_page):
+    hq_page.driver.get(AdGroupsPage.url)
+    page = AdGroupsPage(driver=hq_page.driver)
+    yield page
+    page.clear_drafts()
+
+
+@pytest.fixture
+def ad_group_creation_page(ad_groups_page):
+    return ad_groups_page.go_to_creation()
