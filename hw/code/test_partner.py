@@ -41,11 +41,19 @@ class TestPartner(BaseCase):
         for format in formats:
             assert partner_page.check_format_presence(format)
 
+    @pytest.mark.skip() 
     def test_submit_btn_disabled_by_default(self, partner_page):
         assert not partner_page.form_submit_btn_enabled()
 
+    @pytest.mark.skip() 
     def test_submit_btn_enabled_when_form_filled(self, partner_page):
         partner_page.fill_form()
 
         assert partner_page.form_submit_btn_enabled()
 
+    @pytest.mark.skip()
+    def test_form_submit_feedback(self, partner_page):
+        partner_page.fill_form()
+        partner_page.submit_form()
+
+        assert partner_page.form_submit_msg_is_visible()

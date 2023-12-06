@@ -5,6 +5,7 @@ from ui.pages.base_page import BasePage
 from ui.pages.main_page import MainPage
 from ui.pages.cases_page import CasesPage
 from ui.pages.partner_page import PartnerPage
+from ui.pages.help_page import HelpPage
 
 
 @pytest.fixture()
@@ -77,3 +78,8 @@ def cases_page(driver):
 def partner_page(driver):
     driver.get(PartnerPage.url)
     return PartnerPage(driver=driver)
+
+@pytest.fixture
+def help_page(driver):
+    driver.get(HelpPage.url)
+    return HelpPage(driver=driver)

@@ -6,7 +6,7 @@ class BasePageLocators:
 
     @staticmethod
     def BTN_BY_TEXT(text):
-        return (By.XPATH, f'//button[text()="{text}"] | //button//*[text()="{text}"]')
+        return (By.XPATH, f'//button[text()="{text}"] | //button//*[text()="{text}"]/ancestor::button')
 
     @staticmethod
     def DIV_BY_TEXT(text):
@@ -40,3 +40,22 @@ class PartnerPageLocators(BasePageLocators):
     FORM_SUBMIT_BTN = BasePageLocators.BTN_BY_TEXT("Отправить")
     FORM_NAME_INPUT = (By.NAME, 'name')
     FORM_EMAIL_INPUT = (By.NAME, 'email')
+    FORM_SUBMIT_MSG = BasePageLocators.DIV_BY_TEXT('Спасибо, ваша заявка принята')
+
+
+class HelpPageLocators(BasePageLocators):
+    @staticmethod
+    def GET_LINK_WITH_DIV_TEXT(text):
+        return (By.XPATH, f'//a//*[text()="{text}"]/ancestor::a')
+    
+    AUTHORIZE_LINK = GET_LINK_WITH_DIV_TEXT('Авторизация')
+    HOW_TO_TUNE_LINK = GET_LINK_WITH_DIV_TEXT('Как настроить рекламу')
+    TOOLS_LINK = GET_LINK_WITH_DIV_TEXT('Инструменты рекламы')
+    STATISTICS_AND_FINANCE_LINK = GET_LINK_WITH_DIV_TEXT('Статистика и финансы')
+    DOCUMENTS_LINK = GET_LINK_WITH_DIV_TEXT('Документы')
+    SIMPLIFIED_LINK = GET_LINK_WITH_DIV_TEXT('Упрощенный кабинет')
+    FAQ_LINK = GET_LINK_WITH_DIV_TEXT('FAQ')
+    PARTNER_CABINET_LINK = GET_LINK_WITH_DIV_TEXT('Кабинет партнера')
+
+    SEARCH = (By.XPATH, '//input[@placeholder="Статистика, правила, пополнение..."]')
+    SEARCH_SUGGESTIONS = (By.XPATH, '//div[contains(@class, "fullscreenSuggestions")]')

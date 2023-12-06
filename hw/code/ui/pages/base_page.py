@@ -13,7 +13,6 @@ class PageNotOpenedExeption(Exception):
 
 
 class BasePage(object):
-
     locators = basic_locators.BasePageLocators()
     locators_main = basic_locators.MainPageLocators()
     url = 'https://ads.vk.com/'
@@ -36,8 +35,11 @@ class BasePage(object):
         return WebDriverWait(self.driver, timeout=timeout)
 
     def is_visible(self, locator):
-        print(self.driver.find_element(*locator))
         self.wait().until(EC.visibility_of_element_located(locator))
+        return True
+
+    def has_disappeared(self, locator):
+        self.wait().until(EC.invisibility_of_element_located(locator))
         return True
     
     def find(self, locator, timeout=None) -> WebElement:
@@ -91,6 +93,4 @@ class BasePage(object):
     def is_enabled(self, locator, timeout=5) -> bool:
         elem = self.find(locator, timeout=timeout)
 
-        print(elem, elem.get_attribute('disabled'))
-
-        return False
+        return elem.is_enabled()

@@ -26,3 +26,9 @@ class PartnerPage(BasePage):
     def fill_form(self):
         self.fill_in(self.locators.FORM_NAME_INPUT, 'test name')
         self.fill_in(self.locators.FORM_EMAIL_INPUT, 'test@test.com')
+
+    def submit_form(self):
+        self.scroll_click(self.locators.FORM_SUBMIT_BTN)
+
+    def form_submit_msg_is_visible(self):
+        return self.is_visible(self.locators.FORM_SUBMIT_MSG)
