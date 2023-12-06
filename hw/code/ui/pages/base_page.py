@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 from ui.locators import basic_locators
-from ui.wait_conditions import element_in_viewport
+from ui.wait_conditions import element_in_viewport, elements_count_changed
 
 
 class PageNotOpenedExeption(Exception):
@@ -79,6 +79,13 @@ class BasePage(object):
             return False
 
         return self.wait(timeout).until(wait_cond)
+
+    def get_new_count(self, locator, start_size, timeout=None):
+        elems = self.wait(timeout).until(elements_count_changed(locator, start_size))
+        return len(elems)
+
+    def wait_for_count_of_elements(self, locator, count, timeout=None):
+        self.wait(timeout).until(lambda _: len(self.find_multiple(locator)) == count)
 
     def switch_to_new_tab(self):
         assert len(self.driver.window_handles) > 1

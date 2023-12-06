@@ -146,3 +146,18 @@ class AudiencePageLocators(HqPageLocators):
         return (By.XPATH, f"//*[contains(@class, 'vkuiCheckbox__children')][text()='{audience_source}']")
 
     SHOWN_AUDIENCES = (By.CLASS_NAME, 'NameCell_name__lgrNA')
+
+
+class UpvotePageLocators(BasePageLocators):
+    SEARCH_FIELD = (By.XPATH, "//input[contains(@class, 'vkuiSearch__input')]")
+
+    IDEAS_COUNT = (By.XPATH, "//div[contains(@class, 'Idea_cardVote__')]")
+
+    IDEA_THEME_SELECT = (By.XPATH, "(//div[contains(@class, 'vkuiSelect__container')])[1]")
+    IDEA_STATUS_SELECT = (By.XPATH, "(//div[contains(@class, 'vkuiSelect__container')])[2]")
+
+    IDEA_TITLE = (By.XPATH, "//*[contains(@class, 'Idea_title__')]")
+
+    @staticmethod
+    def IDEA_LINK(title: str):
+        return (By.XPATH, f"//a[contains(@class, 'Idea_title__')][text()='{title}']")

@@ -2,6 +2,7 @@ import os
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from ui.pages.upvote_page import UpvotePage
 from ui.pages.base_page import BasePage
 from ui.pages.main_page import MainPage
 from ui.pages.hq_page import HqPage
@@ -129,3 +130,9 @@ def hq_page(create_account, registration_main_page, credentials):
 def audience_page(hq_page):
     hq_page.driver.get(AudiencePage.url)
     return AudiencePage(driver=hq_page.driver)
+
+
+@pytest.fixture
+def upvote_page(driver):
+    driver.get(UpvotePage.url)
+    return UpvotePage(driver)

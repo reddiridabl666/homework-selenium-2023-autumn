@@ -6,3 +6,5 @@ __pycache__
 .pylintrc
 .style.yapf
 mypy.ini
+notes.txt
+un.html
