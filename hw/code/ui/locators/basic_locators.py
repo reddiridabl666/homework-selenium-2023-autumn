@@ -139,13 +139,58 @@ class AudiencePageLocators(HqPageLocators):
 
     AUDIENCE_SELECT = (By.CLASS_NAME, 'vkuiCustomSelect')
 
-    AUDIENCE_CREATION_MODAL = (By.CLASS_NAME, 'ModalSidebarPage_container__Zopae')
+    AUDIENCE_CREATION_MODAL = (By.XPATH, f"(//*[contains(@class, 'ModalSidebarPage_container__Zopae')])[1]")
+
+    SOURCE_CREATION_MODAL = (By.XPATH, f"(//*[contains(@class, 'ModalSidebarPage_container__Zopae')])[2]")
+
+    AUDIENCE_FILTERS_SELECTED = (By.CLASS_NAME, 'vkuiCheckbox__icon--on')
 
     @staticmethod
     def AUDIENCE_FILTER_VALUE(audience_source):
         return (By.XPATH, f"//*[contains(@class, 'vkuiCheckbox__children')][text()='{audience_source}']")
 
     SHOWN_AUDIENCES = (By.CLASS_NAME, 'NameCell_name__lgrNA')
+
+
+class AdGroupsPageLocators(HqPageLocators):
+    SITE_CONVERSIONS = (By.XPATH, "//*[@data-id='site_conversions']")
+
+    SITE_NAME = (By.XPATH, "//*[@placeholder='Введите ссылку на сайт']")
+
+    TARGET_PRICE = BasePageLocators.BY_TEST_ID('targeting-not-set')
+
+    NEXT = BasePageLocators.BY_TEXT('Продолжить')
+
+    CREATE = BasePageLocators.BY_TEST_ID('create-button')
+
+    ERROR_TOOLTIP = (By.CLASS_NAME, 'ErrorsTooltip_button__YyIDS')
+
+    SELECT_ALL = (By.XPATH, "//*[contains(@class, 'vkuiCheckbox')][input[@id='checkbox-all']]")
+
+    DELETE = BasePageLocators.BY_TEXT('Удалить')
+
+    CONFIRM_DELETE = (By.XPATH, "//*[contains(@class, 'confirmRemoveModal_footer__dW3aB')]//*[text()='Удалить']")
+
+
+class AdGroupCreationPageLocators(BasePageLocators):
+    REGION_SEARCH = (By.XPATH, "//*[contains(@class, 'RegionsSelector_search__j4BBI')]//input")
+
+    @staticmethod
+    def REGION_SEARCH_ITEM(region_name):
+        return (By.XPATH, f"//*[contains(@class, 'vkuiCheckbox__children')][text()='{region_name}']")
+
+    REGION_SEARCH_ITEMS = (By.CLASS_NAME, 'vkuiCheckbox__children')
+
+    REGION_LIST_ITEMS = (By.CLASS_NAME, 'RegionsList_label__KPYrN')
+
+    @staticmethod
+    def REGION_LIST_REMOVE_ITEM(region_name):
+        return (
+            By.XPATH,
+            f"//*[contains(@class, 'RegionsList_item__5Z8rf') and contains(.//*, '{region_name}')]//*[contains(@class, 'RegionsList_remove__pl6kK')]"
+        )
+
+    CLEAR_REGION_LIST = (By.CLASS_NAME, 'RegionsSelector_clear__mTOGS')
 
 
 class UpvotePageLocators(BasePageLocators):
