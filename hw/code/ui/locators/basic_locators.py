@@ -147,6 +147,14 @@ class AdGroupsPageLocators(HqPageLocators):
 
     ERROR_TOOLTIP = (By.CLASS_NAME, 'ErrorsTooltip_button__YyIDS')
 
+    SELECT_ALL = (
+        By.XPATH, "//*[contains(@class, 'vkuiCheckbox')][input[@id='checkbox-all']]")
+
+    DELETE = BasePageLocators.BY_TEXT('Удалить')
+
+    CONFIRM_DELETE = (
+        By.XPATH, "//*[contains(@class, 'confirmRemoveModal_footer__dW3aB')]//*[text()='Удалить']")
+
 
 class AdGroupCreationPageLocators(BasePageLocators):
     REGION_SEARCH = (
@@ -154,7 +162,7 @@ class AdGroupCreationPageLocators(BasePageLocators):
 
     @staticmethod
     def REGION_SEARCH_ITEM(region_name):
-        return (By.XPATH, f"//*[contains(@class, 'RegionsTree_branch__N7OOy') and contains(.//*, {region_name})]")
+        return (By.XPATH, f"//*[contains(@class, 'vkuiCheckbox__children')][text()='{region_name}']")
 
     REGION_SEARCH_ITEMS = (By.CLASS_NAME, 'vkuiCheckbox__children')
 
@@ -162,6 +170,6 @@ class AdGroupCreationPageLocators(BasePageLocators):
 
     @staticmethod
     def REGION_LIST_REMOVE_ITEM(region_name):
-        return (By.XPATH, f"//*[contains(@class, 'RegionsList_label__KPYrN') and contains(.//*, {region_name})]//*[contains(@class, 'RegionsList_remove__pl6kK')]")
+        return (By.XPATH, f"//*[contains(@class, 'RegionsList_item__5Z8rf') and contains(.//*, '{region_name}')]//*[contains(@class, 'RegionsList_remove__pl6kK')]")
 
     CLEAR_REGION_LIST = (By.CLASS_NAME, 'RegionsSelector_clear__mTOGS')

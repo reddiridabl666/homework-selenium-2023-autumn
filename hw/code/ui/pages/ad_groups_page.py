@@ -13,7 +13,7 @@ class AdGroupCreationPage(BasePage):
             self.clear_region_selection()
 
         for region in regions:
-            self.click(self.locators.REGION_SEARCH_ITEM(region))
+            self.click_may_be_stale(self.locators.REGION_SEARCH_ITEM(region))
 
     def selected_regions(self):
         try:
@@ -39,6 +39,9 @@ class AdGroupCreationPage(BasePage):
 
 class AdGroupsPage(HqPage):
     url = 'https://ads.vk.com/hq/ad_groups'
+    ad_plan_drafts_url = 'https://ads.vk.com/hq/dashboard/ad_plans?mode=drafts'
+    ad_group_drafts_url = 'https://ads.vk.com/hq/dashboard/ad_groups?mode=drafts'
+
     locators = basic_locators.AdGroupsPageLocators
 
     def go_to_creation(self) -> AdGroupCreationPage:
@@ -61,3 +64,9 @@ class AdGroupsPage(HqPage):
             self.click(self.locators.NEXT)
 
         return AdGroupCreationPage(self.driver)
+
+    def clear_drafts(self):
+        self.driver.get(self.ad_plan_drafts_url)
+        self.click(self.locators.SELECT_ALL)
+        self.click(self.locators.DELETE)
+        self.click(self.locators.CONFIRM_DELETE)

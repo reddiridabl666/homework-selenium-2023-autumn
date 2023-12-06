@@ -18,6 +18,6 @@ class HqPage(BasePage):
 
     def close_help(self):
         try:
-            self.click(self.locators.CLOSE_HELP, timeout=2)
+            self.click(self.locators.CLOSE_HELP)
         except:
             pass

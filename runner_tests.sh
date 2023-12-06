@@ -1,1 +1,1 @@
-pytest -s hw/code -k test_select_regions
+pytest -s hw/code -k TestAdGroups

@@ -9,6 +9,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import StaleElementReferenceException
+import time
 
 
 class PageNotOpenedExeption(Exception):
@@ -84,6 +86,19 @@ class BasePage(object):
         elem = self.wait(timeout).until(EC.element_to_be_clickable(locator))
         elem.click()
         return elem
+
+    def click_may_be_stale(self, locator, timeout=None):
+        if timeout is None:
+            timeout = 5
+
+        start = time.time()
+        try:
+            self.click(locator, timeout)
+        except StaleElementReferenceException:
+            new_timeout = timeout + start - time.time()
+            if new_timeout < 0:
+                return
+            self.click_may_be_stale(locator, new_timeout)
 
     def clear(self, locator, timeout=None) -> WebElement:
         elem = self.find(locator, timeout)

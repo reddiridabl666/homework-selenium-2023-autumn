@@ -4,16 +4,14 @@ from ui.fixtures import ad_groups_page, ad_group_creation_page, credentials
 import pytest
 
 
-class TestAudience(BaseCase):
-    @pytest.mark.parametrize('regions', (('Россия', 'Европа'),))
+class TestAdGroups(BaseCase):
+    @pytest.mark.parametrize('regions', (['Россия', 'Европа'],))
     def test_select_regions(self, ad_group_creation_page, regions):
         ad_group_creation_page.select_regions(regions)
-
-        time.sleep(2)
         assert ad_group_creation_page.selected_regions() == regions
 
     def test_clear_regions_selection(self, ad_group_creation_page):
-        regions = ('Россия', 'Европа')
+        regions = ['Россия', 'Европа']
 
         ad_group_creation_page.select_regions(regions)
         assert ad_group_creation_page.selected_regions() == regions
@@ -29,7 +27,7 @@ class TestAudience(BaseCase):
         assert 'Новороссийск' in shown
 
     def test_remove_region_from_selection(self, ad_group_creation_page):
-        regions = ('Россия', 'Европа')
+        regions = ['Россия', 'Европа']
 
         ad_group_creation_page.select_regions(regions)
         assert ad_group_creation_page.selected_regions() == regions

@@ -131,7 +131,7 @@ def hq_page(create_account, registration_main_page, credentials):
 
 
 @pytest.fixture
-def audience_page(hq_page):
+def audience_page(hq_page, clear_all_drafts):
     hq_page.driver.get(AudiencePage.url)
     return AudiencePage(driver=hq_page.driver)
 
@@ -139,7 +139,9 @@ def audience_page(hq_page):
 @pytest.fixture
 def ad_groups_page(hq_page):
     hq_page.driver.get(AdGroupsPage.url)
-    return AdGroupsPage(driver=hq_page.driver)
+    page = AdGroupsPage(driver=hq_page.driver)
+    yield page
+    page.clear_drafts()
 
 
 @pytest.fixture
