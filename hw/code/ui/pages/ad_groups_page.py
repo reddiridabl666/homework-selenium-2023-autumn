@@ -13,7 +13,10 @@ class AdGroupCreationPage(BasePage):
             self.clear_region_selection()
 
         for region in regions:
-            self.click_may_be_stale(self.locators.REGION_SEARCH_ITEM(region))
+            self.select_region(region)
+
+    def select_region(self, region):
+        self.click_may_be_stale(self.locators.REGION_SEARCH_ITEM(region))
 
     def selected_regions(self):
         try:
@@ -23,7 +26,7 @@ class AdGroupCreationPage(BasePage):
 
     def shown_regions(self):
         try:
-            return [elem.text for elem in self.find_multiple(self.locators.REGION_SEARCH_ITEMS, timeout=0.5)]
+            return [elem.text for elem in self.find_multiple(self.locators.REGION_SEARCH_ITEMS, timeout=1)]
         except:
             return []
 

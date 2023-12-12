@@ -40,12 +40,8 @@ class BasePage(object):
         return WebDriverWait(self.driver, timeout=timeout)
 
     def is_visible(self, locator):
-        try:
-            elem = self.find(locator)
-            elem.location_once_scrolled_into_view
-            return True
-        except:
-            return False
+        self.find(locator)
+        return True
 
     def is_not_visible(self, locator, timeout=None):
         self.wait(timeout).until(EC.invisibility_of_element(locator))
@@ -103,6 +99,11 @@ class BasePage(object):
     def clear(self, locator, timeout=None) -> WebElement:
         elem = self.find(locator, timeout)
         elem.clear()
+
+        if elem.get_attribute('value') != '':
+            size = len(elem.get_attribute('value'))
+            elem.send_keys(size * Keys.BACKSPACE)
+
         return elem
 
     @allure.step('Fill in')

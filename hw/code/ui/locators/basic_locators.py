@@ -157,12 +157,11 @@ class AdGroupsPageLocators(HqPageLocators):
 
 
 class AdGroupCreationPageLocators(BasePageLocators):
-    REGION_SEARCH = (
-        By.XPATH, "//*[contains(@class, 'RegionsSelector_search__j4BBI')]//input")
+    REGION_SEARCH = BasePageLocators.BY_TEST_ID('search')
 
     @staticmethod
     def REGION_SEARCH_ITEM(region_name):
-        return (By.XPATH, f"//*[contains(@class, 'vkuiCheckbox__children')][text()='{region_name}']")
+        return (By.XPATH, f"//*[contains(@class, 'Branch_title__FvS4M')]//*[text()='{region_name}']")
 
     REGION_SEARCH_ITEMS = (By.CLASS_NAME, 'vkuiCheckbox__children')
 
@@ -170,6 +169,7 @@ class AdGroupCreationPageLocators(BasePageLocators):
 
     @staticmethod
     def REGION_LIST_REMOVE_ITEM(region_name):
-        return (By.XPATH, f"//*[contains(@class, 'RegionsList_item__5Z8rf') and contains(.//*, '{region_name}')]//*[contains(@class, 'RegionsList_remove__pl6kK')]")
+        return (By.XPATH, f"//*[contains(@class, 'RegionsList_item__5Z8rf') and contains(.//*, '{region_name}')]//*[contains(@class, 'RegionsList_close__XtcC-')]")
 
-    CLEAR_REGION_LIST = (By.CLASS_NAME, 'RegionsSelector_clear__mTOGS')
+    CLEAR_REGION_LIST = (
+        By.CLASS_NAME, 'RegionsSelector_selectedRegionsClearText__eZU3q')
