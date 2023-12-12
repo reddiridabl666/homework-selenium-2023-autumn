@@ -11,6 +11,7 @@ from ui.pages.help_page import HelpPage
 from ui.pages.registration_page import RegistrationMainPage
 from ui.pages.audience_page import AudiencePage
 from ui.pages.ad_groups_page import AdGroupsPage
+from ui.pages.ecomm_page import EcommPage
 
 from dotenv import load_dotenv
 
@@ -157,3 +158,9 @@ def ad_groups_page(hq_page):
 @pytest.fixture
 def ad_group_creation_page(ad_groups_page):
     return ad_groups_page.go_to_creation()
+
+@pytest.fixture
+def ecomm_page(hq_page):
+    hq_page.driver.get(EcommPage.url)
+    return EcommPage(driver=hq_page.driver)
+

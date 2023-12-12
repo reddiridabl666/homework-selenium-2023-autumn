@@ -1,4 +1,4 @@
-from base import BaseCase,  credentials
+from base import BaseCase
 from ui.fixtures import main_page, cases_page
 import pytest
 

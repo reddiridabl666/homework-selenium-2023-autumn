@@ -11,6 +11,12 @@ class BasePageLocators:
     @staticmethod
     def DIV_BY_TEXT(text):
         return (By.XPATH, f'//div[text()="{text}"]')
+
+    @staticmethod
+    def SPAN_BY_TEXT(text):
+        return (By.XPATH, f'//span[text()="{text}"]')
+
+    @staticmethod
     def BY_MAIL_TEST_ID(id):
         return (By.XPATH, f"//*[@data-test-id='{id}']")
 
@@ -216,3 +222,28 @@ class AdGroupCreationPageLocators(BasePageLocators):
         return (By.XPATH, f"//*[contains(@class, 'RegionsList_item__5Z8rf') and contains(.//*, '{region_name}')]//*[contains(@class, 'RegionsList_remove__pl6kK')]")
 
     CLEAR_REGION_LIST = (By.CLASS_NAME, 'RegionsSelector_clear__mTOGS')
+
+
+class EcommPageLocators(BasePageLocators):
+    CREATE_CATALOG_BTN = BasePageLocators.BTN_BY_TEXT("Создать каталог")
+    CREATE_CATALOG_MODAL = (By.CLASS_NAME, "ModalRoot_componentWrapper__uzHTL")
+
+    class CreateCatalogModal:
+        @staticmethod
+        def TAB_BY_TEXT(text):
+            return (By.XPATH, f'//div/span[text()="{text}"]')
+        FEED_BTN = TAB_BY_TEXT("Фид или сообщество")
+        MARKETPLACE_BTN = TAB_BY_TEXT("Маркетплейс")
+        MANUAL_BTN = TAB_BY_TEXT("Вручную")
+
+        FEED_LABEL = BasePageLocators.SPAN_BY_TEXT("Ссылка на фид или сообщество")
+        MARKETPLACE_LABEL = BasePageLocators.SPAN_BY_TEXT("Ссылка на страницу продавца")
+        MANUAL_LABEL = BasePageLocators.SPAN_BY_TEXT("Категория фида")
+
+        MANUAL_FILE_SELECTOR = (By.XPATH, '//label[contains(@class, "FileSelector")]//input')
+        SUBMIT_CATALOG_BTN = (By.XPATH, '//button[@type="submit"]//span[text()="Создать каталог"]/ancestor::button')
+
+    create_catalog_modal = CreateCatalogModal()
+
+    FEED_LOADING = BasePageLocators.SPAN_BY_TEXT('Загрузка фида')
+    CATALOG = (By.XPATH, '//span[contains(text(), "Каталог")]')

@@ -12,6 +12,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import StaleElementReferenceException
 import time
+import os
 
 
 class PageNotOpenedExeption(Exception):
@@ -53,6 +54,9 @@ class BasePage(object):
     def find(self, locator, timeout=None) -> WebElement:
         return self.wait(timeout).until(EC.visibility_of_element_located(locator))
 
+    def find_invisible(self, locator, timeout=None) -> WebElement:
+        return self.wait(timeout).until(EC.presence_of_element_located(locator))
+
     def find_multiple(self, locator, timeout=None) -> List[WebElement]:
         return self.wait(timeout).until(EC.visibility_of_all_elements_located(locator))
 
@@ -82,7 +86,7 @@ class BasePage(object):
         self.driver.switch_to.window(self.driver.window_handles[0])
 
     @allure.step('Click')
-    def click(self, locator, timeout=None) -> WebElement:
+    def click(self, locator, timeout=10000) -> WebElement:
         elem = self.wait(timeout).until(EC.element_to_be_clickable(locator))
 
         elem.click()
@@ -123,7 +127,7 @@ class BasePage(object):
         return elem
 
     @allure.step('Fill in')
-    def fill_in(self, locator, query, timeout=None) -> WebElement:
+    def fill_in(self, locator, query, timeout=10000) -> WebElement:
         elem = self.clear(locator, timeout)
         elem.send_keys(query)
         return elem
@@ -169,3 +173,11 @@ class BasePage(object):
         elem = self.wait().until(EC.presence_of_element_located(locator))
         hover = ActionChains(self.driver).move_to_element(elem)
         hover.perform()
+
+    def upload_file(self, locator, file_path):
+        absolute_file_path = os.path.abspath(file_path)
+
+        elem = self.find_invisible(locator)
+        elem.send_keys(absolute_file_path)
+
+        return elem
