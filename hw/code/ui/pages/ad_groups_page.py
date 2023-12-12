@@ -20,7 +20,7 @@ class AdGroupCreationPage(BasePage):
 
     def selected_regions(self):
         try:
-            return [elem.text for elem in self.find_multiple(self.locators.REGION_LIST_ITEMS, timeout=0.5)]
+            return [elem.text for elem in self.find_multiple(self.locators.REGION_LIST_ITEMS, timeout=1)]
         except:
             return []
 
@@ -38,6 +38,41 @@ class AdGroupCreationPage(BasePage):
 
     def search_regions(self, query):
         self.fill_in(self.locators.REGION_SEARCH, query)
+
+    def add_by_list(self, regions):
+        self.click(self.locators.ADD_REGIONS_BY_LIST)
+        self.fill_in(self.locators.REGION_LIST_INPUT, ','.join(regions))
+        self.click(self.locators.SUBMIT_REGIONS_BY_LIST)
+
+    def add_by_list_status(self):
+        return self.find(self.locators.REGION_LIST_ADD_STATUS).text
+
+    def close_list_add_modal(self):
+        self.click(self.locators.REGION_LIST_ADD_CLOSE_MODAL)
+
+    def toggle_devices_section(self):
+        self.find(self.locators.DEVICES).location_once_scrolled_into_view
+        self.click(self.locators.DEVICES)
+
+    def toggle_device_mobile(self):
+        self.click(self.locators.DEVICES_MOBILE)
+
+    def toggle_device_desktop(self):
+        self.click(self.locators.DEVICES_DESKTOP)
+
+    def is_device_mobile_disabled(self):
+        return self.is_disabled(self.locators.DEVICES_MOBILE)
+
+    def is_device_desktop_disabled(self):
+        return self.is_disabled(self.locators.DEVICES_DESKTOP)
+
+    def show_placement_options(self):
+        self.find(self.locators.PLACEMENT).location_once_scrolled_into_view
+        self.click(self.locators.PLACEMENT)
+        self.click(self.locators.PLACEMENT_AUTO_CHOICE_TOGGLE)
+
+    def get_placement_options(self):
+        return [elem.text for elem in self.find_multiple(self.locators.PLACEMENT_CHOICE_ITEM)]
 
 
 class AdGroupsPage(HqPage):

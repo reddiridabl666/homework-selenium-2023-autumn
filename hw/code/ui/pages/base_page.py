@@ -106,6 +106,11 @@ class BasePage(object):
 
         return elem
 
+    def is_disabled(self, locator,  timeout=None):
+        self.wait(timeout).until(
+            EC.element_attribute_to_include(locator, 'disabled'))
+        return True
+
     @allure.step('Fill in')
     def fill_in(self, locator, query, timeout=None) -> WebElement:
         elem = self.clear(locator, timeout)

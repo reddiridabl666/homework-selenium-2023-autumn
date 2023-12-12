@@ -173,3 +173,30 @@ class AdGroupCreationPageLocators(BasePageLocators):
 
     CLEAR_REGION_LIST = (
         By.CLASS_NAME, 'RegionsSelector_selectedRegionsClearText__eZU3q')
+
+    ADD_REGIONS_BY_LIST = (
+        By.XPATH, "//*[contains(@class, 'RegionsSelector_addListButton__nHCp+')]")
+
+    REGION_LIST_INPUT = (
+        By.XPATH, "//*[contains(@class, 'AddTextListCard_fieldWrapper__iWfRn')]//textarea")
+
+    SUBMIT_REGIONS_BY_LIST = BasePageLocators.BY_TEXT('Добавить')
+
+    REGION_LIST_ADD_STATUS = (By.CLASS_NAME, 'AddTextListCard_status__tB4Q7')
+
+    REGION_LIST_ADD_CLOSE_MODAL = (By.CLASS_NAME, 'vkuiModalDismissButton')
+
+    DEVICES = BasePageLocators.BY_TEST_ID('section-devices')
+
+    DEVICES_DESKTOP = (
+        By.XPATH, "//*[contains(@class, 'vkuiCheckbox')][input[@value='desktop']]")
+
+    DEVICES_MOBILE = (
+        By.XPATH, "//*[contains(@class, 'vkuiCheckbox')][input[@value='mobile']]")
+
+    PLACEMENT = BasePageLocators.BY_TEST_ID('section-placement')
+    PLACEMENT_AUTO_CHOICE_TOGGLE = (
+        By.XPATH, "//*[@data-testid='section-placement']//*[contains(@class, 'vkuiSwitch')]")
+    PLACEMENT_CHOICE_ITEM = (By.CLASS_NAME, 'PadsTreeBranch_branch__YxTON')
+
+    DEMOGRAPHY = BasePageLocators.BY_TEST_ID('section-demography')
