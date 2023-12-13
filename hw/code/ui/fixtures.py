@@ -1,17 +1,18 @@
 import os
+
 import pytest
+from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from ui.pages.upvote_page import UpvotePage
-from ui.pages.base_page import BasePage
-from ui.pages.main_page import MainPage
-from ui.pages.hq_page import HqPage
-from ui.pages.cases_page import CasesPage
-from ui.pages.registration_page import RegistrationMainPage
-from ui.pages.audience_page import AudiencePage
 from ui.pages.ad_groups_page import AdGroupsPage
-
-from dotenv import load_dotenv
+from ui.pages.audience_page import AudiencePage
+from ui.pages.base_page import BasePage
+from ui.pages.cases_page import CasesPage
+from ui.pages.hq_page import HqPage
+from ui.pages.lead_page import LeadPage
+from ui.pages.main_page import MainPage
+from ui.pages.registration_page import RegistrationMainPage, RegistrationPage
+from ui.pages.upvote_page import UpvotePage
 
 
 @pytest.fixture()
@@ -98,24 +99,16 @@ def registration_page(registration_main_page, no_cabinet_credentials):
 @pytest.fixture(scope='session')
 def create_account(config, credentials):
     pass
-    # driver = get_driver(config['browser'])
-
-    # driver.get(RegistrationMainPage.url)
-    # page = RegistrationMainPage(driver)
-
-    # acc_creation_page = page.go_to_account_creation(*credentials)
-    # acc_creation_page.fill_in_form('example@mail.org')
-
-    # page = HqPage(driver)
+    # registration_main_page.login(*credentials)
+    # registration_page = RegistrationPage(registration_main_page.driver)
+    # registration_page.fill_in_form('example@mail.org')
     # driver.quit()
 
     # yield page
 
     # driver = get_driver(config['browser'])
-
     # driver.get(RegistrationMainPage.url)
     # RegistrationMainPage(driver).login(*credentials)
-
     # page = HqPage(driver)
     # page.delete_account()
     # driver.quit()
@@ -150,3 +143,9 @@ def ad_group_creation_page(ad_groups_page):
 def upvote_page(driver):
     driver.get(UpvotePage.url)
     return UpvotePage(driver)
+
+
+@pytest.fixture
+def lead_page(hq_page):
+    hq_page.driver.get(LeadPage.url)
+    return LeadPage(hq_page.driver)

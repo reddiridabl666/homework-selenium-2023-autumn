@@ -206,3 +206,105 @@ class UpvotePageLocators(BasePageLocators):
     @staticmethod
     def IDEA_LINK(title: str):
         return (By.XPATH, f"//a[contains(@class, 'Idea_title__')][text()='{title}']")
+
+
+class ImageContainer(BasePageLocators):
+    IMAGE_CONTAINER_IMGS = (By.XPATH, "//*[contains(@class, 'ImageItems_imageItem__')]")
+
+
+class LeadPageLocators(ImageContainer):
+    ERROR_FIELD_REQUIRED = "Обязательное поле"
+    ERROR_FIELD_MAX_LENGTH_LIMIT = "Превышена максимальная длина поля"
+    ERROR_FIELD_WRONG_EMAIL = "Некорректный email адрес"
+
+    LEAD_PROCESSING_FORMAL_STAGE_BAD = "Оформление"
+    LEAD_PROCESSING_FORMAL_STAGE_GOOD = "1\n" + LEAD_PROCESSING_FORMAL_STAGE_BAD
+    LEAD_PROCESSING_QUESTION_STAGE_BAD = "Вопросы"
+    LEAD_PROCESSING_QUESTION_STAGE_GOOD = "2\n" + LEAD_PROCESSING_QUESTION_STAGE_BAD
+    LEAD_PROCESSING_RESULT_STAGE_BAD = "Результат"
+    LEAD_PROCESSING_RESULT_STAGE_GOOD = "3\n" + LEAD_PROCESSING_RESULT_STAGE_BAD
+    LEAD_PROCESSING_SETTINGS_STAGE_BAD = "Настройки"
+    LEAD_PROCESSING_SETTINGS_STAGE_GOOD = "4\n" + LEAD_PROCESSING_SETTINGS_STAGE_BAD
+
+    @staticmethod
+    def _BY_PLACEHOLDER_FIELD_WITH_ERROR(placeholder: str) -> tuple[tuple[str, str], tuple[str, str]]:
+        input_xpath = f"//input[@placeholder='{placeholder}']"
+        error_xpath = input_xpath + "/../../span[contains(@class, 'vkuiFormItem__bottom')]/div"
+        return ((By.XPATH, input_xpath), (By.XPATH, error_xpath))
+
+    @staticmethod
+    def _BY_H5_FIELD_WITH_ERROR(title: str) -> tuple[tuple[str, str], tuple[str, str]]:
+        base_xpath = f"//h5[contains(@class, 'vkuiSubhead')][text()='{title}']/.."
+        input_xpath = base_xpath + "/span[contains(@class, 'vkuiFormField')]/input"
+        error_xpath = base_xpath + "/span[contains(@class, 'vkuiFormItem__bottom')]/div"
+        return ((By.XPATH, input_xpath), (By.XPATH, error_xpath))
+
+    CREATE_LEAD = (By.XPATH, "//button[contains(@class, 'LeadForms_createButton__')]")
+
+    LEAD_PROCESSING_STAGE = (By.XPATH, "//div[contains(@class, 'CreateLeadFormModal_activeStep__')]")
+
+    LEAD_PROCESSING_FORMAL_LOGO = BasePageLocators.BY_TEST_ID("set-global-image")
+
+    LEAD_PROCESSING_FORMAL_LOGO_ERROR = (By.XPATH, "//*[@data-testid='set-global-image']/../span/div")
+
+    LEAD_PROCESSING_FORMAL_TITLE = _BY_PLACEHOLDER_FIELD_WITH_ERROR("Название лид-формы")
+    LEAD_PROCESSING_FORMAL_COMPANY = _BY_PLACEHOLDER_FIELD_WITH_ERROR("Название компании")
+    LEAD_PROCESSING_FORMAL_TEXT_TITLE = _BY_PLACEHOLDER_FIELD_WITH_ERROR("Текст заголовка")
+    LEAD_PROCESSING_FORMAL_COMPACT_DESC = _BY_PLACEHOLDER_FIELD_WITH_ERROR("Краткое описание опроса")
+
+    LEAD_PROCESSING_NEXT_BUTTON = (By.XPATH, "//button[@title='Продолжить']")
+    LEAD_PROCESSING_SAVE_BUTTON = (By.XPATH, "//button[@title='Сохранить']")
+
+    LEAD_PROCESSING_QUESTION_ADD_QUESTION = (
+        By.XPATH, "//span[contains(@class, 'vkuiButton__content')][text()='Добавить вопрос']")
+
+    @staticmethod
+    def LEAD_PROCESSING_QUESTION_TITLE(question_number: int):
+        return (By.XPATH, f"(//textarea[@placeholder='Напишите вопрос'])[{question_number}]")
+
+    LEAD_PROCESSING_QUESTION_ALL_QUESTIONS = (By.XPATH, "//div[contains(@class, 'Questions_questionsDroppable__')]/div")
+
+    LEAD_PROCESSING_QUESTION_ERROR = (
+        By.XPATH, "//div[contains(@class, 'Question_question__')]//div[contains(@class, 'Hint_hintTrigger')]")
+
+    @staticmethod
+    def LEAD_PROCESSING_QUESTION_ANSWER(question_number: int, answer_number: int):
+        return (
+            By.XPATH,
+            f"((//div[contains(@class, 'Question_question__')])[{question_number}]//input[@placeholder='Введите ответ'])[{answer_number}]"
+        )
+
+    @staticmethod
+    def LEAD_PROCESSING_QUESTION_ADD_ANSWER(question_number: int):
+        return (
+            By.XPATH,
+            f"(//div[contains(@class, 'Question_question__')])[{question_number}]//span[contains(@class, 'vkuiButton__content')][text()='Добавить ответ']"
+        )
+
+    @staticmethod
+    def LEAD_PROCESSING_QUESTION_ALL_ANSWERS(question_number: int):
+        return (By.XPATH, f"(//div[contains(@class, 'Question_answersDroppable__')])[{question_number}]/div")
+
+    LEAD_PROCESSING_RESULT_TITLE = _BY_H5_FIELD_WITH_ERROR("Заголовок")
+    LEAD_PROCESSING_RESULT_DESC = _BY_H5_FIELD_WITH_ERROR("Описание")
+
+    LEAD_PROCESSING_SETTINGS_FULL_NAME = _BY_PLACEHOLDER_FIELD_WITH_ERROR("Введите фамилию, имя и отчество")
+    LEAD_PROCESSING_SETTINGS_ADDRESS = _BY_PLACEHOLDER_FIELD_WITH_ERROR("Введите адрес")
+    LEAD_PROCESSING_SETTINGS_EMAIL = _BY_PLACEHOLDER_FIELD_WITH_ERROR("Введите email")
+    LEAD_PROCESSING_SETTINGS_INN = _BY_PLACEHOLDER_FIELD_WITH_ERROR("Введите ИНН")
+
+    LEAD_SEARCH = (By.XPATH, "//div[contains(@class, 'vkuiSearch__input')]")
+
+    LEAD_ALL_ITEMS = (By.XPATH, "//button[contains(@class, 'NameCell_link__')]")
+
+    @staticmethod
+    def LEAD_BY_TITLE(title: str):
+        return (By.XPATH, f"//button[contains(@class, 'NameCell_link__')][text()='{title}']")
+
+    @staticmethod
+    def LEAD_DELETE_BY_TITLE(title: str):
+        return (
+            By.XPATH,
+            f"//button[contains(@class, 'NameCell_link__')][text()='{title}']/../div/div/button/span[text()='Удалить']")
+
+    LEAD_CONFIRM_DELETE = (By.XPATH, "//div[contains(@class, 'ModalConfirm_wrapper__')]//*[text()='Удалить']")

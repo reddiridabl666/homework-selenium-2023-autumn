@@ -43,29 +43,29 @@ class BasePage(object):
         except:
             pass
 
-    def wait(self, timeout=None):
+    def wait(self, timeout: float | None = None):
         if timeout is None:
             timeout = 5
         return WebDriverWait(self.driver, timeout=timeout)
 
-    def is_visible(self, locator):
+    def is_visible(self, locator, timeout: float | None = None):
         try:
-            elem = self.find(locator)
+            elem = self.find(locator, timeout)
             elem.location_once_scrolled_into_view
             return True
         except:
             return False
 
-    def is_not_visible(self, locator, timeout=None):
+    def is_not_visible(self, locator, timeout: float | None = None):
         self.wait(timeout).until(EC.invisibility_of_element(locator))
 
-    def find(self, locator, timeout=None) -> WebElement:
-        return self.wait(timeout).until(EC.presence_of_element_located(locator))
+    def find(self, locator, timeout: float | None = None) -> WebElement:
+        return self.wait(timeout).until(EC.visibility_of_element_located(locator))
 
-    def find_multiple(self, locator, timeout=None) -> List[WebElement]:
+    def find_multiple(self, locator, timeout: float | None = None) -> List[WebElement]:
         return self.wait(timeout).until(EC.visibility_of_all_elements_located(locator))
 
-    def find_from(self, parent, locator, timeout=None) -> WebElement:
+    def find_from(self, parent, locator, timeout: float | None = None) -> WebElement:
         def wait_cond(_):
             elem = parent.find_element(*locator)
             if elem.is_displayed():
@@ -74,7 +74,7 @@ class BasePage(object):
 
         return self.wait(timeout).until(wait_cond)
 
-    def find_multiple_from(self, parent, locator, timeout=None) -> List[WebElement]:
+    def find_multiple_from(self, parent, locator, timeout: float | None = None) -> List[WebElement]:
         def wait_cond(_):
             elems = parent.find_elements(*locator)
             if all([elem.is_displayed() for elem in elems]):
@@ -83,11 +83,11 @@ class BasePage(object):
 
         return self.wait(timeout).until(wait_cond)
 
-    def get_new_count(self, locator, start_size, timeout=None):
+    def get_new_count(self, locator, start_size, timeout: float | None = None):
         elems = self.wait(timeout).until(elements_count_changed(locator, start_size))
         return len(elems)
 
-    def wait_for_count_of_elements(self, locator, count, timeout=None):
+    def wait_for_count_of_elements(self, locator, count, timeout: float | None = None):
         self.wait(timeout).until(lambda _: len(self.find_multiple(locator)) == count)
 
     def switch_to_new_tab(self):
@@ -98,12 +98,12 @@ class BasePage(object):
         self.driver.switch_to.window(self.driver.window_handles[0])
 
     @allure.step('Click')
-    def click(self, locator, timeout=None) -> WebElement:
+    def click(self, locator, timeout: float | None = None) -> WebElement:
         elem = self.wait(timeout).until(EC.element_to_be_clickable(locator))
         elem.click()
         return elem
 
-    def click_may_be_stale(self, locator, timeout=None):
+    def click_may_be_stale(self, locator, timeout: float | None = None):
         if timeout is None:
             timeout = 5
 
@@ -116,13 +116,13 @@ class BasePage(object):
                 return
             self.click_may_be_stale(locator, new_timeout)
 
-    def clear(self, locator, timeout=None) -> WebElement:
+    def clear(self, locator, timeout: float | None = None) -> WebElement:
         elem = self.find(locator, timeout)
         elem.clear()
         return elem
 
     @allure.step('Scroll click')
-    def scroll_click(self, locator, timeout=None) -> WebElement:
+    def scroll_click(self, locator, timeout: float | None = None) -> WebElement:
         self.find(locator, timeout)
 
         self.wait(timeout).until(EC.visibility_of_element_located(locator))
@@ -137,13 +137,16 @@ class BasePage(object):
         return elem
 
     @allure.step('Fill in')
-    def fill_in(self, locator, query, timeout=None) -> WebElement:
+    def fill_in(self, locator, query: str, timeout: float | None = None) -> WebElement:
         elem = self.clear(locator, timeout)
         elem.send_keys(query)
         return elem
 
     def press_enter(self, elem):
         elem.send_keys(Keys.RETURN)
+
+    def press_tab(self, elem):
+        elem.send_keys(Keys.TAB)
 
     def get_selected_value(self, locator):
         select = Select(self.find(locator))
@@ -154,7 +157,7 @@ class BasePage(object):
         select.select_by_visible_text(value)
 
     @allure.step('Check url')
-    def assert_url(self, url, timeout=None):
+    def assert_url(self, url, timeout: float | None = None):
         if timeout is None:
             timeout = 5
         try:
@@ -162,7 +165,7 @@ class BasePage(object):
         except:
             raise PageNotOpenedExeption(f'{url} did not open in {timeout} sec, current url {self.driver.current_url}')
 
-    def wait_for_redirect(self, timeout=None):
+    def wait_for_redirect(self, timeout: float | None = None):
         self.wait(timeout).until(EC.url_changes(self.driver.current_url))
 
     def has_error(self, locator, error='Обязательное поле'):
