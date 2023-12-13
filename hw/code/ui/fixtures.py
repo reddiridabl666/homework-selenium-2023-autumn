@@ -12,6 +12,7 @@ from ui.pages.registration_page import RegistrationMainPage
 from ui.pages.audience_page import AudiencePage
 from ui.pages.ad_groups_page import AdGroupsPage
 from ui.pages.ecomm_page import EcommPage
+from ui.pages.sites_page import SitesPage
 
 from dotenv import load_dotenv
 
@@ -164,3 +165,8 @@ def ecomm_page(hq_page):
     hq_page.driver.get(EcommPage.url)
     return EcommPage(driver=hq_page.driver)
 
+
+@pytest.fixture
+def sites_page(hq_page):
+    hq_page.driver.get(SitesPage.url)
+    return SitesPage(driver=hq_page.driver)

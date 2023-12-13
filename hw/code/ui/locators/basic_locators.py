@@ -247,3 +247,20 @@ class EcommPageLocators(BasePageLocators):
 
     FEED_LOADING = BasePageLocators.SPAN_BY_TEXT('Загрузка фида')
     CATALOG = (By.XPATH, '//span[contains(text(), "Каталог")]')
+    SETTINGS_BTN = BasePageLocators.BTN_BY_TEXT("Настройки")
+    SETTINGS_MODAL = (By.XPATH, '//div[contains(@class, "ModalRoot_componentWrapper")]')
+
+    ADD_GOODS_BTN = BasePageLocators.BTN_BY_TEXT("Добавить товары")
+    PROMOTE_BTN = BasePageLocators.SPAN_BY_TEXT("Рекламировать")
+
+
+class SitesPageLocators(BasePageLocators):
+    ADD_PIXEL_BTN = BasePageLocators.BTN_BY_TEXT("Добавить пиксель")
+    
+    ADD_PIXEL_MODAL = (By.XPATH, '//div[contains(@class, "ModalRoot_componentWrapper")]')
+    CLOSE_MODAL_BTN = (By.CLASS_NAME, 'vkuiModalDismissButton')
+
+    DOMAIN_INPUT = (By.XPATH, '//input[@placeholder="Домен сайта"]')
+    DOMAIN_SUBMIT_BTN = (By.XPATH, '//div[contains(@class, "ModalRoot")]//button//*[text()="Добавить пиксель"]/ancestor::button')
+    PIXEL_ADDED_MODAL = (By.XPATH, '//h2[contains(text(), "Создан ID пикселя")]')
+    SETTINGS_LINK = (By.LINK_TEXT, 'Настройка')

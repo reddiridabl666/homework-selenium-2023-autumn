@@ -58,3 +58,21 @@ class EcommPage(BasePage):
 
     def click_catalog(self):
         self.click(self.locators.CATALOG)
+
+    def open_catalog_options(self):
+        self.click(self.locators.SETTINGS_BTN)
+
+    def check_catalog_options_modal(self):
+        self.is_visible(self.locators.SETTINGS_MODAL)
+
+    def check_url_catalog(self, suburl=""):
+        return self.check_url("https://ads.vk.com/hq/ecomm/catalogs/[0-9]*" + suburl)
+
+    def click_tab(self, tab_name):
+        self.click(self.locators.SPAN_BY_TEXT(tab_name))
+
+    def click_add_goods_btn(self):
+        self.click(self.locators.ADD_GOODS_BTN)
+
+    def click_promote_btn(self):
+        self.click(self.locators.PROMOTE_BTN)
