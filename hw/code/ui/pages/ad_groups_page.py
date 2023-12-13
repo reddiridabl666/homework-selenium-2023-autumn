@@ -115,11 +115,17 @@ class AdGroupCreationPage(BasePage):
         self.click(self.locators.AUDIENCE_SEARCH_VISIBLE)
         self.click(self.locators.VK_UI_SELECT_ELEM(audience_name))
 
+    def deselect_audience(self, audience_name):
+        self.click(self.locators.DESELECT_AUDIENCE(audience_name))
+
     def show_negative_audience_search(self):
         self.click(self.locators.AUDIENCE_NEG_SHOW)
 
     def hide_negative_audience_search(self):
         self.click(self.locators.AUDIENCE_NEG_CLOSE)
+
+    def no_selected_audiences(self):
+        return self.is_not_visible(self.locators.SELECTED_AUDIENCES)
 
     def is_negative_audience_search_shown(self):
         return self.is_visible(self.locators.AUDIENCE_NEG_SEARCH_VISIBLE)

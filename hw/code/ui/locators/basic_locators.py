@@ -233,6 +233,14 @@ class AdGroupCreationPageLocators(BasePageLocators):
     EDIT_AUDIENCE = (
         By.XPATH, "//*[contains(concat(' ', @class, ' '), ' vkuiCustomSelectOption ')]//*[contains(@class, 'Hint_hintTrigger__ixYRu')]")
 
+    @staticmethod
+    def SELECTED_AUDIENCE(name):
+        return (By.XPATH, f"//*[contains(@class, 'Segments_chipWrapper__jE2QZ')][text()='{name}']")
+
+    @staticmethod
+    def DESELECT_AUDIENCE(name):
+        return (By.XPATH, f"//*[contains(@class, 'Segments_chipWrapper__jE2QZ')][text()='{name}']//*[contains(@class, 'vkuiChip__remove')]")
+
 
 class AdGroupDraftsPageLocators(AdGroupsPageLocators):
     @staticmethod

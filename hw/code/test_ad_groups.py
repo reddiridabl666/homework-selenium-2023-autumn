@@ -106,6 +106,17 @@ class TestAdGroups(BaseCase):
 
         assert ad_group_creation_page.selected_audiences() == [audiences[0]]
 
+    @pytest.mark.skip
+    def test_deselect_audience(self, keyword_audience, ad_group_creation_page):
+        ad_group_creation_page.toggle_audience_section()
+
+        audiences = ad_group_creation_page.suggested_audiences()
+        ad_group_creation_page.select_audience(audiences[0])
+        assert ad_group_creation_page.selected_audiences() == [audiences[0]]
+
+        ad_group_creation_page.deselect_audience(audiences[0])
+        assert ad_group_creation_page.no_selected_audiences()
+
     def test_edit_ad_group(self, ad_group_drafts_page):
         ids = ad_group_drafts_page.shown_ad_group_ids()
         ad_group_drafts_page.edit_ad_group_draft(ids[0])
