@@ -262,5 +262,5 @@ class SitesPageLocators(BasePageLocators):
 
     DOMAIN_INPUT = (By.XPATH, '//input[@placeholder="Домен сайта"]')
     DOMAIN_SUBMIT_BTN = (By.XPATH, '//div[contains(@class, "ModalRoot")]//button//*[text()="Добавить пиксель"]/ancestor::button')
-    PIXEL_ADDED_MODAL = (By.XPATH, '//h2[contains(text(), "Создан ID пикселя")]')
+    PIXEL_ADDED_MODAL = (By.XPATH, '//*[contains(text(), "Создан ID пикселя")]')
     SETTINGS_LINK = (By.LINK_TEXT, 'Настройка')

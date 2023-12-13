@@ -86,7 +86,7 @@ class BasePage(object):
         self.driver.switch_to.window(self.driver.window_handles[0])
 
     @allure.step('Click')
-    def click(self, locator, timeout=10000) -> WebElement:
+    def click(self, locator, timeout=None) -> WebElement:
         elem = self.wait(timeout).until(EC.element_to_be_clickable(locator))
 
         elem.click()
@@ -127,7 +127,7 @@ class BasePage(object):
         return elem
 
     @allure.step('Fill in')
-    def fill_in(self, locator, query, timeout=10000) -> WebElement:
+    def fill_in(self, locator, query, timeout=None) -> WebElement:
         elem = self.clear(locator, timeout)
         elem.send_keys(query)
         return elem

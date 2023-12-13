@@ -16,7 +16,7 @@ class TestSites(BaseCase):
 
         assert not sites_page.submit_btn_enabled()
 
-        sites_page.fill_domain_input("")
+        sites_page.fill_domain_input("wild-spirits.test")
 
         assert sites_page.submit_btn_enabled()
 

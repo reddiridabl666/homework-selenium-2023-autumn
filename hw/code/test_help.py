@@ -3,8 +3,6 @@ from ui.fixtures import help_page
 import pytest
 
 class TestHelp(BaseCase):
-    authorize = False
-
     def test_authorize_redirect(self, help_page):
         help_page.click_authorize_link()
         help_page.check_url("ads.vk.com/help/categories/authorization")

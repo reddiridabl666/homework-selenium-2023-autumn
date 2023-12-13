@@ -4,8 +4,6 @@ import pytest
 
 
 class TestPartner(BaseCase):
-    authorize = False
-
     def test_account_redirect(self, partner_page):
         partner_page.click_account()
         partner_page.switch_to_new_tab()
