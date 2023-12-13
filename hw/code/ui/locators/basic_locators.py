@@ -30,7 +30,7 @@ class BasePageLocators:
 
 class MainPageLocators(BasePageLocators):
     LOGO = (By.CLASS_NAME, "HeaderLeft_left__a9Si1")
-    GO_TO_ACCOUNT = (By.LINK_TEXT, "Перейти в кабинет")
+    GO_TO_ACCOUNT = (By.CLASS_NAME, "ButtonCabinet_secondary__uUO2h")
     HELP = (By.LINK_TEXT, "Справка")
     EDUCATION_TAB = (By.CLASS_NAME, "NavigationVKAdsItem_item__0_oac")
     EDUCATION_DROPDOWN = (
