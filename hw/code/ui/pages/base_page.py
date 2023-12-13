@@ -58,6 +58,7 @@ class BasePage(object):
 
     def is_not_visible(self, locator, timeout: float | None = None):
         self.wait(timeout).until(EC.invisibility_of_element(locator))
+        return True
 
     def find(self, locator, timeout: float | None = None) -> WebElement:
         return self.wait(timeout).until(EC.visibility_of_element_located(locator))
@@ -119,6 +120,11 @@ class BasePage(object):
     def clear(self, locator, timeout: float | None = None) -> WebElement:
         elem = self.find(locator, timeout)
         elem.clear()
+
+        if elem.get_attribute('value') != '':
+            size = len(elem.get_attribute('value'))
+            elem.send_keys(size * Keys.BACKSPACE)
+
         return elem
 
     @allure.step('Scroll click')
@@ -135,6 +141,10 @@ class BasePage(object):
         elem.click()
 
         return elem
+
+    def is_disabled(self, locator, timeout=None):
+        self.wait(timeout).until(EC.element_attribute_to_include(locator, 'disabled'))
+        return True
 
     @allure.step('Fill in')
     def fill_in(self, locator, query: str, timeout: float | None = None) -> WebElement:

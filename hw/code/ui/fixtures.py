@@ -13,6 +13,7 @@ from ui.pages.lead_page import LeadPage
 from ui.pages.main_page import MainPage
 from ui.pages.registration_page import RegistrationMainPage, RegistrationPage
 from ui.pages.upvote_page import UpvotePage
+from ui.pages.ad_groups_page import AdGroupsPage, AdGroupDraftsPage
 
 
 @pytest.fixture()
@@ -137,6 +138,12 @@ def ad_groups_page(hq_page):
 @pytest.fixture
 def ad_group_creation_page(ad_groups_page):
     return ad_groups_page.go_to_creation()
+
+
+@pytest.fixture
+def ad_group_drafts_page(ad_group_creation_page):
+    ad_group_creation_page.driver.get(AdGroupDraftsPage.url)
+    return AdGroupDraftsPage(ad_group_creation_page.driver)
 
 
 @pytest.fixture
