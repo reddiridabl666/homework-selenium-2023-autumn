@@ -120,7 +120,7 @@ class TestAdGroups(BaseCase):
     def test_edit_ad_group(self, ad_group_drafts_page):
         ids = ad_group_drafts_page.shown_ad_group_ids()
         ad_group_drafts_page.edit_ad_group_draft(ids[0])
-        ad_group_drafts_page.assert_url(AdGroupCreationPage.url)
+        ad_group_drafts_page.check_url(AdGroupCreationPage.url)
 
     def test_select_ad_group(self, ad_group_drafts_page):
         ids = ad_group_drafts_page.shown_ad_group_ids()

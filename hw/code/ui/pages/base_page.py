@@ -130,7 +130,7 @@ class BasePage(object):
         select.select_by_visible_text(value)
 
     @allure.step('Check url')
-    def assert_url(self, url, timeout=None):
+    def check_url(self, url, timeout=None):
         if timeout is None:
             timeout = 5
         try:
