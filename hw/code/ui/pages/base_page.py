@@ -50,8 +50,8 @@ class BasePage(object):
     def find(self, locator, timeout=None) -> WebElement:
         return self.wait(timeout).until(EC.visibility_of_element_located(locator))
 
-    def find_multiple(self, locator, timeout=None) -> List[WebElement]:
-        return self.wait(timeout).until(EC.visibility_of_all_elements_located(locator))
+    def find_multiple(self, locator, timeout=None, cond=EC.visibility_of_all_elements_located) -> List[WebElement]:
+        return self.wait(timeout).until(cond(locator))
 
     def find_from(self, parent, locator, timeout=None) -> WebElement:
         def wait_cond(_):

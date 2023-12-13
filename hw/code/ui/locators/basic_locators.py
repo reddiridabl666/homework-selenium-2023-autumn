@@ -157,6 +157,8 @@ class AdGroupsPageLocators(HqPageLocators):
 
     DRAFT_STATUS = (By.CLASS_NAME, 'CreateFooter_draftStatus__Hbe6f')
 
+    DELETION_MODAL = (By.CLASS_NAME, 'ModalRoot_componentWrapper__uzHTL')
+
 
 class AdGroupCreationPageLocators(BasePageLocators):
     REGION_SEARCH = BasePageLocators.BY_TEST_ID('search')
@@ -203,6 +205,34 @@ class AdGroupCreationPageLocators(BasePageLocators):
 
     DEMOGRAPHY = BasePageLocators.BY_TEST_ID('section-demography')
 
+    MIN_AGE_SELECT = (
+        By.XPATH, "//*[contains(@class, 'AgeTargeting_select__QcsRp')][1]")
+
+    MAX_AGE_SELECT = (
+        By.XPATH, "//*[contains(@class, 'AgeTargeting_select__QcsRp')][2]")
+
+    AUDIENCE = BasePageLocators.BY_TEST_ID('section-audience')
+
+    AUDIENCE_SEARCH = (
+        By.XPATH, "//*[contains(@class, 'ChipsSelect_wrapper__m9y64')]//input")
+    AUDIENCE_NEG_SEARCH = (
+        By.XPATH, "//*[contains(@class, 'Segments_negativeWrapper__pb1')]//input")
+
+    AUDIENCE_SEARCH_VISIBLE = (
+        By.XPATH, "//*[contains(@class, 'ChipsSelect_wrapper__m9y64')]")
+    AUDIENCE_NEG_SEARCH_VISIBLE = (
+        By.XPATH, "//*[contains(@class, 'Segments_negativeWrapper__pb1')]")
+
+    AUDIENCE_NEG_SHOW = (
+        By.XPATH, "//*[contains(@class, 'Segments_negativeOpener__D0PO+')]")
+
+    AUDIENCE_NEG_CLOSE = (By.CLASS_NAME, 'Segments_negativeCloser__bswFU')
+
+    SELECTED_AUDIENCES = (By.CLASS_NAME, 'Segments_chipWrapper__jE2QZ')
+
+    EDIT_AUDIENCE = (
+        By.XPATH, "//*[contains(concat(' ', @class, ' '), ' vkuiCustomSelectOption ')]//*[contains(@class, 'Hint_hintTrigger__ixYRu')]")
+
 
 class AdGroupDraftsPageLocators(AdGroupsPageLocators):
     @staticmethod
@@ -231,5 +261,3 @@ class AdGroupDraftsPageLocators(AdGroupsPageLocators):
         By.XPATH, "//*[contains(@class, 'confirmRemoveModal_footer__dW3aB')]//*[text()='Отмена']")
 
     CLOSE_DELETION_MODAL = (By.CLASS_NAME, 'vkuiModalDismissButton')
-
-    DELETION_MODAL = (By.CLASS_NAME, 'ModalRoot_componentWrapper__uzHTL')

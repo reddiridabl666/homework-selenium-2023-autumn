@@ -131,7 +131,7 @@ def hq_page(create_account, registration_main_page, credentials):
 
 
 @pytest.fixture
-def audience_page(hq_page, clear_all_drafts):
+def audience_page(hq_page):
     hq_page.driver.get(AudiencePage.url)
     return AudiencePage(driver=hq_page.driver)
 

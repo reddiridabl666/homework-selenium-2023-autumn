@@ -2,6 +2,7 @@ import time
 from base import BaseCase
 from ui.pages.ad_groups_page import AdGroupCreationPage
 from ui.fixtures import ad_groups_page, ad_group_creation_page, credentials
+from test_audience import keyword_audience
 import pytest
 
 
@@ -74,6 +75,37 @@ class TestAdGroups(BaseCase):
         assert 'Проекты VK' in placement_options
         assert 'Рекламная сеть' in placement_options
 
+    def test_min_age_less_than_max(self, ad_group_creation_page):
+        ad_group_creation_page.toggle_demography_section()
+        ad_group_creation_page.select_max_age(70)
+
+        assert all(
+            elem <= 70 for elem in ad_group_creation_page.available_min_age())
+
+    def test_max_age_greater_than_min(self, ad_group_creation_page):
+        ad_group_creation_page.toggle_demography_section()
+        ad_group_creation_page.select_min_age(14)
+
+        assert all(
+            elem >= 14 for elem in ad_group_creation_page.available_max_age())
+
+    def test_audience_negative_search_toggle(self, ad_group_creation_page):
+        ad_group_creation_page.toggle_audience_section()
+
+        ad_group_creation_page.show_negative_audience_search()
+        ad_group_creation_page.is_negative_audience_search_shown()
+
+        ad_group_creation_page.hide_negative_audience_search()
+        ad_group_creation_page.is_negative_audience_toggle_shown()
+
+    def test_select_audience(self, keyword_audience, ad_group_creation_page):
+        ad_group_creation_page.toggle_audience_section()
+
+        audiences = ad_group_creation_page.suggested_audiences()
+        ad_group_creation_page.select_audience(audiences[0])
+
+        assert ad_group_creation_page.selected_audiences() == [audiences[0]]
+
     def test_edit_ad_group(self, ad_group_drafts_page):
         ids = ad_group_drafts_page.shown_ad_group_ids()
         ad_group_drafts_page.edit_ad_group_draft(ids[0])
@@ -115,7 +147,6 @@ class TestAdGroups(BaseCase):
         ad_group_drafts_page.close_deletion_modal_cross()
 
         assert ad_group_drafts_page.is_deletion_modal_closed()
-
 
     def test_close_deletion_modal_click_outside(self, ad_group_drafts_page):
         ids = ad_group_drafts_page.shown_ad_group_ids()

@@ -76,6 +76,57 @@ class AdGroupCreationPage(BasePage):
     def get_placement_options(self):
         return [elem.text for elem in self.find_multiple(self.locators.PLACEMENT_CHOICE_ITEM)]
 
+    def toggle_demography_section(self):
+        self.find(self.locators.DEMOGRAPHY).location_once_scrolled_into_view
+        self.click(self.locators.DEMOGRAPHY)
+
+    def select_min_age(self, age):
+        self.click(self.locators.MIN_AGE_SELECT)
+        self.click(self.locators.VK_UI_SELECT_ELEM(age))
+
+    def select_max_age(self, age):
+        self.click(self.locators.MAX_AGE_SELECT)
+        self.click(self.locators.VK_UI_SELECT_ELEM(age))
+
+    def available_min_age(self):
+        self.click(self.locators.MIN_AGE_SELECT)
+        return [int(elem.text) for elem in self.find_multiple(self.locators.VK_UI_SELECT_ELEMS, cond=EC.presence_of_all_elements_located)]
+
+    def available_max_age(self):
+        self.click(self.locators.MAX_AGE_SELECT)
+        return [int(elem.text) for elem in self.find_multiple(self.locators.VK_UI_SELECT_ELEMS, cond=EC.presence_of_all_elements_located)]
+
+    def toggle_audience_section(self):
+        self.find(self.locators.AUDIENCE).location_once_scrolled_into_view
+        self.click(self.locators.AUDIENCE)
+
+    def suggested_audiences(self):
+        self.click(self.locators.AUDIENCE_SEARCH_VISIBLE)
+        return [elem.text for elem in self.find_multiple(self.locators.VK_UI_SELECT_ELEMS)]
+
+    def selected_audiences(self):
+        return [elem.text for elem in self.find_multiple(self.locators.SELECTED_AUDIENCES)]
+
+    def edit_audience(self, audience_name):
+        self.click(self.locators.AUDIENCE_SEARCH_VISIBLE)
+        self.click(self.locators.EDIT_AUDIENCE(audience_name))
+
+    def select_audience(self, audience_name):
+        self.click(self.locators.AUDIENCE_SEARCH_VISIBLE)
+        self.click(self.locators.VK_UI_SELECT_ELEM(audience_name))
+
+    def show_negative_audience_search(self):
+        self.click(self.locators.AUDIENCE_NEG_SHOW)
+
+    def hide_negative_audience_search(self):
+        self.click(self.locators.AUDIENCE_NEG_CLOSE)
+
+    def is_negative_audience_search_shown(self):
+        return self.is_visible(self.locators.AUDIENCE_NEG_SEARCH_VISIBLE)
+
+    def is_negative_audience_toggle_shown(self):
+        return self.is_visible(self.locators.AUDIENCE_NEG_SHOW)
+
 
 class AdGroupsPage(HqPage):
     url = 'https://ads.vk.com/hq/dashboard/ad_groups'
@@ -115,6 +166,7 @@ class AdGroupsPage(HqPage):
         self.click(self.locators.SELECT_ALL)
         self.click(self.locators.DELETE)
         self.click(self.locators.CONFIRM_DELETE)
+        self.is_not_visible(self.locators.DELETION_MODAL)
 
 
 class AdGroupDraftsPage(AdGroupsPage):
