@@ -1,5 +1,6 @@
 import time
 from base import BaseCase
+from ui.pages.ad_groups_page import AdGroupCreationPage
 from ui.fixtures import ad_groups_page, ad_group_creation_page, credentials
 import pytest
 
@@ -72,3 +73,54 @@ class TestAdGroups(BaseCase):
         assert 'Одноклассники' in placement_options
         assert 'Проекты VK' in placement_options
         assert 'Рекламная сеть' in placement_options
+
+    def test_edit_ad_group(self, ad_group_drafts_page):
+        ids = ad_group_drafts_page.shown_ad_group_ids()
+        ad_group_drafts_page.edit_ad_group_draft(ids[0])
+        ad_group_drafts_page.assert_url(AdGroupCreationPage.url)
+
+    def test_select_ad_group(self, ad_group_drafts_page):
+        ids = ad_group_drafts_page.shown_ad_group_ids()
+        ad_group_drafts_page.select_ad_group_draft(ids[0])
+
+        assert ad_group_drafts_page.selected_ad_group_ids() == [ids[0]]
+        assert ad_group_drafts_page.additional_controls_present()
+
+    def test_deselect_ad_groups(self, ad_group_drafts_page):
+        ids = ad_group_drafts_page.shown_ad_group_ids()
+        ad_group_drafts_page.select_ad_group_draft(ids[0])
+
+        ad_group_drafts_page.deselect_all_drafts()
+
+        assert ad_group_drafts_page.no_selected_ad_groups()
+        assert ad_group_drafts_page.additional_controls_not_present()
+
+    def test_delete_ad_group(self, ad_group_drafts_page):
+        ids = ad_group_drafts_page.shown_ad_group_ids()
+        ad_group_drafts_page.delete_ad_group_draft(ids[0])
+        assert ad_group_drafts_page.no_shown_ad_groups()
+
+    def test_close_deletion_modal_cancel(self, ad_group_drafts_page):
+        ids = ad_group_drafts_page.shown_ad_group_ids()
+
+        ad_group_drafts_page.open_deletion_modal(ids[0])
+        ad_group_drafts_page.close_deletion_modal_cancel()
+
+        assert ad_group_drafts_page.is_deletion_modal_closed()
+
+    def test_close_deletion_modal_cross(self, ad_group_drafts_page):
+        ids = ad_group_drafts_page.shown_ad_group_ids()
+
+        ad_group_drafts_page.open_deletion_modal(ids[0])
+        ad_group_drafts_page.close_deletion_modal_cross()
+
+        assert ad_group_drafts_page.is_deletion_modal_closed()
+
+
+    def test_close_deletion_modal_click_outside(self, ad_group_drafts_page):
+        ids = ad_group_drafts_page.shown_ad_group_ids()
+
+        ad_group_drafts_page.open_deletion_modal(ids[0])
+        ad_group_drafts_page.close_deletion_modal_click_outside()
+
+        assert ad_group_drafts_page.is_deletion_modal_closed()

@@ -155,6 +155,8 @@ class AdGroupsPageLocators(HqPageLocators):
     CONFIRM_DELETE = (
         By.XPATH, "//*[contains(@class, 'confirmRemoveModal_footer__dW3aB')]//*[text()='Удалить']")
 
+    DRAFT_STATUS = (By.CLASS_NAME, 'CreateFooter_draftStatus__Hbe6f')
+
 
 class AdGroupCreationPageLocators(BasePageLocators):
     REGION_SEARCH = BasePageLocators.BY_TEST_ID('search')
@@ -200,3 +202,34 @@ class AdGroupCreationPageLocators(BasePageLocators):
     PLACEMENT_CHOICE_ITEM = (By.CLASS_NAME, 'PadsTreeBranch_branch__YxTON')
 
     DEMOGRAPHY = BasePageLocators.BY_TEST_ID('section-demography')
+
+
+class AdGroupDraftsPageLocators(AdGroupsPageLocators):
+    @staticmethod
+    def DRAFT_ENTRY(id):
+        return (By.XPATH, f"//*[@data-entityid='{id}-AdGroupDraft']")
+
+    @staticmethod
+    def EDIT_DRAFT(id):
+        return (By.XPATH, f"//*[@data-entityid='{id}-AdGroupDraft']//*[text()='Редактировать']")
+
+    @staticmethod
+    def SELECT_DRAFT(id):
+        return (By.XPATH, f"//*[@data-entityid='{id}-AdGroupDraft']//*[contains(@class, 'vkuiCheckbox')]")
+
+    DRAFT_ENTRIES = (
+        By.XPATH, "//*[contains(@data-entityid, '-AdGroupDraft')]")
+
+    DESELECT_DRAFTS = (By.CLASS_NAME, 'vkuiChip__remove')
+
+    CHOSEN_DRAFT_NUM = (By.CLASS_NAME, 'vkuiChip__content')
+
+    SELECTED_DRAFTS = (
+        By.CSS_SELECTOR, "*[data-entityid$='-AdGroupDraft']:has(:checked)")
+
+    CANCEL_DELETION = (
+        By.XPATH, "//*[contains(@class, 'confirmRemoveModal_footer__dW3aB')]//*[text()='Отмена']")
+
+    CLOSE_DELETION_MODAL = (By.CLASS_NAME, 'vkuiModalDismissButton')
+
+    DELETION_MODAL = (By.CLASS_NAME, 'ModalRoot_componentWrapper__uzHTL')

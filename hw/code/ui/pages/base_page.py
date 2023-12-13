@@ -45,6 +45,7 @@ class BasePage(object):
 
     def is_not_visible(self, locator, timeout=None):
         self.wait(timeout).until(EC.invisibility_of_element(locator))
+        return True
 
     def find(self, locator, timeout=None) -> WebElement:
         return self.wait(timeout).until(EC.visibility_of_element_located(locator))

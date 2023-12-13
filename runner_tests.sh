@@ -1,1 +1,1 @@
-pytest -s hw/code -k test_placements_shown_when_auto_disabled
+pytest -s hw/code -k test_close_deletion_modal_cancel

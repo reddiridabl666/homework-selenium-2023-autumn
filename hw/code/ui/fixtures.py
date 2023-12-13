@@ -8,7 +8,7 @@ from ui.pages.hq_page import HqPage
 from ui.pages.cases_page import CasesPage
 from ui.pages.registration_page import RegistrationMainPage
 from ui.pages.audience_page import AudiencePage
-from ui.pages.ad_groups_page import AdGroupsPage
+from ui.pages.ad_groups_page import AdGroupsPage, AdGroupDraftsPage
 
 from dotenv import load_dotenv
 
@@ -147,3 +147,9 @@ def ad_groups_page(hq_page):
 @pytest.fixture
 def ad_group_creation_page(ad_groups_page):
     return ad_groups_page.go_to_creation()
+
+
+@pytest.fixture
+def ad_group_drafts_page(ad_group_creation_page):
+    ad_group_creation_page.driver.get(AdGroupDraftsPage.url)
+    return AdGroupDraftsPage(ad_group_creation_page.driver)
