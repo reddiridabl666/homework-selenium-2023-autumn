@@ -112,7 +112,6 @@ class TestAdGroups(BaseCase):
 
         assert ad_group_creation_page.selected_audiences() == [audiences[0]]
 
-    @pytest.mark.skip
     def test_deselect_audience(self, keyword_audience, ad_group_creation_page):
         ad_group_creation_page.toggle_audience_section()
 
