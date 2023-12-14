@@ -6,11 +6,13 @@ from selenium.webdriver.remote.webelement import WebElement
 from ui.locators import basic_locators
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from ui.wait_conditions import element_in_viewport
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import StaleElementReferenceException
 import time
+import os
 
 
 class PageNotOpenedExeption(Exception):
@@ -18,7 +20,6 @@ class PageNotOpenedExeption(Exception):
 
 
 class BasePage(object):
-
     locators = basic_locators.BasePageLocators()
     url = 'https://ads.vk.com/'
 
@@ -49,6 +50,9 @@ class BasePage(object):
 
     def find(self, locator, timeout=None) -> WebElement:
         return self.wait(timeout).until(EC.visibility_of_element_located(locator))
+
+    def find_invisible(self, locator, timeout=None) -> WebElement:
+        return self.wait(timeout).until(EC.presence_of_element_located(locator))
 
     def find_multiple(self, locator, timeout=None, cond=EC.visibility_of_all_elements_located) -> List[WebElement]:
         return self.wait(timeout).until(cond(locator))
@@ -81,7 +85,24 @@ class BasePage(object):
     @allure.step('Click')
     def click(self, locator, timeout=None) -> WebElement:
         elem = self.wait(timeout).until(EC.element_to_be_clickable(locator))
+
         elem.click()
+
+        return elem
+
+    @allure.step('Scroll click')
+    def scroll_click(self, locator, timeout=5) -> WebElement:
+        elem = self.find(locator, timeout=timeout)
+
+        self.wait(timeout).until(EC.visibility_of_element_located(locator))
+        elem = self.wait(timeout).until(EC.element_to_be_clickable(locator))
+
+        elem.location_once_scrolled_into_view
+
+        self.wait(timeout).until(element_in_viewport(locator))
+        
+        elem.click()
+
         return elem
 
     def click_may_be_stale(self, locator, timeout=None):
@@ -131,6 +152,14 @@ class BasePage(object):
 
     @allure.step('Check url')
     def check_url(self, url, timeout=None):
+        self.wait(timeout).until(EC.url_matches(url))
+
+    @allure.step('Check if enabled')
+    def is_enabled(self, locator, timeout=5) -> bool:
+        elem = self.find(locator, timeout=timeout)
+        return elem.is_enabled()
+      
+    def assert_url(self, url, timeout=None):
         if timeout is None:
             timeout = 5
         try:
@@ -151,3 +180,11 @@ class BasePage(object):
         elem = self.wait().until(EC.presence_of_element_located(locator))
         hover = ActionChains(self.driver).move_to_element(elem)
         hover.perform()
+
+    def upload_file(self, locator, file_path):
+        absolute_file_path = os.path.abspath(file_path)
+
+        elem = self.find_invisible(locator)
+        elem.send_keys(absolute_file_path)
+
+        return elem

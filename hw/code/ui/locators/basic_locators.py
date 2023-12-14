@@ -5,6 +5,18 @@ class BasePageLocators:
     PARENT = (By.XPATH, '..')
 
     @staticmethod
+    def BTN_BY_TEXT(text):
+        return (By.XPATH, f'//button[text()="{text}"] | //button//*[text()="{text}"]/ancestor::button')
+
+    @staticmethod
+    def DIV_BY_TEXT(text):
+        return (By.XPATH, f'//div[text()="{text}"]')
+
+    @staticmethod
+    def SPAN_BY_TEXT(text):
+        return (By.XPATH, f'//span[text()="{text}"]')
+
+    @staticmethod
     def BY_MAIL_TEST_ID(id):
         return (By.XPATH, f"//*[@data-test-id='{id}']")
 
@@ -37,6 +49,43 @@ class MainPageLocators(BasePageLocators):
         By.CLASS_NAME, "NavigationVKAds_subNavigation__kFqx4")
     HAMBURGER = (By.CLASS_NAME, "HeaderWrapper_mobileMenuButton__D38On")
 
+    def TAB(self, tab_name):
+        return (By.LINK_TEXT, tab_name)
+
+
+class PartnerPageLocators(BasePageLocators):
+    GO_TO_ACCOUNT = (By.LINK_TEXT, "Перейти в кабинет")
+    HELP = (By.LINK_TEXT, "Справка")
+
+    @staticmethod
+    def DIV_IN_ACTIVE_TAB_BY_TEXT(text):
+        return (By.XPATH, f"//div[contains(@class, 'tabContentActive')]//div[text()='{text}']")
+
+    SITE_TAB = BasePageLocators.BTN_BY_TEXT("Для сайтов")
+    MOBILE_TAB = BasePageLocators.BTN_BY_TEXT("Для приложений")
+
+    FORM_SUBMIT_BTN = BasePageLocators.BTN_BY_TEXT("Отправить")
+    FORM_NAME_INPUT = (By.NAME, 'name')
+    FORM_EMAIL_INPUT = (By.NAME, 'email')
+    FORM_SUBMIT_MSG = BasePageLocators.DIV_BY_TEXT('Спасибо, ваша заявка принята')
+
+
+class HelpPageLocators(BasePageLocators):
+    @staticmethod
+    def GET_LINK_WITH_DIV_TEXT(text):
+        return (By.XPATH, f'//a//*[text()="{text}"]/ancestor::a')
+    
+    AUTHORIZE_LINK = GET_LINK_WITH_DIV_TEXT('Авторизация')
+    HOW_TO_TUNE_LINK = GET_LINK_WITH_DIV_TEXT('Как настроить рекламу')
+    TOOLS_LINK = GET_LINK_WITH_DIV_TEXT('Инструменты рекламы')
+    STATISTICS_AND_FINANCE_LINK = GET_LINK_WITH_DIV_TEXT('Статистика и финансы')
+    DOCUMENTS_LINK = GET_LINK_WITH_DIV_TEXT('Документы')
+    SIMPLIFIED_LINK = GET_LINK_WITH_DIV_TEXT('Упрощенный кабинет')
+    FAQ_LINK = GET_LINK_WITH_DIV_TEXT('FAQ')
+    PARTNER_CABINET_LINK = GET_LINK_WITH_DIV_TEXT('Кабинет партнера')
+
+    SEARCH = (By.XPATH, '//input[@placeholder="Статистика, правила, пополнение..."]')
+    SEARCH_SUGGESTIONS = (By.XPATH, '//div[contains(@class, "fullscreenSuggestions")]')
     @staticmethod
     def TAB(tab_name):
         return (By.XPATH, f"//*[contains(@class, 'NavigationVKAdsItem_link__9JjBI')][text()='{tab_name}']")
@@ -267,5 +316,47 @@ class AdGroupDraftsPageLocators(AdGroupsPageLocators):
 
     CANCEL_DELETION = (
         By.XPATH, "//*[contains(@class, 'confirmRemoveModal_footer__dW3aB')]//*[text()='Отмена']")
-
     CLOSE_DELETION_MODAL = (By.CLASS_NAME, 'vkuiModalDismissButton')
+
+ 
+class EcommPageLocators(BasePageLocators):
+    CREATE_CATALOG_BTN = BasePageLocators.BTN_BY_TEXT("Создать каталог")
+    CREATE_CATALOG_MODAL = (By.CLASS_NAME, "ModalRoot_componentWrapper__uzHTL")
+
+    class CreateCatalogModal:
+        @staticmethod
+        def TAB_BY_TEXT(text):
+            return (By.XPATH, f'//div/span[text()="{text}"]')
+        FEED_BTN = TAB_BY_TEXT("Фид или сообщество")
+        MARKETPLACE_BTN = TAB_BY_TEXT("Маркетплейс")
+        MANUAL_BTN = TAB_BY_TEXT("Вручную")
+
+        FEED_LABEL = BasePageLocators.SPAN_BY_TEXT("Ссылка на фид или сообщество")
+        MARKETPLACE_LABEL = BasePageLocators.SPAN_BY_TEXT("Ссылка на страницу продавца")
+        MANUAL_LABEL = BasePageLocators.SPAN_BY_TEXT("Категория фида")
+
+        MANUAL_FILE_SELECTOR = (By.XPATH, '//label[contains(@class, "FileSelector")]//input')
+        SUBMIT_CATALOG_BTN = (By.XPATH, '//button[@type="submit"]//span[text()="Создать каталог"]/ancestor::button')
+
+    create_catalog_modal = CreateCatalogModal()
+
+    FEED_LOADING = BasePageLocators.SPAN_BY_TEXT('Загрузка фида')
+    CATALOG = (By.XPATH, '//span[contains(text(), "Каталог")]')
+    SETTINGS_BTN = BasePageLocators.BTN_BY_TEXT("Настройки")
+    SETTINGS_MODAL = (By.XPATH, '//div[contains(@class, "ModalRoot_componentWrapper")]')
+
+    ADD_GOODS_BTN = BasePageLocators.BTN_BY_TEXT("Добавить товары")
+    PROMOTE_BTN = BasePageLocators.SPAN_BY_TEXT("Рекламировать")
+
+
+class SitesPageLocators(BasePageLocators):
+    ADD_PIXEL_BTN = BasePageLocators.BTN_BY_TEXT("Добавить пиксель")
+    
+    ADD_PIXEL_MODAL = (By.XPATH, '//div[contains(@class, "ModalRoot_componentWrapper")]')
+    CLOSE_MODAL_BTN = (By.CLASS_NAME, 'vkuiModalDismissButton')
+
+    DOMAIN_INPUT = (By.XPATH, '//input[@placeholder="Домен сайта"]')
+    DOMAIN_SUBMIT_BTN = (By.XPATH, '//div[contains(@class, "ModalRoot")]//button//*[text()="Добавить пиксель"]/ancestor::button')
+    PIXEL_ADDED_MODAL = (By.XPATH, '//*[contains(text(), "Создан ID пикселя")]')
+    SETTINGS_LINK = (By.LINK_TEXT, 'Настройка')
+
