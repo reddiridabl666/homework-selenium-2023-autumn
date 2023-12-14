@@ -38,7 +38,7 @@ class MainPageLocators(BasePageLocators):
     HAMBURGER = (By.CLASS_NAME, "HeaderWrapper_mobileMenuButton__D38On")
     BULLETS_TAB = (By.CLASS_NAME, "Bullets_wrapper__MrE8_")
     ACTIVE_SLIDER = (By.CLASS_NAME, "MainSlider_active__hCfdG")
-    ACTIVE_SLIDER_IMAGE = (By.XPATH, '//*[@id="__next"]/div/div[3]/div/div/div/div/div[1]/div/div[1]/div[2]/span/img')
+    ACTIVE_SLIDER_IMAGE = (By.XPATH, '//*[@class="MainSlider_active__hCfdG"]//img')
 
     @staticmethod
     def TAB(tab_name):
@@ -136,7 +136,7 @@ class CasesLocators(BasePageLocators):
 
 class WebinarLocators(BasePageLocators):
     WEBINAR_CARD = (By.CLASS_NAME, 'Event_wrapper__3_Si5')
-    REGISTER_BUTTON = (By.XPATH, '//*[@class="CallToAction_title__kRjng"]/a')
+    REGISTER_BUTTON = (By.XPATH, '//*[@class="CallToAction_title__kRjng"]/a') 
 
 class CompaniesLocators(HqPageLocators):
     DROPDOWN_BUTTON = (By.XPATH, "//span[@data-testid='mob-app-select']")
