@@ -15,6 +15,8 @@ from ui.pages.ad_groups_page import AdGroupsPage, AdGroupDraftsPage
 from ui.pages.partner_page import PartnerPage
 from ui.pages.help_page import HelpPage
 from ui.pages.audience_page import AudiencePage
+from ui.pages.webinars_page import WebinarsPage
+from ui.pages.companies_page import CompaniesPage
 from ui.pages.ecomm_page import EcommPage
 from ui.pages.sites_page import SitesPage
 from dotenv import load_dotenv
@@ -146,6 +148,14 @@ def audience_page(hq_page):
     hq_page.driver.get(AudiencePage.url)
     return AudiencePage(driver=hq_page.driver)
 
+@pytest.fixture
+def webinar_page(driver):
+    driver.get(WebinarsPage.url)
+    return WebinarsPage(driver=driver)
+
+@pytest.fixture
+def companies_page(hq_page):
+    return CompaniesPage(hq_page.driver)
 
 @pytest.fixture
 def ad_groups_page(hq_page):

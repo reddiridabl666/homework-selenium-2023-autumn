@@ -2,6 +2,7 @@ from typing import Literal
 from selenium.webdriver.common.action_chains import ActionChains
 from ui.locators import basic_locators
 from ui.pages.base_page import BasePage
+from selenium.webdriver.common.by import By
 
 
 class MainPage(BasePage):
@@ -60,3 +61,13 @@ class MainPage(BasePage):
 
     def is_side_menu_hamburger_visible(self):
         return self.is_visible(self.locators.HAMBURGER)
+
+    def get_carousel_active_img(self):
+        element = self.find(self.locators.ACTIVE_SLIDER).find_element(By.XPATH, "//img")
+        return element.get_attribute('src')
+
+    def click_nonactive_tab(self):
+        button = self.find(self.locators.BULLETS_TAB).find_element(By.CLASS_NAME, "Bullets_box__xAFrY")
+        button.click()
+
+    

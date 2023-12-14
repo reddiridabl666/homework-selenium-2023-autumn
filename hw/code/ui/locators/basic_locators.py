@@ -49,10 +49,16 @@ class MainPageLocators(BasePageLocators):
     EDUCATION_TAB = (By.CLASS_NAME, "NavigationVKAdsItem_item__0_oac")
     EDUCATION_DROPDOWN = (By.CLASS_NAME, "NavigationVKAds_subNavigation__kFqx4")
     HAMBURGER = (By.CLASS_NAME, "HeaderWrapper_mobileMenuButton__D38On")
+    
+    BULLETS_TAB = (By.CLASS_NAME, "Bullets_wrapper__MrE8_")
+    ACTIVE_SLIDER = (By.CLASS_NAME, "MainSlider_active__hCfdG")
+    ACTIVE_SLIDER_IMAGE = (By.XPATH, '//*[@class="MainSlider_active__hCfdG"]//img')
+
     FOOTER_GO_TO_ACCOUNT = (By.XPATH, "//*[contains(@class, 'Footer_leftContent__')]/a[text()='Перейти в кабинет']")
     FOOTER_GO_TO_BUSINESS = (
         By.XPATH,
         "//*[contains(@class, 'Footer_controls___')]/a[contains(@href, 'https://vk.company/ru/company/business/')]")
+    
     FOOTER_LANGUAGE = (By.XPATH, "//div[contains(@class, 'Footer_control__')]")
     FOOTER_LANGUAGE_CONTENT = (By.XPATH, "//div[contains(@class, 'SelectLanguage_desktopSelect__')]/span")
     FOOTER_ABOUT = (By.XPATH, "//*[contains(@class, 'Footer_about__')]")
@@ -200,6 +206,26 @@ class AudiencePageLocators(HqPageLocators):
 
     SHOWN_AUDIENCES = (By.CLASS_NAME, 'NameCell_name__lgrNA')
 
+class CasesLocators(BasePageLocators):
+    CASE_CARD = (By.CLASS_NAME, 'Case_content__qKFi_')
+
+class WebinarLocators(BasePageLocators):
+    WEBINAR_CARD = (By.CLASS_NAME, 'Event_wrapper__3_Si5')
+    REGISTER_BUTTON = (By.XPATH, '//*[@class="CallToAction_title__kRjng"]/a') 
+
+class CompaniesLocators(HqPageLocators):
+    DROPDOWN_BUTTON = (By.XPATH, "//span[@data-testid='mob-app-select']")
+    SITE_TARGET = (By.XPATH, "//div[@data-testid='audience-item-menu']")
+    SITE_INPUT = (By.XPATH, '//*[@class="SiteObject_formItemWithLink__PBvTA"]//span/input')
+    MONEY_INPUT = (By.XPATH, '//*[@class="Money_input__LgVTo"]/input')
+    MOBILEAPP_TARGET = (By.XPATH, "//div[@data-id='mobapps']")
+    CREATE_BUTTON = (By.XPATH, '//*[@data-testid="create-button"]')
+    CONTINUE_BUTTON = (By.XPATH, '//*[@id="footer"]//button')
+    TARGET_INPUT = (By.CLASS_NAME, 'SiteObject_formItemWrapper__4pPhN')
+    MOBILE_TARGET_INPUT = (By.XPATH, "//span[@data-testid='mob-app-select']")
+    ROOT = (By.CLASS_NAME, 'header_logo__7lhb6')
+    DRAFTS_BUTTON = (By.XPATH, '//*[@data-testid="drafts-button"]')
+    SEARCH_FIELD = (By.XPATH, '//*[@data-testid="filter-search-input"]')
 
 class AdGroupsPageLocators(HqPageLocators):
     SITE_CONVERSIONS = (By.XPATH, "//*[@data-id='site_conversions']")
