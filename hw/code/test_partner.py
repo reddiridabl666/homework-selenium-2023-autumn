@@ -1,6 +1,5 @@
-from base import BaseCase,  credentials
+from base import BaseCase
 from ui.fixtures import partner_page
-import pytest
 
 
 class TestPartner(BaseCase):
@@ -13,7 +12,7 @@ class TestPartner(BaseCase):
         partner_page.click_help()
         partner_page.switch_to_new_tab()
         partner_page.check_url('https://ads.vk.com/help')
- 
+
     def test_mobile_tab(self, partner_page):
         formats = [
             "Баннер", "Нативный формат", "Полноэкранный блок", "Видео за вознаграждение"
@@ -26,7 +25,7 @@ class TestPartner(BaseCase):
 
     def test_site_tab(self, partner_page):
         formats = [
-             "Баннер", "Instream", "Адаптивный блок", "InPage", "Полноэкранный блок", "Sticky-баннер"
+            "Баннер", "Instream", "Адаптивный блок", "InPage", "Полноэкранный блок", "Sticky-баннер"
         ]
 
         partner_page.click_mobile_tab()

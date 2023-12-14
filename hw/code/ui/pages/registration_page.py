@@ -1,4 +1,3 @@
-import time
 from ui.locators import basic_locators
 from ui.pages.base_page import BasePage
 from selenium.webdriver.support import expected_conditions as EC

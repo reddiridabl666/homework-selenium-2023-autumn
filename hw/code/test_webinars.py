@@ -1,7 +1,6 @@
 from base import BaseCase
 from ui.fixtures import main_page, cases_page, webinar_page
-import pytest
-from time import sleep
+
 
 class TestWebinar(BaseCase):
 
@@ -13,9 +12,7 @@ class TestWebinar(BaseCase):
 
     def test_back_click_redirect(self, webinar_page):
         webinar = webinar_page.get_webinar_card()
-        ref = webinar.get_attribute('href')
         webinar.click()
-        # webinar_page.click_back()
 
     def test_register_redirect(self, webinar_page):
         webinar = webinar_page.get_webinar_card()
