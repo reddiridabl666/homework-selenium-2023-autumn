@@ -48,10 +48,7 @@ class TestCompanies(BaseCase):
         companies_page.select_mobileapp_target()
         assert(companies_page.has_mobile_target_input())
 
-    # def test_mobile_dropdown_appearance(self, companies_page):
-    #     companies_page.click_create_btn()
-    #     companies_page.select_mobileapp_target()
-    #     companies_page.find(self.locators.DROPDOWN_BUTTON).click()
+    
 
     def test_unfinished_company_appearance(self, companies_page):
         companies_page.click_create_btn()
