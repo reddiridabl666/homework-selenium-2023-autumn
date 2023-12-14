@@ -8,7 +8,9 @@ import pytest
 def keyword_audience(audience_page):
     audience_page.create_audience(
         TestAudience.keywords_name, data=keywords_payload())
-    yield TestAudience.keywords_name
+    audience_page.creation_modal_closed()
+    yield
+    audience_page.driver.get(audience_page.url)
     audience_page.delete_audience(TestAudience.keywords_name)
 
 
@@ -16,7 +18,9 @@ def keyword_audience(audience_page):
 def audience_based_on_other(audience_page):
     audience_page.create_audience(
         TestAudience.based_on_other_name, source=audience_page.OTHER_AUDIENCE, data=TestAudience.keywords_name)
-    yield TestAudience.based_on_other_name
+    audience_page.creation_modal_closed()
+    yield
+    audience_page.driver.get(audience_page.url)
     audience_page.delete_audience(TestAudience.based_on_other_name)
 
 
@@ -63,12 +67,12 @@ class TestAudience(BaseCase):
     def test_create_from_other(self, keyword_audience, audience_based_on_other):
         pass
 
-    def test_filter_audience(self, audience_page, keyword_audience, audience_based_on_other):
+    def test_filter_audience(self, keyword_audience, audience_based_on_other, audience_page):
         audience_page.filter_audiences(shown=[audience_page.KEYWORDS])
-        assert audience_page.get_audience_names() == [keyword_audience]
+        assert audience_page.get_audience_names() == [self.keywords_name]
 
         audience_page.filter_audiences(
-            shown=[audience_page.KEYWORDS, audience_page.OTHER_AUDIENCE])
+            shown=[audience_page.OTHER_AUDIENCE, audience_page.KEYWORDS])
 
         assert audience_page.get_audience_names(
-        ) == [keyword_audience, audience_based_on_other]
+        ) == [self.based_on_other_name, self.keywords_name]
