@@ -26,21 +26,21 @@ class TestNavbar(BaseCase):
 
     def test_account_redirect(self, main_page):
         main_page.click_account()
-        main_page.assert_url("https://id.vk.com")
+        main_page.check_url("https://id.vk.com")
 
     def test_help_redirect(self, main_page):
         main_page.click_help()
-        main_page.assert_url('https://ads.vk.com/help')
+        main_page.check_url('https://ads.vk.com/help')
 
     @pytest.mark.parametrize("tab,url", tabs)
     def test_tab_redirects(self, main_page, tab, url):
         main_page.click_tab(tab)
-        main_page.assert_url(url)
+        main_page.check_url(url)
 
     def test_monetization_redirect(self, main_page):
         main_page.click_tab('Монетизация')
         main_page.switch_to_new_tab()
-        main_page.assert_url('https://ads.vk.com/partner')
+        main_page.check_url('https://ads.vk.com/partner')
 
     def test_education_dropdown_hover(self, main_page):
         main_page.open_education_dropdown()
@@ -50,14 +50,14 @@ class TestNavbar(BaseCase):
     def test_education_dropdown_redirects(self, main_page, element, url):
         main_page.open_education_dropdown()
         main_page.click_dropdown_tab(element)
-        main_page.assert_url(url)
+        main_page.check_url(url)
 
     @pytest.mark.parametrize("element,url", education_dropdown_new_tabs)
     def test_education_dropdown_redirects_new_page(self, main_page, element, url):
         main_page.open_education_dropdown()
         main_page.click_dropdown_tab(element)
         main_page.switch_to_new_tab()
-        main_page.assert_url(url)
+        main_page.check_url(url)
 
     def test_mobile_ui(self, main_page):
         self.driver.set_window_size(1024, 1080)

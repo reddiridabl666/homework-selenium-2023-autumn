@@ -41,15 +41,12 @@ class BasePage(object):
         return WebDriverWait(self.driver, timeout=timeout)
 
     def is_visible(self, locator):
-        try:
-            elem = self.find(locator)
-            elem.location_once_scrolled_into_view
-            return True
-        except:
-            return False
+        self.find(locator)
+        return True
 
     def is_not_visible(self, locator, timeout=None):
         self.wait(timeout).until(EC.invisibility_of_element(locator))
+        return True
 
     def find(self, locator, timeout=None) -> WebElement:
         return self.wait(timeout).until(EC.visibility_of_element_located(locator))
@@ -57,8 +54,8 @@ class BasePage(object):
     def find_invisible(self, locator, timeout=None) -> WebElement:
         return self.wait(timeout).until(EC.presence_of_element_located(locator))
 
-    def find_multiple(self, locator, timeout=None) -> List[WebElement]:
-        return self.wait(timeout).until(EC.visibility_of_all_elements_located(locator))
+    def find_multiple(self, locator, timeout=None, cond=EC.visibility_of_all_elements_located) -> List[WebElement]:
+        return self.wait(timeout).until(cond(locator))
 
     def find_from(self, parent, locator, timeout=None) -> WebElement:
         def wait_cond(_):
@@ -124,7 +121,17 @@ class BasePage(object):
     def clear(self, locator, timeout=None) -> WebElement:
         elem = self.find(locator, timeout)
         elem.clear()
+
+        if elem.get_attribute('value') != '':
+            size = len(elem.get_attribute('value'))
+            elem.send_keys(size * Keys.BACKSPACE)
+
         return elem
+
+    def is_disabled(self, locator,  timeout=None):
+        self.wait(timeout).until(
+            EC.element_attribute_to_include(locator, 'disabled'))
+        return True
 
     @allure.step('Fill in')
     def fill_in(self, locator, query, timeout=None) -> WebElement:
@@ -150,8 +157,8 @@ class BasePage(object):
     @allure.step('Check if enabled')
     def is_enabled(self, locator, timeout=5) -> bool:
         elem = self.find(locator, timeout=timeout)
-
         return elem.is_enabled()
+      
     def assert_url(self, url, timeout=None):
         if timeout is None:
             timeout = 5

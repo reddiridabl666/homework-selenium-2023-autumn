@@ -8,7 +8,9 @@ import pytest
 def keyword_audience(audience_page):
     audience_page.create_audience(
         TestAudience.keywords_name, data=keywords_payload())
+    audience_page.creation_modal_closed()
     yield
+    audience_page.driver.get(audience_page.url)
     audience_page.delete_audience(TestAudience.keywords_name)
 
 
@@ -16,7 +18,9 @@ def keyword_audience(audience_page):
 def audience_based_on_other(audience_page):
     audience_page.create_audience(
         TestAudience.based_on_other_name, source=audience_page.OTHER_AUDIENCE, data=TestAudience.keywords_name)
+    audience_page.creation_modal_closed()
     yield
+    audience_page.driver.get(audience_page.url)
     audience_page.delete_audience(TestAudience.based_on_other_name)
 
 

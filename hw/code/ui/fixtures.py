@@ -10,9 +10,9 @@ from ui.pages.partner_page import PartnerPage
 from ui.pages.help_page import HelpPage
 from ui.pages.registration_page import RegistrationMainPage
 from ui.pages.audience_page import AudiencePage
-from ui.pages.ad_groups_page import AdGroupsPage
 from ui.pages.ecomm_page import EcommPage
 from ui.pages.sites_page import SitesPage
+from ui.pages.ad_groups_page import AdGroupsPage, AdGroupDraftsPage
 
 from dotenv import load_dotenv
 
@@ -112,28 +112,27 @@ def registration_page(registration_main_page, no_cabinet_credentials):
 
 @pytest.fixture(scope='session')
 def create_account(config, credentials):
-    pass
-    # driver = get_driver(config['browser'])
+    driver = get_driver(config['browser'])
 
-    # driver.get(RegistrationMainPage.url)
-    # page = RegistrationMainPage(driver)
+    driver.get(RegistrationMainPage.url)
+    page = RegistrationMainPage(driver)
 
-    # acc_creation_page = page.go_to_account_creation(*credentials)
-    # acc_creation_page.fill_in_form('example@mail.org')
+    acc_creation_page = page.go_to_account_creation(*credentials)
+    acc_creation_page.fill_in_form('example@mail.org')
 
-    # page = HqPage(driver)
-    # driver.quit()
+    page = HqPage(driver)
+    driver.quit()
 
-    # yield page
+    yield page
 
-    # driver = get_driver(config['browser'])
+    driver = get_driver(config['browser'])
 
-    # driver.get(RegistrationMainPage.url)
-    # RegistrationMainPage(driver).login(*credentials)
+    driver.get(RegistrationMainPage.url)
+    RegistrationMainPage(driver).login(*credentials)
 
-    # page = HqPage(driver)
-    # page.delete_account()
-    # driver.quit()
+    page = HqPage(driver)
+    page.delete_account()
+    driver.quit()
 
 
 @pytest.fixture
@@ -143,7 +142,7 @@ def hq_page(create_account, registration_main_page, credentials):
 
 
 @pytest.fixture
-def audience_page(hq_page, clear_all_drafts):
+def audience_page(hq_page):
     hq_page.driver.get(AudiencePage.url)
     return AudiencePage(driver=hq_page.driver)
 
@@ -160,6 +159,7 @@ def ad_groups_page(hq_page):
 def ad_group_creation_page(ad_groups_page):
     return ad_groups_page.go_to_creation()
 
+ 
 @pytest.fixture
 def ecomm_page(hq_page):
     hq_page.driver.get(EcommPage.url)
@@ -170,3 +170,9 @@ def ecomm_page(hq_page):
 def sites_page(hq_page):
     hq_page.driver.get(SitesPage.url)
     return SitesPage(driver=hq_page.driver)
+
+ 
+@pytest.fixture
+def ad_group_drafts_page(ad_group_creation_page):
+    ad_group_creation_page.driver.get(AdGroupDraftsPage.url)
+    return AdGroupDraftsPage(ad_group_creation_page.driver)

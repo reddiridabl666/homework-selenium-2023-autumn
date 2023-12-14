@@ -42,7 +42,7 @@ class BasePageLocators:
 
 class MainPageLocators(BasePageLocators):
     LOGO = (By.CLASS_NAME, "HeaderLeft_left__a9Si1")
-    GO_TO_ACCOUNT = (By.LINK_TEXT, "Перейти в кабинет")
+    GO_TO_ACCOUNT = (By.CLASS_NAME, "ButtonCabinet_secondary__uUO2h")
     HELP = (By.LINK_TEXT, "Справка")
     EDUCATION_TAB = (By.CLASS_NAME, "NavigationVKAdsItem_item__0_oac")
     EDUCATION_DROPDOWN = (
@@ -204,14 +204,17 @@ class AdGroupsPageLocators(HqPageLocators):
     CONFIRM_DELETE = (
         By.XPATH, "//*[contains(@class, 'confirmRemoveModal_footer__dW3aB')]//*[text()='Удалить']")
 
+    DRAFT_STATUS = (By.CLASS_NAME, 'CreateFooter_draftStatus__Hbe6f')
+
+    DELETION_MODAL = (By.CLASS_NAME, 'ModalRoot_componentWrapper__uzHTL')
+
 
 class AdGroupCreationPageLocators(BasePageLocators):
-    REGION_SEARCH = (
-        By.XPATH, "//*[contains(@class, 'RegionsSelector_search__j4BBI')]//input")
+    REGION_SEARCH = BasePageLocators.BY_TEST_ID('search')
 
     @staticmethod
     def REGION_SEARCH_ITEM(region_name):
-        return (By.XPATH, f"//*[contains(@class, 'vkuiCheckbox__children')][text()='{region_name}']")
+        return (By.XPATH, f"//*[contains(@class, 'Branch_title__FvS4M')]//*[text()='{region_name}']")
 
     REGION_SEARCH_ITEMS = (By.CLASS_NAME, 'vkuiCheckbox__children')
 
@@ -219,11 +222,103 @@ class AdGroupCreationPageLocators(BasePageLocators):
 
     @staticmethod
     def REGION_LIST_REMOVE_ITEM(region_name):
-        return (By.XPATH, f"//*[contains(@class, 'RegionsList_item__5Z8rf') and contains(.//*, '{region_name}')]//*[contains(@class, 'RegionsList_remove__pl6kK')]")
+        return (By.XPATH, f"//*[contains(@class, 'RegionsList_item__5Z8rf') and contains(.//*, '{region_name}')]//*[contains(@class, 'RegionsList_close__XtcC-')]")
 
-    CLEAR_REGION_LIST = (By.CLASS_NAME, 'RegionsSelector_clear__mTOGS')
+    CLEAR_REGION_LIST = (
+        By.CLASS_NAME, 'RegionsSelector_selectedRegionsClearText__eZU3q')
+
+    ADD_REGIONS_BY_LIST = (
+        By.XPATH, "//*[contains(@class, 'RegionsSelector_addListButton__nHCp+')]")
+
+    REGION_LIST_INPUT = (
+        By.XPATH, "//*[contains(@class, 'AddTextListCard_fieldWrapper__iWfRn')]//textarea")
+
+    SUBMIT_REGIONS_BY_LIST = BasePageLocators.BY_TEXT('Добавить')
+
+    REGION_LIST_ADD_STATUS = (By.CLASS_NAME, 'AddTextListCard_status__tB4Q7')
+
+    REGION_LIST_ADD_CLOSE_MODAL = (By.CLASS_NAME, 'vkuiModalDismissButton')
+
+    DEVICES = BasePageLocators.BY_TEST_ID('section-devices')
+
+    DEVICES_DESKTOP = (
+        By.XPATH, "//*[contains(@class, 'vkuiCheckbox')][input[@value='desktop']]")
+
+    DEVICES_MOBILE = (
+        By.XPATH, "//*[contains(@class, 'vkuiCheckbox')][input[@value='mobile']]")
+
+    PLACEMENT = BasePageLocators.BY_TEST_ID('section-placement')
+    PLACEMENT_AUTO_CHOICE_TOGGLE = (
+        By.XPATH, "//*[@data-testid='section-placement']//*[contains(@class, 'vkuiSwitch')]")
+    PLACEMENT_CHOICE_ITEM = (By.CLASS_NAME, 'PadsTreeBranch_branch__YxTON')
+
+    DEMOGRAPHY = BasePageLocators.BY_TEST_ID('section-demography')
+
+    MIN_AGE_SELECT = (
+        By.XPATH, "//*[contains(@class, 'AgeTargeting_select__QcsRp')][1]")
+
+    MAX_AGE_SELECT = (
+        By.XPATH, "//*[contains(@class, 'AgeTargeting_select__QcsRp')][2]")
+
+    AUDIENCE = BasePageLocators.BY_TEST_ID('section-audience')
+
+    AUDIENCE_SEARCH = (
+        By.XPATH, "//*[contains(@class, 'ChipsSelect_wrapper__m9y64')]//input")
+    AUDIENCE_NEG_SEARCH = (
+        By.XPATH, "//*[contains(@class, 'Segments_negativeWrapper__pb1')]//input")
+
+    AUDIENCE_SEARCH_VISIBLE = (
+        By.XPATH, "//*[contains(@class, 'ChipsSelect_wrapper__m9y64')]")
+    AUDIENCE_NEG_SEARCH_VISIBLE = (
+        By.XPATH, "//*[contains(@class, 'Segments_negativeWrapper__pb1')]")
+
+    AUDIENCE_NEG_SHOW = (
+        By.XPATH, "//*[contains(@class, 'Segments_negativeOpener__D0PO+')]")
+
+    AUDIENCE_NEG_CLOSE = (By.CLASS_NAME, 'Segments_negativeCloser__bswFU')
+
+    SELECTED_AUDIENCES = (By.CLASS_NAME, 'Segments_chipWrapper__jE2QZ')
+
+    EDIT_AUDIENCE = (
+        By.XPATH, "//*[contains(concat(' ', @class, ' '), ' vkuiCustomSelectOption ')]//*[contains(@class, 'Hint_hintTrigger__ixYRu')]")
+
+    @staticmethod
+    def SELECTED_AUDIENCE(name):
+        return (By.XPATH, f"//*[contains(@class, 'Segments_chipWrapper__jE2QZ')][text()='{name}']")
+
+    @staticmethod
+    def DESELECT_AUDIENCE(name):
+        return (By.XPATH, f"//*[contains(@class, 'Segments_chipWrapper__jE2QZ')][text()='{name}']//*[contains(@class, 'vkuiChip__remove')]")
 
 
+class AdGroupDraftsPageLocators(AdGroupsPageLocators):
+    @staticmethod
+    def DRAFT_ENTRY(id):
+        return (By.XPATH, f"//*[@data-entityid='{id}-AdGroupDraft']")
+
+    @staticmethod
+    def EDIT_DRAFT(id):
+        return (By.XPATH, f"//*[@data-entityid='{id}-AdGroupDraft']//*[text()='Редактировать']")
+
+    @staticmethod
+    def SELECT_DRAFT(id):
+        return (By.XPATH, f"//*[@data-entityid='{id}-AdGroupDraft']//*[contains(@class, 'vkuiCheckbox')]")
+
+    DRAFT_ENTRIES = (
+        By.XPATH, "//*[contains(@data-entityid, '-AdGroupDraft')]")
+
+    DESELECT_DRAFTS = (By.CLASS_NAME, 'vkuiChip__remove')
+
+    CHOSEN_DRAFT_NUM = (By.CLASS_NAME, 'vkuiChip__content')
+
+    SELECTED_DRAFTS = (
+        By.CSS_SELECTOR, "*[data-entityid$='-AdGroupDraft']:has(:checked)")
+
+    CANCEL_DELETION = (
+        By.XPATH, "//*[contains(@class, 'confirmRemoveModal_footer__dW3aB')]//*[text()='Отмена']")
+    CLOSE_DELETION_MODAL = (By.CLASS_NAME, 'vkuiModalDismissButton')
+
+ 
 class EcommPageLocators(BasePageLocators):
     CREATE_CATALOG_BTN = BasePageLocators.BTN_BY_TEXT("Создать каталог")
     CREATE_CATALOG_MODAL = (By.CLASS_NAME, "ModalRoot_componentWrapper__uzHTL")
@@ -264,3 +359,4 @@ class SitesPageLocators(BasePageLocators):
     DOMAIN_SUBMIT_BTN = (By.XPATH, '//div[contains(@class, "ModalRoot")]//button//*[text()="Добавить пиксель"]/ancestor::button')
     PIXEL_ADDED_MODAL = (By.XPATH, '//*[contains(text(), "Создан ID пикселя")]')
     SETTINGS_LINK = (By.LINK_TEXT, 'Настройка')
+
