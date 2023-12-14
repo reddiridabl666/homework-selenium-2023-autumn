@@ -36,6 +36,9 @@ class MainPageLocators(BasePageLocators):
     EDUCATION_DROPDOWN = (
         By.CLASS_NAME, "NavigationVKAds_subNavigation__kFqx4")
     HAMBURGER = (By.CLASS_NAME, "HeaderWrapper_mobileMenuButton__D38On")
+    BULLETS_TAB = (By.CLASS_NAME, "Bullets_wrapper__MrE8_")
+    ACTIVE_SLIDER = (By.CLASS_NAME, "MainSlider_active__hCfdG")
+    ACTIVE_SLIDER_IMAGE = (By.XPATH, '//*[@id="__next"]/div/div[3]/div/div/div/div/div[1]/div/div[1]/div[2]/span/img')
 
     @staticmethod
     def TAB(tab_name):
@@ -127,3 +130,12 @@ class AudiencePageLocators(HqPageLocators):
         return (By.XPATH, f"//*[contains(@class, 'vkuiCheckbox__children')][text()='{audience_source}']")
 
     SHOWN_AUDIENCES = (By.CLASS_NAME, 'NameCell_name__lgrNA')
+
+class CasesLocators(BasePageLocators):
+    CASE_CARD = (By.CLASS_NAME, 'Case_content__qKFi_')
+
+class WebinarLocators(BasePageLocators):
+    WEBINAR_CARD = (By.CLASS_NAME, 'Event_wrapper__3_Si5')
+
+class CompaniesLocators(HqPageLocators):
+    pass
