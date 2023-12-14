@@ -4,8 +4,6 @@ import pytest
 from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from ui.pages.ad_groups_page import AdGroupsPage
-from ui.pages.audience_page import AudiencePage
 from ui.pages.base_page import BasePage
 from ui.pages.cases_page import CasesPage
 from ui.pages.hq_page import HqPage
@@ -14,6 +12,12 @@ from ui.pages.main_page import MainPage
 from ui.pages.registration_page import RegistrationMainPage, RegistrationPage
 from ui.pages.upvote_page import UpvotePage
 from ui.pages.ad_groups_page import AdGroupsPage, AdGroupDraftsPage
+from ui.pages.partner_page import PartnerPage
+from ui.pages.help_page import HelpPage
+from ui.pages.audience_page import AudiencePage
+from ui.pages.ecomm_page import EcommPage
+from ui.pages.sites_page import SitesPage
+from dotenv import load_dotenv
 
 
 @pytest.fixture()
@@ -70,6 +74,15 @@ def cases_page(driver):
     driver.get(CasesPage.url)
     return CasesPage(driver=driver)
 
+@pytest.fixture
+def partner_page(driver):
+    driver.get(PartnerPage.url)
+    return PartnerPage(driver=driver)
+
+@pytest.fixture
+def help_page(driver):
+    driver.get(HelpPage.url)
+    return HelpPage(driver=driver)
 
 @pytest.fixture
 def registration_main_page(driver):
@@ -129,7 +142,7 @@ def hq_page(create_account, registration_main_page, credentials):
 
 
 @pytest.fixture
-def audience_page(hq_page, clear_all_drafts):
+def audience_page(hq_page):
     hq_page.driver.get(AudiencePage.url)
     return AudiencePage(driver=hq_page.driver)
 
@@ -146,7 +159,19 @@ def ad_groups_page(hq_page):
 def ad_group_creation_page(ad_groups_page):
     return ad_groups_page.go_to_creation()
 
+ 
+@pytest.fixture
+def ecomm_page(hq_page):
+    hq_page.driver.get(EcommPage.url)
+    return EcommPage(driver=hq_page.driver)
 
+
+@pytest.fixture
+def sites_page(hq_page):
+    hq_page.driver.get(SitesPage.url)
+    return SitesPage(driver=hq_page.driver)
+
+ 
 @pytest.fixture
 def ad_group_drafts_page(ad_group_creation_page):
     ad_group_creation_page.driver.get(AdGroupDraftsPage.url)

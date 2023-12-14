@@ -18,7 +18,7 @@ class element_in_viewport(object):
                     }
                     return false;
                 """
-
+     
         elem = driver.find_element(*self.locator)
         return driver.execute_script(script, elem)
 

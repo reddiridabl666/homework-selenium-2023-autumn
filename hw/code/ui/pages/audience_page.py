@@ -111,3 +111,6 @@ class AudiencePage(HqPage):
     def get_audience_names(self):
         elems = self.find_multiple(self.locators.SHOWN_AUDIENCES)
         return [elem.text for elem in elems]
+
+    def creation_modal_closed(self):
+        return self.is_not_visible(self.locators.AUDIENCE_CREATION_MODAL)
