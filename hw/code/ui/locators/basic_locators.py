@@ -136,6 +136,18 @@ class CasesLocators(BasePageLocators):
 
 class WebinarLocators(BasePageLocators):
     WEBINAR_CARD = (By.CLASS_NAME, 'Event_wrapper__3_Si5')
+    REGISTER_BUTTON = (By.XPATH, '//*[@class="CallToAction_title__kRjng"]/a')
 
 class CompaniesLocators(HqPageLocators):
-    pass
+    DROPDOWN_BUTTON = (By.XPATH, "//span[@data-testid='mob-app-select']")
+    SITE_TARGET = (By.XPATH, "//div[@data-testid='audience-item-menu']")
+    SITE_INPUT = (By.XPATH, '//*[@class="SiteObject_formItemWithLink__PBvTA"]//span/input')
+    MONEY_INPUT = (By.XPATH, '//*[@class="Money_input__LgVTo"]/input')
+    MOBILEAPP_TARGET = (By.XPATH, "//div[@data-id='mobapps']")
+    CREATE_BUTTON = (By.XPATH, '//*[@data-testid="create-button"]')
+    CONTINUE_BUTTON = (By.XPATH, '//*[@id="footer"]//button')
+    TARGET_INPUT = (By.CLASS_NAME, 'SiteObject_formItemWrapper__4pPhN')
+    MOBILE_TARGET_INPUT = (By.XPATH, "//span[@data-testid='mob-app-select']")
+    ROOT = (By.CLASS_NAME, 'header_logo__7lhb6')
+    DRAFTS_BUTTON = (By.XPATH, '//*[@data-testid="drafts-button"]')
+    SEARCH_FIELD = (By.XPATH, '//*[@data-testid="filter-search-input"]')
