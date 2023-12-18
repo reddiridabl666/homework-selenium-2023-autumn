@@ -2,38 +2,40 @@ from base import BaseCase
 from ui.fixtures import help_page
 import pytest
 
+
 class TestHelp(BaseCase):
     def test_authorize_redirect(self, help_page):
         help_page.click_authorize_link()
-        help_page.check_url("ads.vk.com/help/categories/authorization")
+        assert help_page.is_url_open(
+            "ads.vk.com/help/categories/authorization")
 
     def test_how_to_tune_redirect(self, help_page):
         help_page.click_how_to_tune_link()
-        help_page.check_url("ads.vk.com/help/categories/general")
+        assert help_page.is_url_open("ads.vk.com/help/categories/general")
 
     def test_tools_redirect(self, help_page):
         help_page.click_tools_link()
-        help_page.check_url("ads.vk.com/help/categories/features")
+        assert help_page.is_url_open("ads.vk.com/help/categories/features")
 
     def test_statistics_and_finance_redirect(self, help_page):
         help_page.click_statistics_and_finance_link()
-        help_page.check_url("ads.vk.com/help/categories/statistics")
+        assert help_page.is_url_open("ads.vk.com/help/categories/statistics")
 
     def test_documents_redirect(self, help_page):
         help_page.click_documents_link()
-        help_page.check_url("ads.vk.com/help/categories/documents")
+        assert help_page.is_url_open("ads.vk.com/help/categories/documents")
 
     def test_simplified_redirect(self, help_page):
         help_page.click_simplified_link()
-        help_page.check_url("ads.vk.com/help/categories/mini_ads")
+        assert help_page.is_url_open("ads.vk.com/help/categories/mini_ads")
 
     def test_faq_redirect(self, help_page):
         help_page.click_faq_link()
-        help_page.check_url("ads.vk.com/help/categories/faq")
+        assert help_page.is_url_open("ads.vk.com/help/categories/faq")
 
     def test_partner_cabinet_redirect(self, help_page):
         help_page.click_partner_cabinet_link()
-        help_page.check_url("ads.vk.com/help/categories/partner")
+        assert help_page.is_url_open("ads.vk.com/help/categories/partner")
 
     def test_search_clues(self, help_page):
         help_page.fill_search("создание")

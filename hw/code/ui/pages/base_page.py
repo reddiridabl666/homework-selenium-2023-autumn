@@ -1,7 +1,8 @@
 import time
 from typing import List
 
-import allure                                                                                                           # type: ignore
+# type: ignore
+import allure
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
 from selenium.webdriver.remote.webelement import WebElement
@@ -30,7 +31,8 @@ class BasePage(object):
         while time.time() - started < timeout:
             if self.driver.current_url.startswith(self.url):
                 return True
-        raise PageNotOpenedExeption(f'{self.url} did not open in {timeout} sec, current url {self.driver.current_url}')
+        raise PageNotOpenedExeption(
+            f'{self.url} did not open in {timeout} sec, current url {self.driver.current_url}')
 
     def __init__(self, driver: RemoteWebDriver):
         self.driver = driver
@@ -89,11 +91,13 @@ class BasePage(object):
         return self.wait(timeout).until(wait_cond)
 
     def get_new_count(self, locator, start_size, timeout: float | None = None):
-        elems = self.wait(timeout).until(elements_count_changed(locator, start_size))
+        elems = self.wait(timeout).until(
+            elements_count_changed(locator, start_size))
         return len(elems)
 
     def wait_for_count_of_elements(self, locator, count, timeout: float | None = None):
-        self.wait(timeout).until(lambda _: len(self.find_multiple(locator)) == count)
+        self.wait(timeout).until(lambda _: len(
+            self.find_multiple(locator)) == count)
 
     def switch_to_new_tab(self):
         assert len(self.driver.window_handles) > 1
@@ -120,7 +124,7 @@ class BasePage(object):
         elem.location_once_scrolled_into_view
 
         self.wait(timeout).until(element_in_viewport(locator))
-        
+
         elem.click()
 
         return elem
@@ -164,7 +168,8 @@ class BasePage(object):
         return elem
 
     def is_disabled(self, locator, timeout=None):
-        self.wait(timeout).until(EC.element_attribute_to_include(locator, 'disabled'))
+        self.wait(timeout).until(
+            EC.element_attribute_to_include(locator, 'disabled'))
         return True
 
     @allure.step('Fill in')
@@ -187,22 +192,20 @@ class BasePage(object):
         select = Select(self.find(locator))
         select.select_by_visible_text(value)
 
-    @allure.step('Check url')
-    def check_url(self, url, timeout=None):
-        self.wait(timeout).until(EC.url_matches(url))
-
     @allure.step('Check if enabled')
     def is_enabled(self, locator, timeout=5) -> bool:
         elem = self.find(locator, timeout=timeout)
         return elem.is_enabled()
-      
-    def assert_url(self, url, timeout=None):
+
+    def is_url_open(self, url, timeout=None):
         if timeout is None:
             timeout = 5
         try:
             self.wait(timeout).until(EC.url_matches(url))
+            return True
         except:
-            raise PageNotOpenedExeption(f'{url} did not open in {timeout} sec, current url {self.driver.current_url}')
+            raise PageNotOpenedExeption(
+                f'{url} did not open in {timeout} sec, current url {self.driver.current_url}')
 
     def wait_for_redirect(self, timeout: float | None = None):
         self.wait(timeout).until(EC.url_changes(self.driver.current_url))

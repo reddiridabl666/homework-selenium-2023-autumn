@@ -22,23 +22,27 @@ class CreateCatalogModal:
         self.page.is_visible(self.locators.create_catalog_modal.FEED_LABEL)
 
     def check_marketplace(self):
-        self.page.is_visible(self.locators.create_catalog_modal.MARKETPLACE_LABEL)
+        self.page.is_visible(
+            self.locators.create_catalog_modal.MARKETPLACE_LABEL)
 
     def check_manual(self):
         self.page.is_visible(self.locators.create_catalog_modal.MANUAL_LABEL)
 
     def create_catalog_from_file(self):
         file_path = 'files/catalog_products.csv'
-        self.page.upload_file(self.locators.create_catalog_modal.MANUAL_FILE_SELECTOR, file_path)
+        self.page.upload_file(
+            self.locators.create_catalog_modal.MANUAL_FILE_SELECTOR, file_path)
 
         self.page.click(self.locators.create_catalog_modal.SUBMIT_CATALOG_BTN)
 
     def check_loading_started(self):
-        self.page.wait(30).until(EC.visibility_of_element_located(self.locators.FEED_LOADING))
+        self.page.wait(30).until(
+            EC.visibility_of_element_located(self.locators.FEED_LOADING))
         return True
 
     def check_loading_finished(self):
-        self.page.wait(600).until(EC.invisibility_of_element_located(self.locators.FEED_LOADING))
+        self.page.wait(600).until(
+            EC.invisibility_of_element_located(self.locators.FEED_LOADING))
         return True
 
 
@@ -65,8 +69,8 @@ class EcommPage(BasePage):
     def check_catalog_options_modal(self):
         self.is_visible(self.locators.SETTINGS_MODAL)
 
-    def check_url_catalog(self, suburl=""):
-        return self.check_url("https://ads.vk.com/hq/ecomm/catalogs/[0-9]*" + suburl)
+    def is_url_open_catalog(self, suburl=""):
+        return self.is_url_open("https://ads.vk.com/hq/ecomm/catalogs/[0-9]*" + suburl)
 
     def click_tab(self, tab_name):
         self.click(self.locators.SPAN_BY_TEXT(tab_name))

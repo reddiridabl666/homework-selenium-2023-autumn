@@ -8,7 +8,7 @@ class TestWebinar(BaseCase):
         webinar = webinar_page.get_webinar_card()
         ref = webinar.get_attribute('href')
         webinar.click()
-        webinar_page.assert_url(ref)
+        assert webinar_page.is_url_open(ref)
 
     def test_back_click_redirect(self, webinar_page):
         webinar = webinar_page.get_webinar_card()
@@ -18,4 +18,4 @@ class TestWebinar(BaseCase):
         webinar = webinar_page.get_webinar_card()
         webinar.click()
         webinar_page.click_register_button()
-        webinar_page.assert_url('https://expert.vk.com')
+        assert webinar_page.is_url_open('https://expert.vk.com')
