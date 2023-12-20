@@ -216,7 +216,7 @@ class BasePage(object):
         self.find_from(elem, self.locators.BY_TEXT(error))
 
     def hover(self, locator):
-        elem = self.wait().until(EC.presence_of_element_located(locator))
+        elem = self.wait().until(EC.visibility_of_element_located(locator))
         hover = ActionChains(self.driver).move_to_element(elem)
         hover.perform()
 

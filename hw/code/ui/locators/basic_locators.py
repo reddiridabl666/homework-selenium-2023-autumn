@@ -45,13 +45,25 @@ class BasePageLocators:
 
 
 class MainPageLocators(BasePageLocators):
-    LOGO = (By.CLASS_NAME, "HeaderLeft_left__a9Si1")
-    GO_TO_ACCOUNT = (By.CLASS_NAME, "ButtonCabinet_secondary__uUO2h")
+    LOGO = (By.XPATH, "//*[contains(@class, 'HeaderLeft_left__')]")
+
+    GO_TO_ACCOUNT = (
+        By.XPATH, "//*[contains(@class, 'ButtonCabinet_primary__')]")
+
     HELP = (By.LINK_TEXT, "Справка")
-    EDUCATION_TAB = (By.CLASS_NAME, "NavigationVKAdsItem_item__0_oac")
+
+    @staticmethod
+    def DROPDOWN_TAB(tab):
+        return (By.XPATH, f"//*[contains(@class, 'SubNavigationItem_wrapper__')][text()='{tab}']")
+
+    EDUCATION_TAB = (
+        By.XPATH, "//*[contains(@class, 'NavigationVKAdsItem_item__')]")
+
     EDUCATION_DROPDOWN = (
-        By.CLASS_NAME, "NavigationVKAds_subNavigation__kFqx4")
-    HAMBURGER = (By.CLASS_NAME, "HeaderWrapper_mobileMenuButton__D38On")
+        By.XPATH, "//*[contains(@class, 'NavigationVKAds_subNavigation__')]")
+
+    HAMBURGER = (
+        By.XPATH, "//*[contains(@class, 'HeaderWrapper_mobileMenuButton__')]")
 
     BULLETS_TAB = (By.CLASS_NAME, "Bullets_wrapper__MrE8_")
     ACTIVE_SLIDER = (By.CLASS_NAME, "MainSlider_active__hCfdG")
@@ -69,8 +81,25 @@ class MainPageLocators(BasePageLocators):
         By.XPATH, "//div[contains(@class, 'SelectLanguage_desktopSelect__')]/span")
     FOOTER_ABOUT = (By.XPATH, "//*[contains(@class, 'Footer_about__')]")
 
-    def TAB(self, tab_name):
-        return (By.LINK_TEXT, tab_name)
+    @staticmethod
+    def TAB(tab_name):
+        return (By.XPATH, f"//*[contains(@class, 'NavigationVKAdsItem_link__')][text()='{tab_name}']")
+
+    @staticmethod
+    def DROPDOWN_TAB(tab_name):
+        return (By.XPATH, f"//*[contains(@class, 'SubNavigationItem_title__')][text()='{tab_name}']")
+
+    @staticmethod
+    def FOOTER_TAB(tab_name: str):
+        return (By.XPATH, f"//*[contains(@class, 'Footer_item__')]/a[text()='{tab_name}']")
+
+    @staticmethod
+    def FOOTER_GROUP(url: str):
+        return (By.XPATH, f"//a[contains(@class, 'Footer_control__')][contains(@href, '{url}')]")
+
+    @staticmethod
+    def FOOTER_LANGUAGE_SELECT_ELEMENT(language: Literal["English", "Русский"]):
+        return (By.XPATH, f"//span[contains(@class, 'SelectLanguage_selectElem__')][text()='{language}']")
 
 
 class PartnerPageLocators(BasePageLocators):
@@ -110,26 +139,6 @@ class HelpPageLocators(BasePageLocators):
         By.XPATH, '//input[@placeholder="Статистика, правила, пополнение..."]')
     SEARCH_SUGGESTIONS = (
         By.XPATH, '//div[contains(@class, "fullscreenSuggestions")]')
-
-    @staticmethod
-    def TAB(tab_name):
-        return (By.XPATH, f"//*[contains(@class, 'NavigationVKAdsItem_link__9JjBI')][text()='{tab_name}']")
-
-    @staticmethod
-    def DROPDOWN_TAB(tab_name):
-        return (By.XPATH, f"//*[contains(@class, 'SubNavigationItem_title__2kBnJ')][text()='{tab_name}']")
-
-    @staticmethod
-    def FOOTER_TAB(tab_name: str):
-        return (By.XPATH, f"//*[contains(@class, 'Footer_item__')]/a[text()='{tab_name}']")
-
-    @staticmethod
-    def FOOTER_GROUP(url: str):
-        return (By.XPATH, f"//a[contains(@class, 'Footer_control__')][contains(@href, '{url}')]")
-
-    @staticmethod
-    def FOOTER_LANGUAGE_SELECT_ELEMENT(language: Literal["English", "Русский"]):
-        return (By.XPATH, f"//span[contains(@class, 'SelectLanguage_selectElem__')][text()='{language}']")
 
 
 class RegistrationMainPageLocators(BasePageLocators):
@@ -224,7 +233,7 @@ class AudiencePageLocators(HqPageLocators):
     SHOWN_AUDIENCES = (By.CLASS_NAME, 'NameCell_name__lgrNA')
 
 
-class CasesLocators(BasePageLocators):
+class CasesLocators(MainPageLocators):
     CASE_CARD = (By.CLASS_NAME, 'Case_content__qKFi_')
 
 
