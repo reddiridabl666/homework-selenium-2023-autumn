@@ -39,6 +39,24 @@ class LeadPage(BasePage):
     url = 'https://ads.vk.com/hq/leadads/leadforms'
     locators = basic_locators.LeadPageLocators()
 
+    PROCESSING_FORMAL_TITLE = "title"
+    PROCESSING_FORMAL_COMPANY = "company"
+    PROCESSING_FORMAL_TEXT_TITLE = "text_title"
+    PROCESSING_FORMAL_COMPACT_DESC = "desc"
+
+    PROCESSING_QUESTION_1_ANSWER_1 = "a 1 1"
+    PROCESSING_QUESTION_1_ANSWER_2 = "a 1 2"
+
+    PROCESSING_QUESTION_TITLE = "q_title"
+
+    PROCESSING_RESULT_TITLE = "result title"
+    PROCESSING_RESULT_DESC = "result desc"
+
+    PROCESSING_SETTINGS_FULL_NAME = "Лат Ми Ан"
+    PROCESSING_SETTINGS_ADDRESS = "ул Пушкина дом"
+
+    PROCESSING_SETTINGS_MAX_LENGTH = 65
+
     def get_processing_stage(self) -> str:
         return self.find(self.locators.LEAD_PROCESSING_STAGE).text
 
@@ -78,9 +96,9 @@ class LeadPage(BasePage):
         if title is not None:
             self.processing_formal_title().fill(title)
         self.processing_formal_select_logo()
-        self.processing_formal_company().fill("company")
-        self.processing_formal_text_title().fill("text_title")
-        self.processing_formal_compact_desc().fill("desc")
+        self.processing_formal_company().fill(self.PROCESSING_FORMAL_COMPANY)
+        self.processing_formal_text_title().fill(self.PROCESSING_FORMAL_TEXT_TITLE)
+        self.processing_formal_compact_desc().fill(self.PROCESSING_FORMAL_COMPACT_DESC)
         self.click_processing_next()
 
     def processing_question_add_question(self):
@@ -117,8 +135,8 @@ class LeadPage(BasePage):
         return TextInput(self, self.locators.LEAD_PROCESSING_SETTINGS_INN, True)
 
     def processing_settings_and_save(self):
-        self.processing_settings_full_name().fill("Лат Ми Ан")
-        self.processing_settings_address().fill("ул Пушкина дом")
+        self.processing_settings_full_name().fill(self.PROCESSING_SETTINGS_FULL_NAME)
+        self.processing_settings_address().fill(self.PROCESSING_SETTINGS_ADDRESS)
         self.click_processing_save()
 
     def search(self, title_or_id: str | int):

@@ -9,6 +9,11 @@ class MainPage(BasePage):
     url = 'https://ads.vk.com/'
     locators = basic_locators.MainPageLocators()
 
+    LANG_RU = "RU"
+    LANG_SELECT_RU: Literal["Русский"] = "Русский"
+    LANG_EN = "EN"
+    LANG_SELECT_EN: Literal["English"] = "English"
+
     def click_logo(self):
         self.click(self.locators.LOGO)
         return MainPage(self.driver)
@@ -54,8 +59,7 @@ class MainPage(BasePage):
         return self.find(self.locators.FOOTER_LANGUAGE_CONTENT).text
 
     def open_education_dropdown(self):
-        self.hover(self.locators.EDUCATION_TAB,
-                   cond=EC.visibility_of_element_located)
+        self.hover(self.locators.EDUCATION_TAB, cond=EC.visibility_of_element_located)
 
     def is_education_dropdown_visible(self):
         return self.is_visible(self.locators.EDUCATION_DROPDOWN)
@@ -64,11 +68,9 @@ class MainPage(BasePage):
         return self.is_visible(self.locators.HAMBURGER)
 
     def get_carousel_active_img(self):
-        element = self.find(self.locators.ACTIVE_SLIDER).find_element(
-            By.XPATH, "//img")
+        element = self.find(self.locators.ACTIVE_SLIDER).find_element(By.XPATH, "//img")
         return element.get_attribute('src')
 
     def click_nonactive_tab(self):
-        button = self.find(self.locators.BULLETS_TAB).find_element(
-            By.CLASS_NAME, "Bullets_box__xAFrY")
+        button = self.find(self.locators.BULLETS_TAB).find_element(By.CLASS_NAME, "Bullets_box__xAFrY")
         button.click()
