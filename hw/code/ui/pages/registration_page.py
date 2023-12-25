@@ -36,6 +36,12 @@ class RegistrationPage(BasePage):
     url = 'https://ads.vk.com/hq/registration/new'
     locators = basic_locators.RegistrationPageLocators()
 
+    def choose_agency_account_type(self):
+        self.click(self.locators.AGENCY)
+
+    def is_physical_type_not_visible(self):
+        return self.is_not_visible(self.locators.PHYSICAL)
+
     def select_country(self, country_name):
         self.click(self.locators.COUNTRY)
         self.click(self.locators.VK_UI_SELECT_ELEM(country_name))
@@ -54,13 +60,14 @@ class RegistrationPage(BasePage):
             self.click(self.locators.TERMS)
         self.click(self.locators.CREATE_ACCOUNT)
 
-    def has_email_error(self, error='Обязательное поле'):
-        self.has_error(self.locators.EMAIL_INPUT, error=error)
+    def email_error(self, error):
+        return self.form_error(self.locators.EMAIL_INPUT, error=error)
 
-    def has_terms_error(self):
-        self.has_error(self.locators.TERMS)
+    def terms_not_accepted_error(self):
+        no_field_error = 'Обязательное поле'
+        return self.form_error(self.locators.TERMS, error=no_field_error)
 
-    def has_global_error(self):
+    def global_error(self):
         elem = self.find(self.locators.FORM_ERROR)
         self.find_from(elem, self.locators.BY_TEXT('Ошибка'))
-        self.find_from(elem, self.locators.BY_TEXT('Validation failed'))
+        return self.find_from(elem, self.locators.BY_TEXT('Validation failed'))

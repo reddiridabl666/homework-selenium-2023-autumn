@@ -1,1 +1,1 @@
-pytest hw/code -k TestAudience
+pytest hw/code

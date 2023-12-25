@@ -118,28 +118,31 @@ def registration_page(registration_main_page, no_cabinet_credentials):
 
 @pytest.fixture(scope='session')
 def create_account(config, credentials):
-    pass
-    # driver = get_driver(config['browser'])
+    if not config['create_account']:
+        yield  # Хак, иначе pytest ругается, что мы не дошли до следующего yield
+        return
 
-    # driver.get(RegistrationMainPage.url)
-    # page = RegistrationMainPage(driver)
+    driver = get_driver(config['browser'])
 
-    # acc_creation_page = page.go_to_account_creation(*credentials)
-    # acc_creation_page.fill_in_form('example@mail.org')
+    driver.get(RegistrationMainPage.url)
+    page = RegistrationMainPage(driver)
 
-    # page = HqPage(driver)
-    # driver.quit()
+    acc_creation_page = page.go_to_account_creation(*credentials)
+    acc_creation_page.fill_in_form('example@mail.org')
 
-    # yield page
+    page = HqPage(driver)
+    driver.quit()
 
-    # driver = get_driver(config['browser'])
+    yield
 
-    # driver.get(RegistrationMainPage.url)
-    # RegistrationMainPage(driver).login(*credentials)
+    driver = get_driver(config['browser'])
 
-    # page = HqPage(driver)
-    # page.delete_account()
-    # driver.quit()
+    driver.get(RegistrationMainPage.url)
+    RegistrationMainPage(driver).login(*credentials)
+
+    page = HqPage(driver)
+    page.delete_account()
+    driver.quit()
 
 
 @pytest.fixture

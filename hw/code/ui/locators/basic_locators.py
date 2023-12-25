@@ -292,31 +292,33 @@ class AdGroupCreationPageLocators(BasePageLocators):
 
     @staticmethod
     def REGION_SEARCH_ITEM(region_name):
-        return (By.XPATH, f"//*[contains(@class, 'Branch_title__FvS4M')]//*[text()='{region_name}']")
+        return (By.XPATH, f"//*[contains(@class, 'Branch_title__')]//*[text()='{region_name}']")
 
     REGION_SEARCH_ITEMS = (By.CLASS_NAME, 'vkuiCheckbox__children')
 
-    REGION_LIST_ITEMS = (By.CLASS_NAME, 'RegionsList_label__KPYrN')
+    REGION_LIST_ITEMS = (
+        By.XPATH, "//*[contains(@class, 'RegionsList_label__')]")
 
     @staticmethod
     def REGION_LIST_REMOVE_ITEM(region_name):
         return (
             By.XPATH,
-            f"//*[contains(@class, 'RegionsList_item__5Z8rf') and contains(.//*, '{region_name}')]//*[contains(@class, 'RegionsList_close__XtcC-')]"
+            f"//*[contains(@class, 'RegionsList_item__') and contains(.//*, '{region_name}')]//*[contains(@class, 'RegionsList_close__')]"
         )
 
     CLEAR_REGION_LIST = (
-        By.CLASS_NAME, 'RegionsSelector_selectedRegionsClearText__eZU3q')
+        By.XPATH, "//*[contains(@class, 'RegionsSelector_selectedRegionsClearText__')]")
 
     ADD_REGIONS_BY_LIST = (
-        By.XPATH, "//*[contains(@class, 'RegionsSelector_addListButton__nHCp+')]")
+        By.XPATH, "//*[contains(@class, 'RegionsSelector_addListButton__')]")
 
     REGION_LIST_INPUT = (
-        By.XPATH, "//*[contains(@class, 'AddTextListCard_fieldWrapper__iWfRn')]//textarea")
+        By.XPATH, "//*[contains(@class, 'AddTextListCard_fieldWrapper__')]//textarea")
 
     SUBMIT_REGIONS_BY_LIST = BasePageLocators.BY_TEXT('Добавить')
 
-    REGION_LIST_ADD_STATUS = (By.CLASS_NAME, 'AddTextListCard_status__tB4Q7')
+    REGION_LIST_ADD_STATUS = (
+        By.XPATH, "//*[contains(@class, 'AddTextListCard_status__')]")
 
     REGION_LIST_ADD_CLOSE_MODAL = (By.CLASS_NAME, 'vkuiModalDismissButton')
 
@@ -331,37 +333,40 @@ class AdGroupCreationPageLocators(BasePageLocators):
     PLACEMENT = BasePageLocators.BY_TEST_ID('section-placement')
     PLACEMENT_AUTO_CHOICE_TOGGLE = (By.XPATH,
                                     "//*[@data-testid='section-placement']//*[contains(@class, 'vkuiSwitch')]")
-    PLACEMENT_CHOICE_ITEM = (By.CLASS_NAME, 'PadsTreeBranch_branch__YxTON')
+    PLACEMENT_CHOICE_ITEM = (
+        By.XPATH, "//*[contains(@class, 'PadsTreeBranch_branch__')]")
 
     DEMOGRAPHY = BasePageLocators.BY_TEST_ID('section-demography')
 
     MIN_AGE_SELECT = (
-        By.XPATH, "//*[contains(@class, 'AgeTargeting_select__QcsRp')][1]")
+        By.XPATH, "//*[contains(@class, 'AgeTargeting_select__')][1]")
 
     MAX_AGE_SELECT = (
-        By.XPATH, "//*[contains(@class, 'AgeTargeting_select__QcsRp')][2]")
+        By.XPATH, "//*[contains(@class, 'AgeTargeting_select__')][2]")
 
     AUDIENCE = BasePageLocators.BY_TEST_ID('section-audience')
 
     AUDIENCE_SEARCH = (
-        By.XPATH, "//*[contains(@class, 'ChipsSelect_wrapper__m9y64')]//input")
+        By.XPATH, "//*[contains(@class, 'ChipsSelect_wrapper__')]//input")
     AUDIENCE_NEG_SEARCH = (
-        By.XPATH, "//*[contains(@class, 'Segments_negativeWrapper__pb1')]//input")
+        By.XPATH, "//*[contains(@class, 'Segments_negativeWrapper__')]//input")
 
     AUDIENCE_SEARCH_VISIBLE = (
-        By.XPATH, "//*[contains(@class, 'ChipsSelect_wrapper__m9y64')]")
+        By.XPATH, "//*[contains(@class, 'ChipsSelect_wrapper__')]")
     AUDIENCE_NEG_SEARCH_VISIBLE = (
-        By.XPATH, "//*[contains(@class, 'Segments_negativeWrapper__pb1')]")
+        By.XPATH, "//*[contains(@class, 'Segments_negativeWrapper__')]")
 
     AUDIENCE_NEG_SHOW = (
-        By.XPATH, "//*[contains(@class, 'Segments_negativeOpener__D0PO+')]")
+        By.XPATH, "//*[contains(@class, 'Segments_negativeOpener__')]")
 
-    AUDIENCE_NEG_CLOSE = (By.CLASS_NAME, 'Segments_negativeCloser__bswFU')
+    AUDIENCE_NEG_CLOSE = (
+        By.XPATH, "//*[contains(@class, 'Segments_negativeCloser__')]")
 
-    SELECTED_AUDIENCES = (By.CLASS_NAME, 'Segments_chipWrapper__jE2QZ')
+    SELECTED_AUDIENCES = (
+        By.XPATH, "//*[contains(@class, 'Segments_chipWrapper__')]")
 
     EDIT_AUDIENCE = (
-        By.XPATH, "//*[contains(concat(' ', @class, ' '), ' vkuiCustomSelectOption ')]//*[contains(@class, 'Hint_hintTrigger__ixYRu')]")
+        By.XPATH, "//*[contains(concat(' ', @class, ' '), ' vkuiCustomSelectOption ')]//*[contains(@class, 'Hint_hintTrigger__')]")
 
     @staticmethod
     def SELECTED_AUDIENCE(name):

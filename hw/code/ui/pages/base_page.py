@@ -13,7 +13,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from ui.locators import basic_locators
 from ui.wait_conditions import element_in_viewport, elements_count_changed
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 import time
 import os
 
@@ -60,8 +60,11 @@ class BasePage(object):
             return False
 
     def is_not_visible(self, locator, timeout: float | None = None):
-        self.wait(timeout).until(EC.invisibility_of_element(locator))
-        return True
+        try:
+            self.wait(timeout).until(EC.invisibility_of_element(locator))
+            return True
+        except:
+            return False
 
     def find(self, locator, timeout: float | None = None) -> WebElement:
         return self.wait(timeout).until(EC.visibility_of_element_located(locator))
@@ -200,10 +203,15 @@ class BasePage(object):
     def wait_for_redirect(self, timeout: float | None = None):
         self.wait(timeout).until(EC.url_changes(self.driver.current_url))
 
-    def has_error(self, locator, error='Обязательное поле'):
-        elem = self.find(self.locators.ERROR)
-        self.find_from(elem, locator)
-        self.find_from(elem, self.locators.BY_TEXT(error))
+    def form_error(self, locator, error) -> WebElement:
+        try:
+            error_container = self.find(self.locators.ERROR)
+            self.find_from(error_container, locator)
+            error = self.find_from(
+                error_container, self.locators.BY_TEXT(error))
+            return error
+        except TimeoutException:
+            return None
 
     def hover(self, locator, cond=EC.presence_of_element_located):
         elem = self.wait().until(cond(locator))

@@ -1,16 +1,20 @@
 from base import BaseCase
 from ui.fixtures import registration_main_page, no_cabinet_credentials, registration_page
+from ui.pages.registration_page import RegistrationPage
 import pytest
 
 
 class TestRegistration(BaseCase):
+    NO_FIELD_ERROR = 'Обязательное поле'
+    INVALID_EMAIL_ERROR = 'Некорректный email адрес'
+
     def test_go_to_creation(self, registration_main_page, no_cabinet_credentials):
         registration_main_page.go_to_account_creation(*no_cabinet_credentials)
+        assert self.is_url_open(RegistrationPage.url)
 
     def test_account_type_radio(self, registration_page):
-        registration_page.is_visible(registration_page.locators.PHYSICAL)
-        registration_page.click(registration_page.locators.AGENCY)
-        registration_page.is_not_visible(registration_page.locators.PHYSICAL)
+        registration_page.choose_agency_account_type()
+        assert registration_page.is_physical_type_not_visible()
 
     currency_test_args = [
         ('Беларусь', ('Доллар США (USD)', 'Евро (EUR)')),
@@ -25,17 +29,17 @@ class TestRegistration(BaseCase):
 
     def test_no_email(self, registration_page):
         registration_page.fill_in_form('')
-        registration_page.has_email_error()
+        assert registration_page.email_error(self.NO_FIELD_ERROR) is not None
 
     def test_no_terms(self, registration_page):
         example_mail = 'example@mail.ru'
         registration_page.fill_in_form(example_mail, terms_accepted=False)
-        registration_page.has_terms_error()
+        assert registration_page.terms_not_accepted_error() is not None
 
     def test_long_email(self, registration_page):
         long_email = f"{'a'*255}@mail.ru"
         registration_page.fill_in_form(long_email)
-        registration_page.has_global_error()
+        assert registration_page.global_error() is not None
 
     bad_emails = [
         'abcmail.ru',
@@ -45,5 +49,5 @@ class TestRegistration(BaseCase):
     @pytest.mark.parametrize('email', bad_emails)
     def test_bad_email_format(self, registration_page, email):
         registration_page.fill_in_form(email)
-        invalid_email_error = 'Некорректный email адрес'
-        registration_page.has_email_error(error=invalid_email_error)
+        assert registration_page.email_error(
+            error=self.INVALID_EMAIL_ERROR) is not None

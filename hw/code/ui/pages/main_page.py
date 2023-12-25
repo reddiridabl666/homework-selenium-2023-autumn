@@ -3,6 +3,7 @@ from ui.locators import basic_locators
 from ui.pages.base_page import BasePage
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
 
 
 class MainPage(BasePage):
@@ -11,7 +12,6 @@ class MainPage(BasePage):
 
     def click_logo(self):
         self.click(self.locators.LOGO)
-        return MainPage(self.driver)
 
     def click_footer_business(self):
         self.scroll_click(self.locators.FOOTER_GO_TO_BUSINESS)
@@ -57,11 +57,19 @@ class MainPage(BasePage):
         self.hover(self.locators.EDUCATION_TAB,
                    cond=EC.visibility_of_element_located)
 
-    def is_education_dropdown_visible(self):
-        return self.is_visible(self.locators.EDUCATION_DROPDOWN)
+    def education_dropdown(self):
+        try:
+            dropdown = self.find(self.locators.EDUCATION_DROPDOWN)
+            return dropdown
+        except TimeoutException:
+            return None
 
-    def is_side_menu_hamburger_visible(self):
-        return self.is_visible(self.locators.HAMBURGER)
+    def side_menu_hamburger(self):
+        try:
+            hamburger = self.find(self.locators.HAMBURGER)
+            return hamburger
+        except TimeoutException:
+            return None
 
     def get_carousel_active_img(self):
         element = self.find(self.locators.ACTIVE_SLIDER).find_element(

@@ -1,5 +1,6 @@
 from base import BaseCase
 from ui.fixtures import main_page, cases_page
+from ui.pages.main_page import MainPage
 import pytest
 
 tabs = [
@@ -24,6 +25,7 @@ class TestNavbar(BaseCase):
 
     def test_logo_redirect(self, cases_page):
         cases_page.click_logo()
+        assert self.is_url_open(MainPage.url)
 
     def test_account_redirect(self, main_page):
         main_page.click_account()
@@ -45,7 +47,7 @@ class TestNavbar(BaseCase):
 
     def test_education_dropdown_hover(self, main_page):
         main_page.open_education_dropdown()
-        assert main_page.is_education_dropdown_visible()
+        assert main_page.education_dropdown() is not None
 
     @pytest.mark.parametrize("element,url", education_dropdown_redirects)
     def test_education_dropdown_redirects(self, main_page, element, url):
@@ -62,4 +64,4 @@ class TestNavbar(BaseCase):
 
     def test_mobile_ui(self, main_page):
         self.driver.set_window_size(1024, 1080)
-        assert main_page.is_side_menu_hamburger_visible()
+        assert main_page.side_menu_hamburger() is not None
