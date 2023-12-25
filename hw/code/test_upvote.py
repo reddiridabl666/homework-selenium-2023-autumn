@@ -32,5 +32,5 @@ class TestUpvote(BaseCase):
     @pytest.mark.parametrize("title,id", idea_card)
     def test_upvote_go_to_page(self, upvote_page: UpvotePage, title: str, id: int):
         upvote_page.go_to_idea(title)
-        assert upvote_page.is_url_open(f"https://ads.vk.com/upvote/{id}")
+        assert self.is_url_open(f"https://ads.vk.com/upvote/{id}")
         assert upvote_page.get_idea_title() == title

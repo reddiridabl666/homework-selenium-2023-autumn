@@ -59,7 +59,7 @@ class TestAudience(BaseCase):
         audience_page.set_audience_name(self.keywords_name)
 
         first_source_name = 'Условие 1'
-        second_source_name = 'Условие 1'
+        second_source_name = 'Условие 2'
 
         audience_page.add_source(data=keywords_payload(name=first_source_name))
         audience_page.add_source(

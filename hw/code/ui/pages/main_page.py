@@ -1,7 +1,7 @@
 from typing import Literal
-from selenium.webdriver.common.action_chains import ActionChains
 from ui.locators import basic_locators
 from ui.pages.base_page import BasePage
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 
@@ -54,7 +54,8 @@ class MainPage(BasePage):
         return self.find(self.locators.FOOTER_LANGUAGE_CONTENT).text
 
     def open_education_dropdown(self):
-        self.hover(self.locators.EDUCATION_TAB)
+        self.hover(self.locators.EDUCATION_TAB,
+                   cond=EC.visibility_of_element_located)
 
     def is_education_dropdown_visible(self):
         return self.is_visible(self.locators.EDUCATION_DROPDOWN)
@@ -63,11 +64,11 @@ class MainPage(BasePage):
         return self.is_visible(self.locators.HAMBURGER)
 
     def get_carousel_active_img(self):
-        element = self.find(self.locators.ACTIVE_SLIDER).find_element(By.XPATH, "//img")
+        element = self.find(self.locators.ACTIVE_SLIDER).find_element(
+            By.XPATH, "//img")
         return element.get_attribute('src')
 
     def click_nonactive_tab(self):
-        button = self.find(self.locators.BULLETS_TAB).find_element(By.CLASS_NAME, "Bullets_box__xAFrY")
+        button = self.find(self.locators.BULLETS_TAB).find_element(
+            By.CLASS_NAME, "Bullets_box__xAFrY")
         button.click()
-
-    

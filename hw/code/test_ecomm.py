@@ -45,8 +45,7 @@ class TestEcomm(BaseCase):
 
     def test_catalog_redirect(self, ecomm_page):
         ecomm_page.click_catalog()
-
-        assert ecomm_page.is_url_open_catalog()
+        assert self.is_url_open("https://ads.vk.com/hq/ecomm/catalogs/[0-9]*")
 
     def test_catalog_settings(self, ecomm_page):
         ecomm_page.click_catalog()
@@ -57,7 +56,8 @@ class TestEcomm(BaseCase):
     def test_catalog_redirects(self, ecomm_page, tab, url):
         ecomm_page.click_catalog()
         ecomm_page.click_tab(tab)
-        assert ecomm_page.is_url_open_catalog(url)
+        assert self.is_url_open(
+            f"https://ads.vk.com/hq/ecomm/catalogs/[0-9]*{url}")
 
     def test_add_goods_modal(self, ecomm_page):
         ecomm_page.click_catalog()
@@ -67,5 +67,5 @@ class TestEcomm(BaseCase):
     def test_promote_redirect(self, ecomm_page):
         ecomm_page.click_catalog()
         ecomm_page.click_promote_btn()
-        assert ecomm_page.is_url_open(
+        assert self.is_url_open(
             "https://ads.vk.com/hq/new_create/ad_plan*")

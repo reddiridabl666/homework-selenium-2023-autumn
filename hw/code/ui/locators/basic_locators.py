@@ -179,10 +179,10 @@ class AudiencePageLocators(HqPageLocators):
     SOURCE_NAME = (By.XPATH, "(//*[contains(@class, 'vkuiInput__el')])[2]")
 
     KEYWORDS = (
-        By.XPATH, "(//*[contains(@class, 'KeyPhrases_textarea__wzycT')])[1]//textarea")
+        By.XPATH, "(//*[contains(@class, 'KeyPhrases_textarea__')])[1]//textarea")
 
     NEGATIVE_KEYWORDS = (
-        By.XPATH, "(//*[contains(@class, 'KeyPhrases_textarea__wzycT')])[2]//textarea")
+        By.XPATH, "(//*[contains(@class, 'KeyPhrases_textarea__')])[2]//textarea")
 
     SAVE_AUDIENCE = (By.XPATH, "(//button[@type='submit'])[1]")
 
@@ -192,7 +192,7 @@ class AudiencePageLocators(HqPageLocators):
     def AUDIENCE_CHECKBOX(name):
         return (
             By.XPATH,
-            f"*//[contains(@class, 'BaseTable__row') and contains(.//*, '{name}')]//[contains(@class, 'simpleCheckbox_simpleCheckbox__V0tiX')]"
+            f"*//[contains(@class, 'BaseTable__row') and contains(.//*, '{name}')]//[contains(@class, 'simpleCheckbox_simpleCheckbox__')]"
         )
 
     @staticmethod
@@ -200,17 +200,19 @@ class AudiencePageLocators(HqPageLocators):
         return (By.XPATH, f"//*[contains(.//*, '{name}')]//button[@data-testid='audience-item-menu']")
 
     DAYS_INPUT = (
-        By.XPATH, "//*[contains(@class, 'Context_daysInput__zQlWQ')]//input")
+        By.XPATH, "//*[contains(@class, 'Context_daysInput__')]//input")
 
     @staticmethod
     def AUDIENCE_SOURCE(id):
-        return (By.XPATH, f"(//*[contains(@class, 'SourceListItem_sourceListItem__i81J9')])[{id+1}]")
+        return (By.XPATH, f"(//*[contains(@class, 'SourceListItem_sourceListItem__')])[{id+1}]")
 
-    AUDIENCE_SOURCE_ITEM = (By.CLASS_NAME, 'InfoRow_content__LN5Bb')
+    AUDIENCE_SOURCE_ITEM = (
+        By.XPATH, "//*[contains(@class, 'InfoRow_content__')]")
     AUDIENCE_SOURCE_NAME = (By.CLASS_NAME, 'vkuiHeadline')
 
     RULE = (By.CLASS_NAME, 'SourceRuleItem_rule__FEL5b')
-    RULE_SELECTOR = (By.CLASS_NAME, 'HintSelector_hintSelectorButton__pfubH')
+    RULE_SELECTOR = (
+        By.XPATH, "//*[contains(@class, 'HintSelector_hintSelectorButton__')]")
 
     @staticmethod
     def AUDIENCE_SELECT_ITEM(audience_name):
@@ -230,7 +232,8 @@ class AudiencePageLocators(HqPageLocators):
     def AUDIENCE_FILTER_VALUE(audience_source):
         return (By.XPATH, f"//*[contains(@class, 'vkuiCheckbox__children')][text()='{audience_source}']")
 
-    SHOWN_AUDIENCES = (By.CLASS_NAME, 'NameCell_name__lgrNA')
+    SHOWN_AUDIENCES = (
+        By.XPATH, "//*[contains(@class, 'NameCell_name__')]")
 
 
 class CasesLocators(MainPageLocators):

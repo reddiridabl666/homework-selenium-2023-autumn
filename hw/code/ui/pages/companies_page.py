@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import NoSuchElementException
 
+
 class CompaniesPage(HqPage):
     url = 'https://ads.vk.com/hq/dashboard/ads'
     locators = basic_locators.CompaniesLocators
@@ -55,10 +56,10 @@ class CompaniesPage(HqPage):
             return True
         except NoSuchElementException:
             return False
-        
+
     def go_to_root(self):
         self.find(self.locators.ROOT).click()
-    
+
     def click_drafts_btn(self):
         self.find(self.locators.DRAFTS_BUTTON).click()
 
@@ -66,4 +67,3 @@ class CompaniesPage(HqPage):
         input = self.find(self.locators.SEARCH_FIELD)
         input.click()
         input.send_keys(query)
-        

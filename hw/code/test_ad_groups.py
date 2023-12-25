@@ -20,12 +20,19 @@ class TestAdGroups(BaseCase):
 
     REGIONS_ADDED = 'Добавлены 3 региона'
 
-    @pytest.mark.parametrize('region', ('Россия',))
-    def test_select_region(self, ad_group_creation_page, region):
-        ad_group_creation_page.search_regions(region)
+    REGION_TO_REMOVE = 'Европа'
 
-        ad_group_creation_page.select_region(region)
-        assert ad_group_creation_page.selected_regions() == [region]
+    EXPECTED_REGION = 'Россия'
+
+    REGION_SEARCH_QUERY = 'роСс'
+    EXPECTED_REGION_SEARCH_RESULTS = ['Россия', 'Новороссийск']
+
+    def test_select_regions(self, ad_group_creation_page):
+        for region in self.REGIONS:
+            ad_group_creation_page.search_regions(region)
+            ad_group_creation_page.select_region(region)
+
+        assert ad_group_creation_page.selected_regions() == self.REGIONS
 
     def test_clear_regions_selection(self, ad_group_creation_page):
         for region in self.REGIONS:
@@ -38,21 +45,25 @@ class TestAdGroups(BaseCase):
         assert ad_group_creation_page.selected_regions() == []
 
     def test_search_regions(self, ad_group_creation_page):
-        ad_group_creation_page.search_regions('роСс')
+        ad_group_creation_page.search_regions(self.REGION_SEARCH_QUERY)
         shown = ad_group_creation_page.shown_regions()
 
-        assert 'Россия' in shown
-        assert any('Новороссийск' in elem for elem in shown)
+        for region in self.EXPECTED_REGION_SEARCH_RESULTS:
+            assert any(region in elem for elem in shown)
 
     def test_remove_region_from_selection(self, ad_group_creation_page):
-        for region in self.REGIONS:
+        regions = [self.EXPECTED_REGION, self.REGION_TO_REMOVE]
+
+        for region in regions:
             ad_group_creation_page.search_regions(region)
             ad_group_creation_page.select_region(region)
 
-        assert ad_group_creation_page.selected_regions() == self.REGIONS
+        assert ad_group_creation_page.selected_regions() == regions
 
-        ad_group_creation_page.remove_region_from_selection(self.REGIONS[1])
-        assert ad_group_creation_page.selected_regions() == [self.REGIONS[0]]
+        ad_group_creation_page.remove_region_from_selection(
+            self.REGION_TO_REMOVE)
+        assert ad_group_creation_page.selected_regions() == [
+            self.EXPECTED_REGION]
 
     def test_add_regions_by_list(self, ad_group_creation_page):
         ad_group_creation_page.add_by_list(self.LIST_REGION_INPUT)
@@ -125,7 +136,7 @@ class TestAdGroups(BaseCase):
     def test_edit_ad_group(self, ad_group_drafts_page):
         ids = ad_group_drafts_page.shown_ad_group_ids()
         ad_group_drafts_page.edit_ad_group_draft(ids[0])
-        assert ad_group_drafts_page.is_url_open(AdGroupCreationPage.url)
+        assert self.is_url_open(AdGroupCreationPage.url)
 
     def test_select_ad_group(self, ad_group_drafts_page):
         ids = ad_group_drafts_page.shown_ad_group_ids()

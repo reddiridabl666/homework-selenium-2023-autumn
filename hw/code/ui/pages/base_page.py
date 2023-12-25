@@ -197,16 +197,6 @@ class BasePage(object):
         elem = self.find(locator, timeout=timeout)
         return elem.is_enabled()
 
-    def is_url_open(self, url, timeout=None):
-        if timeout is None:
-            timeout = 5
-        try:
-            self.wait(timeout).until(EC.url_matches(url))
-            return True
-        except:
-            raise PageNotOpenedExeption(
-                f'{url} did not open in {timeout} sec, current url {self.driver.current_url}')
-
     def wait_for_redirect(self, timeout: float | None = None):
         self.wait(timeout).until(EC.url_changes(self.driver.current_url))
 
@@ -215,8 +205,8 @@ class BasePage(object):
         self.find_from(elem, locator)
         self.find_from(elem, self.locators.BY_TEXT(error))
 
-    def hover(self, locator):
-        elem = self.wait().until(EC.visibility_of_element_located(locator))
+    def hover(self, locator, cond=EC.presence_of_element_located):
+        elem = self.wait().until(cond(locator))
         hover = ActionChains(self.driver).move_to_element(elem)
         hover.perform()
 

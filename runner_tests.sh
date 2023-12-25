@@ -1,1 +1,1 @@
-pytest hw/code -k test_help_redirect
+pytest hw/code -k TestAudience

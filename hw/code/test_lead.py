@@ -1,5 +1,4 @@
 from typing import Callable
-import time
 import pytest
 from base import BaseCase
 from ui.pages.lead_page import LeadPage, TextInput

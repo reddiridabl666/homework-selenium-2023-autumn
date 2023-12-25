@@ -23,22 +23,22 @@ class TestFooter(BaseCase):
         main_page.click_footer_tab(tab)
         if need_switch_tab:
             main_page.switch_to_new_tab()
-        assert main_page.is_url_open(url)
+        assert self.is_url_open(url)
 
     def test_footer_account_redirect(self, main_page: MainPage):
         main_page.click_footer_account()
-        assert main_page.is_url_open("https://id.vk.com")
+        assert self.is_url_open("https://id.vk.com")
 
     def test_footer_business_redirect(self, main_page: MainPage):
         main_page.click_footer_business()
         main_page.switch_to_new_tab()
-        assert main_page.is_url_open("https://vk.company/ru/company/business")
+        assert self.is_url_open("https://vk.company/ru/company/business")
 
     @pytest.mark.parametrize("url", groups)
     def test_footer_group_redirect(self, main_page: MainPage, url: str):
         main_page.click_footer_group(url)
         main_page.switch_to_new_tab()
-        assert main_page.is_url_open(url)
+        assert self.is_url_open(url)
 
     def test_footer_language(self, main_page: MainPage):
         assert main_page.get_footer_language() == "RU"
@@ -52,4 +52,4 @@ class TestFooter(BaseCase):
     def test_footer_about(self, main_page: MainPage):
         main_page.click_footer_about()
         main_page.switch_to_new_tab()
-        assert main_page.is_url_open("https://vk.company")
+        assert self.is_url_open("https://vk.company")

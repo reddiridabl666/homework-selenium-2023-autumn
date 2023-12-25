@@ -6,12 +6,12 @@ class TestPartner(BaseCase):
     def test_account_redirect(self, partner_page):
         partner_page.click_account()
         partner_page.switch_to_new_tab()
-        assert partner_page.is_url_open("https://id.vk.com")
+        assert self.is_url_open("https://id.vk.com")
 
     def test_help_redirect(self, partner_page):
         partner_page.click_help()
         partner_page.switch_to_new_tab()
-        assert partner_page.is_url_open('https://ads.vk.com/help')
+        assert self.is_url_open('https://ads.vk.com/help')
 
     def test_mobile_tab(self, partner_page):
         formats = [

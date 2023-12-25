@@ -1,4 +1,3 @@
-import time
 from base import BaseCase
 from ui.fixtures import registration_main_page, no_cabinet_credentials, registration_page
 import pytest
@@ -29,7 +28,8 @@ class TestRegistration(BaseCase):
         registration_page.has_email_error()
 
     def test_no_terms(self, registration_page):
-        registration_page.fill_in_form('example@mail.ru', terms_accepted=False)
+        example_mail = 'example@mail.ru'
+        registration_page.fill_in_form(example_mail, terms_accepted=False)
         registration_page.has_terms_error()
 
     def test_long_email(self, registration_page):
@@ -45,4 +45,5 @@ class TestRegistration(BaseCase):
     @pytest.mark.parametrize('email', bad_emails)
     def test_bad_email_format(self, registration_page, email):
         registration_page.fill_in_form(email)
-        registration_page.has_email_error(error='Некорректный email адрес')
+        invalid_email_error = 'Некорректный email адрес'
+        registration_page.has_email_error(error=invalid_email_error)

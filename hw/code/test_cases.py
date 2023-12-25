@@ -6,4 +6,4 @@ class TestCases(BaseCase):
 
     def test_click_redirect(self, cases_page):
         cases_page.get_case_card().click()
-        assert cases_page.is_url_open("https://ads.vk.com/cases/")
+        assert self.is_url_open("https://ads.vk.com/cases/")

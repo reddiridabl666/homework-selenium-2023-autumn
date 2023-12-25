@@ -1,7 +1,6 @@
 from base import BaseCase
 from ui.fixtures import main_page, cases_page, companies_page
 import pytest
-from time import sleep
 
 
 class TestCompanies(BaseCase):
@@ -12,7 +11,7 @@ class TestCompanies(BaseCase):
 
     def test_redirect_create_page(self, companies_page):
         companies_page.click_create_btn()
-        assert companies_page.is_url_open(
+        assert self.is_url_open(
             'https://ads.vk.com/hq/new_create/ad_plan')
 
     def test_input_appearance(self, companies_page):
