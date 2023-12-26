@@ -140,6 +140,10 @@ class AdGroupsPage(HqPage):
 
     locators = basic_locators.AdGroupsPageLocators
 
+    EXAMPLE_SITE_NAME = 'example.org'
+    TARGET_PRICE = '100'
+    CHANGES_SAVED = 'Изменения сохранены'
+
     def go_to_drafts(self):
         self.driver.get(self.ad_group_drafts_url)
 
@@ -149,10 +153,11 @@ class AdGroupsPage(HqPage):
         self.click(self.locators.CREATE)
         self.click(self.locators.SITE_CONVERSIONS)
 
-        site_name = self.fill_in(self.locators.SITE_NAME, 'example.org')
+        site_name = self.fill_in(
+            self.locators.SITE_NAME, self.EXAMPLE_SITE_NAME)
         self.press_enter(site_name)
 
-        self.fill_in(self.locators.TARGET_PRICE, '100')
+        self.fill_in(self.locators.TARGET_PRICE, self.TARGET_PRICE)
 
         self.click(self.locators.NEXT)
 
@@ -163,7 +168,7 @@ class AdGroupsPage(HqPage):
             self.click(self.locators.NEXT)
 
         self.wait().until(EC.text_to_be_present_in_element(
-            self.locators.DRAFT_STATUS, 'Изменения сохранены'))
+            self.locators.DRAFT_STATUS, self.CHANGES_SAVED))
 
         return AdGroupCreationPage(self.driver)
 
@@ -182,12 +187,6 @@ class AdGroupDraftsPage(AdGroupsPage):
     def edit_ad_group_draft(self, ad_group_id):
         self.hover(self.locators.DRAFT_ENTRY(ad_group_id))
         self.click(self.locators.EDIT_DRAFT(ad_group_id))
-
-    def remove_table_field(self, field):
-        pass
-
-    def shown_table_fields(self):
-        pass
 
     def select_ad_group_draft(self, ad_group_id):
         self.click(self.locators.SELECT_DRAFT(ad_group_id))

@@ -6,7 +6,8 @@ idea_themes = [("Сайты", 1), ("Сообщества", 4)]
 
 idea_statuses = [("Уже в работе", 2), ("Реализована", 1)]
 
-idea_card = [("Создать Библиотеку Рекламы", 48), ("Получить ссылку на созданную лид-форму", 9)]
+idea_card = [("Создать Библиотеку Рекламы", 48),
+             ("Получить ссылку на созданную лид-форму", 9)]
 
 
 class TestUpvote(BaseCase):
@@ -31,5 +32,5 @@ class TestUpvote(BaseCase):
     @pytest.mark.parametrize("title,id", idea_card)
     def test_upvote_go_to_page(self, upvote_page: UpvotePage, title: str, id: int):
         upvote_page.go_to_idea(title)
-        upvote_page.assert_url(f"https://ads.vk.com/upvote/{id}")
+        assert self.is_url_open(f"https://ads.vk.com/upvote/{id}")
         assert upvote_page.get_idea_title() == title

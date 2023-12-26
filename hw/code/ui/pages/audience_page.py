@@ -16,6 +16,23 @@ class AudiencePage(HqPage):
 
     KEYWORDS = 'Ключевые фразы'
     OTHER_AUDIENCE = 'Существующая аудитория'
+    ADD_SOURCE = 'Добавить источник'
+    DELETE = 'Удалить'
+    EDIT = 'Редактировать'
+    MAX_LENGTH_ERROR = 'Максимальная длина 255 символов'
+    APPLY = 'Применить'
+
+    OR = 'или'
+    AND = 'и'
+    NO = 'не'
+
+    AT_LEAST_ONE_CONDITION = 'хотя бы одному из условий'
+    ALL_CONDITIONS = 'всем условиям'
+    NO_CONDITIONS = 'ни одному из условий'
+
+    FILTER = 'Фильтр'
+    CHOOSE_ALL = 'Выбрать все'
+    DESELECT_ALL = 'Снять выделение'
 
     def create_audience(self, name, source=KEYWORDS, data={}):
         self.is_not_visible(self.locators.AUDIENCE_CREATION_MODAL)
@@ -24,13 +41,16 @@ class AudiencePage(HqPage):
         self.save_audience()
 
     def save_audience(self):
-        self.is_not_visible(self.locators.SOURCE_CREATION_MODAL)
+        if not self.is_not_visible(self.locators.SOURCE_CREATION_MODAL):
+            return False
+
         self.click(self.locators.SAVE_AUDIENCE)
+        return True
 
     def add_source(self, source=KEYWORDS, data={}):
         self.is_not_visible(self.locators.SOURCE_CREATION_MODAL)
 
-        self.click(self.locators.BY_TEXT('Добавить источник'))
+        self.click(self.locators.BY_TEXT(self.ADD_SOURCE))
         self.click(self.locators.BY_TEXT(source))
 
         if (source == self.KEYWORDS):
@@ -45,14 +65,14 @@ class AudiencePage(HqPage):
         menu = self.locators.AUDIENCE_DETAILS(name)
         self.hover(menu)
         self.click(menu)
-        self.click(self.locators.BY_TEXT('Удалить'))
-        self.click(self.locators.BY_TEXT('Удалить'))
+        self.click(self.locators.BY_TEXT(self.DELETE))
+        self.click(self.locators.BY_TEXT(self.DELETE))
 
     def open_edit_modal(self, name):
         menu = self.locators.AUDIENCE_DETAILS(name)
         self.hover(menu)
         self.click(menu)
-        self.click(self.locators.BY_TEXT('Редактировать'))
+        self.click(self.locators.BY_TEXT(self.EDIT))
 
     def set_audience_name(self, name):
         self.click(self.locators.CREATE_AUDIENCE)
@@ -69,9 +89,8 @@ class AudiencePage(HqPage):
         self.click(self.locators.AUDIENCE_SELECT)
         self.click(self.locators.AUDIENCE_SELECT_ITEM(data))
 
-    def has_long_name_error(self):
-        self.has_error(self.locators.AUDIENCE_NAME,
-                       'Максимальная длина 255 символов')
+    def long_name_error(self):
+        return self.form_error(self.locators.AUDIENCE_NAME, self.MAX_LENGTH_ERROR)
 
     def get_source(self, id, type='keyword'):
         source = self.find(self.locators.AUDIENCE_SOURCE(id))
@@ -88,25 +107,24 @@ class AudiencePage(HqPage):
         self.is_not_visible(self.locators.SOURCE_CREATION_MODAL)
 
         self.click(self.locators.RULE_SELECTOR)
-        if rule == 'или':
-            self.click(self.locators.BY_TEXT('хотя бы одному из условий'))
-        elif rule == 'и':
-            self.click(self.locators.BY_TEXT('всем условиям'))
-        elif rule == 'не':
-            self.click(self.locators.BY_TEXT('ни одному из условий'))
+        if rule == self.OR:
+            self.click(self.locators.BY_TEXT(self.AT_LEAST_ONE_CONDITION))
+        elif rule == self.AND:
+            self.click(self.locators.BY_TEXT(self.ALL_CONDITIONS))
+        elif rule == self.NO:
+            self.click(self.locators.BY_TEXT(self.NO_CONDITIONS))
 
     def filter_audiences(self, shown=[KEYWORDS]):
         self.is_not_visible(self.locators.AUDIENCE_CREATION_MODAL)
 
-        self.click(self.locators.BY_TEXT('Фильтр'))
-        self.click(self.locators.BY_TEXT('Выбрать все'))
-        self.click(self.locators.BY_TEXT('Снять выделение'))
+        self.click(self.locators.BY_TEXT(self.FILTER))
+        self.click(self.locators.BY_TEXT(self.CHOOSE_ALL))
+        self.click(self.locators.BY_TEXT(self.DESELECT_ALL))
 
         for item in shown:
-            print(f'Clicking {item}')
             self.click(self.locators.AUDIENCE_FILTER_VALUE(item))
 
-        self.click(self.locators.BY_TEXT('Применить'))
+        self.click(self.locators.BY_TEXT(self.APPLY))
 
     def get_audience_names(self):
         elems = self.find_multiple(self.locators.SHOWN_AUDIENCES)

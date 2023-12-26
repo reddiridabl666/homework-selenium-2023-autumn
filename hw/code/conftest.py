@@ -7,6 +7,7 @@ def pytest_addoption(parser):
     parser.addoption('--debug_log', action='store_true')
     parser.addoption('--selenoid', action='store_true')
     parser.addoption('--vnc', action='store_true')
+    parser.addoption('--create_account', action='store_true')
 
 
 @pytest.fixture(scope='session')
@@ -14,6 +15,8 @@ def config(request):
     browser = request.config.getoption('--browser')
     url = request.config.getoption('--url')
     debug_log = request.config.getoption('--debug_log')
+    create_account = request.config.getoption('--create_account')
+
     if request.config.getoption('--selenoid'):
         if request.config.getoption('--vnc'):
             vnc = True
@@ -30,4 +33,5 @@ def config(request):
         'debug_log': debug_log,
         'selenoid': selenoid,
         'vnc': vnc,
+        'create_account': create_account
     }

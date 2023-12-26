@@ -5,7 +5,8 @@ from selenium.webdriver.common.by import By
 class BasePageLocators:
     PARENT = (By.XPATH, '..')
 
-    COOKIE_BANNER_BUTTON = (By.XPATH, "//button[contains(@class, 'CookieBanner_button__')]")
+    COOKIE_BANNER_BUTTON = (
+        By.XPATH, "//button[contains(@class, 'CookieBanner_button__')]")
 
     @staticmethod
     def BTN_BY_TEXT(text):
@@ -33,7 +34,8 @@ class BasePageLocators:
     def BY_TEST_ID(id):
         return (By.XPATH, f"//*[@data-testid='{id}']")
 
-    VK_UI_SELECT_ELEMS = (By.XPATH, "//*[contains(concat(' ', @class, ' '), ' vkuiCustomSelectOption ')]")
+    VK_UI_SELECT_ELEMS = (
+        By.XPATH, "//*[contains(concat(' ', @class, ' '), ' vkuiCustomSelectOption ')]")
 
     @staticmethod
     def VK_UI_SELECT_ELEM(text):
@@ -43,28 +45,61 @@ class BasePageLocators:
 
 
 class MainPageLocators(BasePageLocators):
-    LOGO = (By.CLASS_NAME, "HeaderLeft_left__a9Si1")
-    GO_TO_ACCOUNT = (By.CLASS_NAME, "ButtonCabinet_secondary__uUO2h")
+    LOGO = (By.XPATH, "//*[contains(@class, 'HeaderLeft_left__')]")
+
+    GO_TO_ACCOUNT = (
+        By.XPATH, "//*[contains(@class, 'ButtonCabinet_primary__')]")
+
     HELP = (By.LINK_TEXT, "Справка")
-    EDUCATION_TAB = (By.CLASS_NAME, "NavigationVKAdsItem_item__0_oac")
-    EDUCATION_DROPDOWN = (By.CLASS_NAME, "NavigationVKAds_subNavigation__kFqx4")
-    HAMBURGER = (By.CLASS_NAME, "HeaderWrapper_mobileMenuButton__D38On")
-    
+
+    @staticmethod
+    def DROPDOWN_TAB(tab):
+        return (By.XPATH, f"//*[contains(@class, 'SubNavigationItem_wrapper__')][text()='{tab}']")
+
+    EDUCATION_TAB = (
+        By.XPATH, "//*[contains(@class, 'NavigationVKAdsItem_item__')]")
+
+    EDUCATION_DROPDOWN = (
+        By.XPATH, "//*[contains(@class, 'NavigationVKAds_subNavigation__')]")
+
+    HAMBURGER = (
+        By.XPATH, "//*[contains(@class, 'HeaderWrapper_mobileMenuButton__')]")
+
     BULLETS_TAB = (By.CLASS_NAME, "Bullets_wrapper__MrE8_")
     ACTIVE_SLIDER = (By.CLASS_NAME, "MainSlider_active__hCfdG")
-    ACTIVE_SLIDER_IMAGE = (By.XPATH, '//*[@class="MainSlider_active__hCfdG"]//img')
+    ACTIVE_SLIDER_IMAGE = (
+        By.XPATH, '//*[@class="MainSlider_active__hCfdG"]//img')
 
-    FOOTER_GO_TO_ACCOUNT = (By.XPATH, "//*[contains(@class, 'Footer_leftContent__')]/a[text()='Перейти в кабинет']")
+    FOOTER_GO_TO_ACCOUNT = (
+        By.XPATH, "//*[contains(@class, 'Footer_leftContent__')]/a[text()='Перейти в кабинет']")
     FOOTER_GO_TO_BUSINESS = (
         By.XPATH,
         "//*[contains(@class, 'Footer_controls___')]/a[contains(@href, 'https://vk.company/ru/company/business/')]")
-    
+
     FOOTER_LANGUAGE = (By.XPATH, "//div[contains(@class, 'Footer_control__')]")
-    FOOTER_LANGUAGE_CONTENT = (By.XPATH, "//div[contains(@class, 'SelectLanguage_desktopSelect__')]/span")
+    FOOTER_LANGUAGE_CONTENT = (
+        By.XPATH, "//div[contains(@class, 'SelectLanguage_desktopSelect__')]/span")
     FOOTER_ABOUT = (By.XPATH, "//*[contains(@class, 'Footer_about__')]")
 
-    def TAB(self, tab_name):
-        return (By.LINK_TEXT, tab_name)
+    @staticmethod
+    def TAB(tab_name):
+        return (By.XPATH, f"//*[contains(@class, 'NavigationVKAdsItem_link__')][text()='{tab_name}']")
+
+    @staticmethod
+    def DROPDOWN_TAB(tab_name):
+        return (By.XPATH, f"//*[contains(@class, 'SubNavigationItem_title__')][text()='{tab_name}']")
+
+    @staticmethod
+    def FOOTER_TAB(tab_name: str):
+        return (By.XPATH, f"//*[contains(@class, 'Footer_item__')]/a[text()='{tab_name}']")
+
+    @staticmethod
+    def FOOTER_GROUP(url: str):
+        return (By.XPATH, f"//a[contains(@class, 'Footer_control__')][contains(@href, '{url}')]")
+
+    @staticmethod
+    def FOOTER_LANGUAGE_SELECT_ELEMENT(language: Literal["English", "Русский"]):
+        return (By.XPATH, f"//span[contains(@class, 'SelectLanguage_selectElem__')][text()='{language}']")
 
 
 class PartnerPageLocators(BasePageLocators):
@@ -81,48 +116,34 @@ class PartnerPageLocators(BasePageLocators):
     FORM_SUBMIT_BTN = BasePageLocators.BTN_BY_TEXT("Отправить")
     FORM_NAME_INPUT = (By.NAME, 'name')
     FORM_EMAIL_INPUT = (By.NAME, 'email')
-    FORM_SUBMIT_MSG = BasePageLocators.DIV_BY_TEXT('Спасибо, ваша заявка принята')
+    FORM_SUBMIT_MSG = BasePageLocators.DIV_BY_TEXT(
+        'Спасибо, ваша заявка принята')
 
 
 class HelpPageLocators(BasePageLocators):
     @staticmethod
     def GET_LINK_WITH_DIV_TEXT(text):
         return (By.XPATH, f'//a//*[text()="{text}"]/ancestor::a')
-    
+
     AUTHORIZE_LINK = GET_LINK_WITH_DIV_TEXT('Авторизация')
     HOW_TO_TUNE_LINK = GET_LINK_WITH_DIV_TEXT('Как настроить рекламу')
     TOOLS_LINK = GET_LINK_WITH_DIV_TEXT('Инструменты рекламы')
-    STATISTICS_AND_FINANCE_LINK = GET_LINK_WITH_DIV_TEXT('Статистика и финансы')
+    STATISTICS_AND_FINANCE_LINK = GET_LINK_WITH_DIV_TEXT(
+        'Статистика и финансы')
     DOCUMENTS_LINK = GET_LINK_WITH_DIV_TEXT('Документы')
     SIMPLIFIED_LINK = GET_LINK_WITH_DIV_TEXT('Упрощенный кабинет')
     FAQ_LINK = GET_LINK_WITH_DIV_TEXT('FAQ')
     PARTNER_CABINET_LINK = GET_LINK_WITH_DIV_TEXT('Кабинет партнера')
 
-    SEARCH = (By.XPATH, '//input[@placeholder="Статистика, правила, пополнение..."]')
-    SEARCH_SUGGESTIONS = (By.XPATH, '//div[contains(@class, "fullscreenSuggestions")]')
-    @staticmethod
-    def TAB(tab_name):
-        return (By.XPATH, f"//*[contains(@class, 'NavigationVKAdsItem_link__9JjBI')][text()='{tab_name}']")
-
-    @staticmethod
-    def DROPDOWN_TAB(tab_name):
-        return (By.XPATH, f"//*[contains(@class, 'SubNavigationItem_title__2kBnJ')][text()='{tab_name}']")
-
-    @staticmethod
-    def FOOTER_TAB(tab_name: str):
-        return (By.XPATH, f"//*[contains(@class, 'Footer_item__')]/a[text()='{tab_name}']")
-
-    @staticmethod
-    def FOOTER_GROUP(url: str):
-        return (By.XPATH, f"//a[contains(@class, 'Footer_control__')][contains(@href, '{url}')]")
-
-    @staticmethod
-    def FOOTER_LANGUAGE_SELECT_ELEMENT(language: Literal["English", "Русский"]):
-        return (By.XPATH, f"//span[contains(@class, 'SelectLanguage_selectElem__')][text()='{language}']")
+    SEARCH = (
+        By.XPATH, '//input[@placeholder="Статистика, правила, пополнение..."]')
+    SEARCH_SUGGESTIONS = (
+        By.XPATH, '//div[contains(@class, "fullscreenSuggestions")]')
 
 
 class RegistrationMainPageLocators(BasePageLocators):
-    GO_TO_REGISTRATION = (By.CLASS_NAME, "SocialButton_socialButtonWrapper__0PXSG")
+    GO_TO_REGISTRATION = (
+        By.CLASS_NAME, "SocialButton_socialButtonWrapper__0PXSG")
     MAIL_RU_AUTH = BasePageLocators.BY_MAIL_TEST_ID("oAuthService_mail_ru")
     MAIL_RU_SHOW_PASSWORD = BasePageLocators.BY_MAIL_TEST_ID("next-button")
     MAIL_RU_LOGIN = (By.NAME, "username")
@@ -157,9 +178,11 @@ class AudiencePageLocators(HqPageLocators):
 
     SOURCE_NAME = (By.XPATH, "(//*[contains(@class, 'vkuiInput__el')])[2]")
 
-    KEYWORDS = (By.XPATH, "(//*[contains(@class, 'KeyPhrases_textarea__wzycT')])[1]//textarea")
+    KEYWORDS = (
+        By.XPATH, "(//*[contains(@class, 'KeyPhrases_textarea__')])[1]//textarea")
 
-    NEGATIVE_KEYWORDS = (By.XPATH, "(//*[contains(@class, 'KeyPhrases_textarea__wzycT')])[2]//textarea")
+    NEGATIVE_KEYWORDS = (
+        By.XPATH, "(//*[contains(@class, 'KeyPhrases_textarea__')])[2]//textarea")
 
     SAVE_AUDIENCE = (By.XPATH, "(//button[@type='submit'])[1]")
 
@@ -169,24 +192,27 @@ class AudiencePageLocators(HqPageLocators):
     def AUDIENCE_CHECKBOX(name):
         return (
             By.XPATH,
-            f"*//[contains(@class, 'BaseTable__row') and contains(.//*, '{name}')]//[contains(@class, 'simpleCheckbox_simpleCheckbox__V0tiX')]"
+            f"*//[contains(@class, 'BaseTable__row') and contains(.//*, '{name}')]//[contains(@class, 'simpleCheckbox_simpleCheckbox__')]"
         )
 
     @staticmethod
     def AUDIENCE_DETAILS(name):
         return (By.XPATH, f"//*[contains(.//*, '{name}')]//button[@data-testid='audience-item-menu']")
 
-    DAYS_INPUT = (By.XPATH, "//*[contains(@class, 'Context_daysInput__zQlWQ')]//input")
+    DAYS_INPUT = (
+        By.XPATH, "//*[contains(@class, 'Context_daysInput__')]//input")
 
     @staticmethod
     def AUDIENCE_SOURCE(id):
-        return (By.XPATH, f"(//*[contains(@class, 'SourceListItem_sourceListItem__i81J9')])[{id+1}]")
+        return (By.XPATH, f"(//*[contains(@class, 'SourceListItem_sourceListItem__')])[{id+1}]")
 
-    AUDIENCE_SOURCE_ITEM = (By.CLASS_NAME, 'InfoRow_content__LN5Bb')
+    AUDIENCE_SOURCE_ITEM = (
+        By.XPATH, "//*[contains(@class, 'InfoRow_content__')]")
     AUDIENCE_SOURCE_NAME = (By.CLASS_NAME, 'vkuiHeadline')
 
     RULE = (By.CLASS_NAME, 'SourceRuleItem_rule__FEL5b')
-    RULE_SELECTOR = (By.CLASS_NAME, 'HintSelector_hintSelectorButton__pfubH')
+    RULE_SELECTOR = (
+        By.XPATH, "//*[contains(@class, 'HintSelector_hintSelectorButton__')]")
 
     @staticmethod
     def AUDIENCE_SELECT_ITEM(audience_name):
@@ -194,9 +220,11 @@ class AudiencePageLocators(HqPageLocators):
 
     AUDIENCE_SELECT = (By.CLASS_NAME, 'vkuiCustomSelect')
 
-    AUDIENCE_CREATION_MODAL = (By.XPATH, f"(//*[contains(@class, 'ModalSidebarPage_container__Zopae')])[1]")
+    AUDIENCE_CREATION_MODAL = (
+        By.XPATH, f"(//*[contains(@class, 'ModalSidebarPage_container__Zopae')])[1]")
 
-    SOURCE_CREATION_MODAL = (By.XPATH, f"(//*[contains(@class, 'ModalSidebarPage_container__Zopae')])[2]")
+    SOURCE_CREATION_MODAL = (
+        By.XPATH, f"(//*[contains(@class, 'ModalSidebarPage_container__Zopae')])[2]")
 
     AUDIENCE_FILTERS_SELECTED = (By.CLASS_NAME, 'vkuiCheckbox__icon--on')
 
@@ -204,19 +232,24 @@ class AudiencePageLocators(HqPageLocators):
     def AUDIENCE_FILTER_VALUE(audience_source):
         return (By.XPATH, f"//*[contains(@class, 'vkuiCheckbox__children')][text()='{audience_source}']")
 
-    SHOWN_AUDIENCES = (By.CLASS_NAME, 'NameCell_name__lgrNA')
+    SHOWN_AUDIENCES = (
+        By.XPATH, "//*[contains(@class, 'NameCell_name__')]")
 
-class CasesLocators(BasePageLocators):
+
+class CasesLocators(MainPageLocators):
     CASE_CARD = (By.CLASS_NAME, 'Case_content__qKFi_')
+
 
 class WebinarLocators(BasePageLocators):
     WEBINAR_CARD = (By.CLASS_NAME, 'Event_wrapper__3_Si5')
-    REGISTER_BUTTON = (By.XPATH, '//*[@class="CallToAction_title__kRjng"]/a') 
+    REGISTER_BUTTON = (By.XPATH, '//*[@class="CallToAction_title__kRjng"]/a')
+
 
 class CompaniesLocators(HqPageLocators):
     DROPDOWN_BUTTON = (By.XPATH, "//span[@data-testid='mob-app-select']")
     SITE_TARGET = (By.XPATH, "//div[@data-testid='audience-item-menu']")
-    SITE_INPUT = (By.XPATH, '//*[@class="SiteObject_formItemWithLink__PBvTA"]//span/input')
+    SITE_INPUT = (
+        By.XPATH, '//*[@class="SiteObject_formItemWithLink__PBvTA"]//span/input')
     MONEY_INPUT = (By.XPATH, '//*[@class="Money_input__LgVTo"]/input')
     MOBILEAPP_TARGET = (By.XPATH, "//div[@data-id='mobapps']")
     CREATE_BUTTON = (By.XPATH, '//*[@data-testid="create-button"]')
@@ -226,6 +259,7 @@ class CompaniesLocators(HqPageLocators):
     ROOT = (By.CLASS_NAME, 'header_logo__7lhb6')
     DRAFTS_BUTTON = (By.XPATH, '//*[@data-testid="drafts-button"]')
     SEARCH_FIELD = (By.XPATH, '//*[@data-testid="filter-search-input"]')
+
 
 class AdGroupsPageLocators(HqPageLocators):
     SITE_CONVERSIONS = (By.XPATH, "//*[@data-id='site_conversions']")
@@ -240,11 +274,13 @@ class AdGroupsPageLocators(HqPageLocators):
 
     ERROR_TOOLTIP = (By.CLASS_NAME, 'ErrorsTooltip_button__YyIDS')
 
-    SELECT_ALL = (By.XPATH, "//*[contains(@class, 'vkuiCheckbox')][input[@id='checkbox-all']]")
+    SELECT_ALL = (
+        By.XPATH, "//*[contains(@class, 'vkuiCheckbox')][input[@id='checkbox-all']]")
 
     DELETE = BasePageLocators.BY_TEXT('Удалить')
 
-    CONFIRM_DELETE = (By.XPATH, "//*[contains(@class, 'confirmRemoveModal_footer__dW3aB')]//*[text()='Удалить']")
+    CONFIRM_DELETE = (
+        By.XPATH, "//*[contains(@class, 'confirmRemoveModal_footer__dW3aB')]//*[text()='Удалить']")
 
     DRAFT_STATUS = (By.CLASS_NAME, 'CreateFooter_draftStatus__Hbe6f')
 
@@ -256,79 +292,89 @@ class AdGroupCreationPageLocators(BasePageLocators):
 
     @staticmethod
     def REGION_SEARCH_ITEM(region_name):
-        return (By.XPATH, f"//*[contains(@class, 'Branch_title__FvS4M')]//*[text()='{region_name}']")
+        return (By.XPATH, f"//*[contains(@class, 'Branch_title__')]//*[text()='{region_name}']")
 
     REGION_SEARCH_ITEMS = (By.CLASS_NAME, 'vkuiCheckbox__children')
 
-    REGION_LIST_ITEMS = (By.CLASS_NAME, 'RegionsList_label__KPYrN')
+    REGION_LIST_ITEMS = (
+        By.XPATH, "//*[contains(@class, 'RegionsList_label__')]")
 
     @staticmethod
     def REGION_LIST_REMOVE_ITEM(region_name):
         return (
             By.XPATH,
-            f"//*[contains(@class, 'RegionsList_item__5Z8rf') and contains(.//*, '{region_name}')]//*[contains(@class, 'RegionsList_close__XtcC-')]"
+            f"//*[contains(@class, 'RegionsList_item__') and contains(.//*, '{region_name}')]//*[contains(@class, 'RegionsList_close__')]"
         )
 
-    CLEAR_REGION_LIST = (By.CLASS_NAME, 'RegionsSelector_selectedRegionsClearText__eZU3q')
+    CLEAR_REGION_LIST = (
+        By.XPATH, "//*[contains(@class, 'RegionsSelector_selectedRegionsClearText__')]")
 
-    ADD_REGIONS_BY_LIST = (By.XPATH, "//*[contains(@class, 'RegionsSelector_addListButton__nHCp+')]")
+    ADD_REGIONS_BY_LIST = (
+        By.XPATH, "//*[contains(@class, 'RegionsSelector_addListButton__')]")
 
-    REGION_LIST_INPUT = (By.XPATH, "//*[contains(@class, 'AddTextListCard_fieldWrapper__iWfRn')]//textarea")
+    REGION_LIST_INPUT = (
+        By.XPATH, "//*[contains(@class, 'AddTextListCard_fieldWrapper__')]//textarea")
 
     SUBMIT_REGIONS_BY_LIST = BasePageLocators.BY_TEXT('Добавить')
 
-    REGION_LIST_ADD_STATUS = (By.CLASS_NAME, 'AddTextListCard_status__tB4Q7')
+    REGION_LIST_ADD_STATUS = (
+        By.XPATH, "//*[contains(@class, 'AddTextListCard_status__')]")
 
     REGION_LIST_ADD_CLOSE_MODAL = (By.CLASS_NAME, 'vkuiModalDismissButton')
 
     DEVICES = BasePageLocators.BY_TEST_ID('section-devices')
 
-    DEVICES_DESKTOP = (By.XPATH, "//*[contains(@class, 'vkuiCheckbox')][input[@value='desktop']]")
+    DEVICES_DESKTOP = (
+        By.XPATH, "//*[contains(@class, 'vkuiCheckbox')][input[@value='desktop']]")
 
-    DEVICES_MOBILE = (By.XPATH, "//*[contains(@class, 'vkuiCheckbox')][input[@value='mobile']]")
+    DEVICES_MOBILE = (
+        By.XPATH, "//*[contains(@class, 'vkuiCheckbox')][input[@value='mobile']]")
 
     PLACEMENT = BasePageLocators.BY_TEST_ID('section-placement')
     PLACEMENT_AUTO_CHOICE_TOGGLE = (By.XPATH,
                                     "//*[@data-testid='section-placement']//*[contains(@class, 'vkuiSwitch')]")
-    PLACEMENT_CHOICE_ITEM = (By.CLASS_NAME, 'PadsTreeBranch_branch__YxTON')
+    PLACEMENT_CHOICE_ITEM = (
+        By.XPATH, "//*[contains(@class, 'PadsTreeBranch_branch__')]")
 
     DEMOGRAPHY = BasePageLocators.BY_TEST_ID('section-demography')
 
     MIN_AGE_SELECT = (
-        By.XPATH, "//*[contains(@class, 'AgeTargeting_select__QcsRp')][1]")
+        By.XPATH, "//*[contains(@class, 'AgeTargeting_select__')][1]")
 
     MAX_AGE_SELECT = (
-        By.XPATH, "//*[contains(@class, 'AgeTargeting_select__QcsRp')][2]")
+        By.XPATH, "//*[contains(@class, 'AgeTargeting_select__')][2]")
 
     AUDIENCE = BasePageLocators.BY_TEST_ID('section-audience')
 
     AUDIENCE_SEARCH = (
-        By.XPATH, "//*[contains(@class, 'ChipsSelect_wrapper__m9y64')]//input")
+        By.XPATH, "//*[contains(@class, 'ChipsSelect_wrapper__')]//input")
     AUDIENCE_NEG_SEARCH = (
-        By.XPATH, "//*[contains(@class, 'Segments_negativeWrapper__pb1')]//input")
+        By.XPATH, "//*[contains(@class, 'Segments_negativeWrapper__')]//input")
 
     AUDIENCE_SEARCH_VISIBLE = (
-        By.XPATH, "//*[contains(@class, 'ChipsSelect_wrapper__m9y64')]")
+        By.XPATH, "//*[contains(@class, 'ChipsSelect_wrapper__')]")
     AUDIENCE_NEG_SEARCH_VISIBLE = (
-        By.XPATH, "//*[contains(@class, 'Segments_negativeWrapper__pb1')]")
+        By.XPATH, "//*[contains(@class, 'Segments_negativeWrapper__')]")
 
     AUDIENCE_NEG_SHOW = (
-        By.XPATH, "//*[contains(@class, 'Segments_negativeOpener__D0PO+')]")
+        By.XPATH, "//*[contains(@class, 'Segments_negativeOpener__')]")
 
-    AUDIENCE_NEG_CLOSE = (By.CLASS_NAME, 'Segments_negativeCloser__bswFU')
+    AUDIENCE_NEG_CLOSE = (
+        By.XPATH, "//*[contains(@class, 'Segments_negativeCloser__')]")
 
-    SELECTED_AUDIENCES = (By.CLASS_NAME, 'Segments_chipWrapper__jE2QZ')
+    SELECTED_AUDIENCES = (
+        By.XPATH, "//*[contains(@class, 'Segments_chipWrapper__')]")
 
     EDIT_AUDIENCE = (
-        By.XPATH, "//*[contains(concat(' ', @class, ' '), ' vkuiCustomSelectOption ')]//*[contains(@class, 'Hint_hintTrigger__ixYRu')]")
+        By.XPATH, "//*[contains(concat(' ', @class, ' '), ' vkuiCustomSelectOption ')]//*[contains(@class, 'Hint_hintTrigger__')]")
 
     @staticmethod
     def SELECTED_AUDIENCE(name):
-        return (By.XPATH, f"//*[contains(@class, 'Segments_chipWrapper__jE2QZ')][text()='{name}']")
+        return (By.XPATH, f"//*[contains(@class, 'Segments_chipWrapper__')][.//*[text()='{name}']]")
 
     @staticmethod
     def DESELECT_AUDIENCE(name):
-        return (By.XPATH, f"//*[contains(@class, 'Segments_chipWrapper__jE2QZ')][text()='{name}']//*[contains(@class, 'vkuiChip__remove')]")
+        return (By.XPATH, f"//*[contains(@class, 'Segments_chipWrapper__')][.//*[text()='{name}']]//*[contains(@class, 'vkuiChip__remove')]")
 
 
 class AdGroupDraftsPageLocators(AdGroupsPageLocators):
@@ -344,15 +390,18 @@ class AdGroupDraftsPageLocators(AdGroupsPageLocators):
     def SELECT_DRAFT(id):
         return (By.XPATH, f"//*[@data-entityid='{id}-AdGroupDraft']//*[contains(@class, 'vkuiCheckbox')]")
 
-    DRAFT_ENTRIES = (By.XPATH, "//*[contains(@data-entityid, '-AdGroupDraft')]")
+    DRAFT_ENTRIES = (
+        By.XPATH, "//*[contains(@data-entityid, '-AdGroupDraft')]")
 
     DESELECT_DRAFTS = (By.CLASS_NAME, 'vkuiChip__remove')
 
     CHOSEN_DRAFT_NUM = (By.CLASS_NAME, 'vkuiChip__content')
 
-    SELECTED_DRAFTS = (By.CSS_SELECTOR, "*[data-entityid$='-AdGroupDraft']:has(:checked)")
+    SELECTED_DRAFTS = (
+        By.CSS_SELECTOR, "*[data-entityid$='-AdGroupDraft']:has(:checked)")
 
-    CANCEL_DELETION = (By.XPATH, "//*[contains(@class, 'confirmRemoveModal_footer__dW3aB')]//*[text()='Отмена']")
+    CANCEL_DELETION = (
+        By.XPATH, "//*[contains(@class, 'confirmRemoveModal_footer__dW3aB')]//*[text()='Отмена']")
 
     CLOSE_DELETION_MODAL = (By.CLASS_NAME, 'vkuiModalDismissButton')
 
@@ -364,8 +413,10 @@ class UpvotePageLocators(BasePageLocators):
 
     IDEAS_COUNT = (By.XPATH, "//div[contains(@class, 'Idea_cardVote__')]")
 
-    IDEA_THEME_SELECT = (By.XPATH, "(//div[contains(@class, 'vkuiSelect__container')])[1]")
-    IDEA_STATUS_SELECT = (By.XPATH, "(//div[contains(@class, 'vkuiSelect__container')])[2]")
+    IDEA_THEME_SELECT = (
+        By.XPATH, "(//div[contains(@class, 'vkuiSelect__container')])[1]")
+    IDEA_STATUS_SELECT = (
+        By.XPATH, "(//div[contains(@class, 'vkuiSelect__container')])[2]")
 
     IDEA_TITLE = (By.XPATH, "//*[contains(@class, 'Idea_title__')]")
 
@@ -375,7 +426,8 @@ class UpvotePageLocators(BasePageLocators):
 
 
 class ImageContainer(BasePageLocators):
-    IMAGE_CONTAINER_IMGS = (By.XPATH, "//*[contains(@class, 'ImageItems_imageItem__')]")
+    IMAGE_CONTAINER_IMGS = (
+        By.XPATH, "//*[contains(@class, 'ImageItems_imageItem__')]")
 
 
 class LeadPageLocators(ImageContainer):
@@ -395,28 +447,39 @@ class LeadPageLocators(ImageContainer):
     @staticmethod
     def _BY_PLACEHOLDER_FIELD_WITH_ERROR(placeholder: str) -> tuple[tuple[str, str], tuple[str, str]]:
         input_xpath = f"//input[@placeholder='{placeholder}']"
-        error_xpath = input_xpath + "/../../span[contains(@class, 'vkuiFormItem__bottom')]/div"
+        error_xpath = input_xpath + \
+            "/../../span[contains(@class, 'vkuiFormItem__bottom')]/div"
         return ((By.XPATH, input_xpath), (By.XPATH, error_xpath))
 
     @staticmethod
     def _BY_H5_FIELD_WITH_ERROR(title: str) -> tuple[tuple[str, str], tuple[str, str]]:
         base_xpath = f"//h5[contains(@class, 'vkuiSubhead')][text()='{title}']/.."
-        input_xpath = base_xpath + "/span[contains(@class, 'vkuiFormField')]/input"
-        error_xpath = base_xpath + "/span[contains(@class, 'vkuiFormItem__bottom')]/div"
+        input_xpath = base_xpath + \
+            "/span[contains(@class, 'vkuiFormField')]/input"
+        error_xpath = base_xpath + \
+            "/span[contains(@class, 'vkuiFormItem__bottom')]/div"
         return ((By.XPATH, input_xpath), (By.XPATH, error_xpath))
 
-    CREATE_LEAD = (By.XPATH, "//button[contains(@class, 'LeadForms_createButton__')]")
+    CREATE_LEAD = (
+        By.XPATH, "//button[contains(@class, 'LeadForms_createButton__')]")
 
-    LEAD_PROCESSING_STAGE = (By.XPATH, "//div[contains(@class, 'CreateLeadFormModal_activeStep__')]")
+    LEAD_PROCESSING_STAGE = (
+        By.XPATH, "//div[contains(@class, 'CreateLeadFormModal_activeStep__')]")
 
-    LEAD_PROCESSING_FORMAL_LOGO = BasePageLocators.BY_TEST_ID("set-global-image")
+    LEAD_PROCESSING_FORMAL_LOGO = BasePageLocators.BY_TEST_ID(
+        "set-global-image")
 
-    LEAD_PROCESSING_FORMAL_LOGO_ERROR = (By.XPATH, "//*[@data-testid='set-global-image']/../span/div")
+    LEAD_PROCESSING_FORMAL_LOGO_ERROR = (
+        By.XPATH, "//*[@data-testid='set-global-image']/../span/div")
 
-    LEAD_PROCESSING_FORMAL_TITLE = _BY_PLACEHOLDER_FIELD_WITH_ERROR("Название лид-формы")
-    LEAD_PROCESSING_FORMAL_COMPANY = _BY_PLACEHOLDER_FIELD_WITH_ERROR("Название компании")
-    LEAD_PROCESSING_FORMAL_TEXT_TITLE = _BY_PLACEHOLDER_FIELD_WITH_ERROR("Текст заголовка")
-    LEAD_PROCESSING_FORMAL_COMPACT_DESC = _BY_PLACEHOLDER_FIELD_WITH_ERROR("Краткое описание опроса")
+    LEAD_PROCESSING_FORMAL_TITLE = _BY_PLACEHOLDER_FIELD_WITH_ERROR(
+        "Название лид-формы")
+    LEAD_PROCESSING_FORMAL_COMPANY = _BY_PLACEHOLDER_FIELD_WITH_ERROR(
+        "Название компании")
+    LEAD_PROCESSING_FORMAL_TEXT_TITLE = _BY_PLACEHOLDER_FIELD_WITH_ERROR(
+        "Текст заголовка")
+    LEAD_PROCESSING_FORMAL_COMPACT_DESC = _BY_PLACEHOLDER_FIELD_WITH_ERROR(
+        "Краткое описание опроса")
 
     LEAD_PROCESSING_NEXT_BUTTON = (By.XPATH, "//button[@title='Продолжить']")
     LEAD_PROCESSING_SAVE_BUTTON = (By.XPATH, "//button[@title='Сохранить']")
@@ -428,7 +491,8 @@ class LeadPageLocators(ImageContainer):
     def LEAD_PROCESSING_QUESTION_TITLE(question_number: int):
         return (By.XPATH, f"(//textarea[@placeholder='Напишите вопрос'])[{question_number}]")
 
-    LEAD_PROCESSING_QUESTION_ALL_QUESTIONS = (By.XPATH, "//div[contains(@class, 'Questions_questionsDroppable__')]/div")
+    LEAD_PROCESSING_QUESTION_ALL_QUESTIONS = (
+        By.XPATH, "//div[contains(@class, 'Questions_questionsDroppable__')]/div")
 
     LEAD_PROCESSING_QUESTION_ERROR = (
         By.XPATH, "//div[contains(@class, 'Question_question__')]//div[contains(@class, 'Hint_hintTrigger')]")
@@ -454,14 +518,19 @@ class LeadPageLocators(ImageContainer):
     LEAD_PROCESSING_RESULT_TITLE = _BY_H5_FIELD_WITH_ERROR("Заголовок")
     LEAD_PROCESSING_RESULT_DESC = _BY_H5_FIELD_WITH_ERROR("Описание")
 
-    LEAD_PROCESSING_SETTINGS_FULL_NAME = _BY_PLACEHOLDER_FIELD_WITH_ERROR("Введите фамилию, имя и отчество")
-    LEAD_PROCESSING_SETTINGS_ADDRESS = _BY_PLACEHOLDER_FIELD_WITH_ERROR("Введите адрес")
-    LEAD_PROCESSING_SETTINGS_EMAIL = _BY_PLACEHOLDER_FIELD_WITH_ERROR("Введите email")
-    LEAD_PROCESSING_SETTINGS_INN = _BY_PLACEHOLDER_FIELD_WITH_ERROR("Введите ИНН")
+    LEAD_PROCESSING_SETTINGS_FULL_NAME = _BY_PLACEHOLDER_FIELD_WITH_ERROR(
+        "Введите фамилию, имя и отчество")
+    LEAD_PROCESSING_SETTINGS_ADDRESS = _BY_PLACEHOLDER_FIELD_WITH_ERROR(
+        "Введите адрес")
+    LEAD_PROCESSING_SETTINGS_EMAIL = _BY_PLACEHOLDER_FIELD_WITH_ERROR(
+        "Введите email")
+    LEAD_PROCESSING_SETTINGS_INN = _BY_PLACEHOLDER_FIELD_WITH_ERROR(
+        "Введите ИНН")
 
     LEAD_SEARCH = (By.XPATH, "//div[contains(@class, 'vkuiSearch__input')]")
 
-    LEAD_ALL_ITEMS = (By.XPATH, "//button[contains(@class, 'NameCell_link__')]")
+    LEAD_ALL_ITEMS = (
+        By.XPATH, "//button[contains(@class, 'NameCell_link__')]")
 
     @staticmethod
     def LEAD_BY_TITLE(title: str):
@@ -473,9 +542,10 @@ class LeadPageLocators(ImageContainer):
             By.XPATH,
             f"//button[contains(@class, 'NameCell_link__')][text()='{title}']/../div/div/button/span[text()='Удалить']")
 
-    LEAD_CONFIRM_DELETE = (By.XPATH, "//div[contains(@class, 'ModalConfirm_wrapper__')]//*[text()='Удалить']")
-   
- 
+    LEAD_CONFIRM_DELETE = (
+        By.XPATH, "//div[contains(@class, 'ModalConfirm_wrapper__')]//*[text()='Удалить']")
+
+
 class EcommPageLocators(BasePageLocators):
     CREATE_CATALOG_BTN = BasePageLocators.BTN_BY_TEXT("Создать каталог")
     CREATE_CATALOG_MODAL = (By.CLASS_NAME, "ModalRoot_componentWrapper__uzHTL")
@@ -488,19 +558,24 @@ class EcommPageLocators(BasePageLocators):
         MARKETPLACE_BTN = TAB_BY_TEXT("Маркетплейс")
         MANUAL_BTN = TAB_BY_TEXT("Вручную")
 
-        FEED_LABEL = BasePageLocators.SPAN_BY_TEXT("Ссылка на фид или сообщество")
-        MARKETPLACE_LABEL = BasePageLocators.SPAN_BY_TEXT("Ссылка на страницу продавца")
+        FEED_LABEL = BasePageLocators.SPAN_BY_TEXT(
+            "Ссылка на фид или сообщество")
+        MARKETPLACE_LABEL = BasePageLocators.SPAN_BY_TEXT(
+            "Ссылка на страницу продавца")
         MANUAL_LABEL = BasePageLocators.SPAN_BY_TEXT("Категория фида")
 
-        MANUAL_FILE_SELECTOR = (By.XPATH, '//label[contains(@class, "FileSelector")]//input')
-        SUBMIT_CATALOG_BTN = (By.XPATH, '//button[@type="submit"]//span[text()="Создать каталог"]/ancestor::button')
+        MANUAL_FILE_SELECTOR = (
+            By.XPATH, '//label[contains(@class, "FileSelector")]//input')
+        SUBMIT_CATALOG_BTN = (
+            By.XPATH, '//button[@type="submit"]//span[text()="Создать каталог"]/ancestor::button')
 
     create_catalog_modal = CreateCatalogModal()
 
     FEED_LOADING = BasePageLocators.SPAN_BY_TEXT('Загрузка фида')
     CATALOG = (By.XPATH, '//span[contains(text(), "Каталог")]')
     SETTINGS_BTN = BasePageLocators.BTN_BY_TEXT("Настройки")
-    SETTINGS_MODAL = (By.XPATH, '//div[contains(@class, "ModalRoot_componentWrapper")]')
+    SETTINGS_MODAL = (
+        By.XPATH, '//div[contains(@class, "ModalRoot_componentWrapper")]')
 
     ADD_GOODS_BTN = BasePageLocators.BTN_BY_TEXT("Добавить товары")
     PROMOTE_BTN = BasePageLocators.SPAN_BY_TEXT("Рекламировать")
@@ -508,11 +583,14 @@ class EcommPageLocators(BasePageLocators):
 
 class SitesPageLocators(BasePageLocators):
     ADD_PIXEL_BTN = BasePageLocators.BTN_BY_TEXT("Добавить пиксель")
-    
-    ADD_PIXEL_MODAL = (By.XPATH, '//div[contains(@class, "ModalRoot_componentWrapper")]')
+
+    ADD_PIXEL_MODAL = (
+        By.XPATH, '//div[contains(@class, "ModalRoot_componentWrapper")]')
     CLOSE_MODAL_BTN = (By.CLASS_NAME, 'vkuiModalDismissButton')
 
     DOMAIN_INPUT = (By.XPATH, '//input[@placeholder="Домен сайта"]')
-    DOMAIN_SUBMIT_BTN = (By.XPATH, '//div[contains(@class, "ModalRoot")]//button//*[text()="Добавить пиксель"]/ancestor::button')
-    PIXEL_ADDED_MODAL = (By.XPATH, '//*[contains(text(), "Создан ID пикселя")]')
+    DOMAIN_SUBMIT_BTN = (
+        By.XPATH, '//div[contains(@class, "ModalRoot")]//button//*[text()="Добавить пиксель"]/ancestor::button')
+    PIXEL_ADDED_MODAL = (
+        By.XPATH, '//*[contains(text(), "Создан ID пикселя")]')
     SETTINGS_LINK = (By.LINK_TEXT, 'Настройка')

@@ -10,6 +10,7 @@ tabs = [
     ("История загрузок", "/history"),
 ]
 
+
 class TestEcomm(BaseCase):
     def test_create_catalog_modal_opens(self, ecomm_page):
         ecomm_page.click_create_catalog_btn()
@@ -44,8 +45,7 @@ class TestEcomm(BaseCase):
 
     def test_catalog_redirect(self, ecomm_page):
         ecomm_page.click_catalog()
-
-        ecomm_page.check_url_catalog()
+        assert self.is_url_open("https://ads.vk.com/hq/ecomm/catalogs/[0-9]*")
 
     def test_catalog_settings(self, ecomm_page):
         ecomm_page.click_catalog()
@@ -56,7 +56,8 @@ class TestEcomm(BaseCase):
     def test_catalog_redirects(self, ecomm_page, tab, url):
         ecomm_page.click_catalog()
         ecomm_page.click_tab(tab)
-        ecomm_page.check_url_catalog(url)
+        assert self.is_url_open(
+            f"https://ads.vk.com/hq/ecomm/catalogs/[0-9]*{url}")
 
     def test_add_goods_modal(self, ecomm_page):
         ecomm_page.click_catalog()
@@ -66,4 +67,5 @@ class TestEcomm(BaseCase):
     def test_promote_redirect(self, ecomm_page):
         ecomm_page.click_catalog()
         ecomm_page.click_promote_btn()
-        ecomm_page.check_url("https://ads.vk.com/hq/new_create/ad_plan*")
+        assert self.is_url_open(
+            "https://ads.vk.com/hq/new_create/ad_plan*")

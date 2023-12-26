@@ -37,7 +37,8 @@ def driver(config):
         if vnc:
             capabilities['enableVNC'] = True
         options.default_capabilities = capabilities
-        driver = webdriver.Remote('http://127.0.0.1:4444/wd/hub', options=options)
+        driver = webdriver.Remote(
+            'http://127.0.0.1:4444/wd/hub', options=options)
     elif browser == 'chrome':
         driver = webdriver.Chrome()
     elif browser == 'firefox':
@@ -76,15 +77,18 @@ def cases_page(driver):
     driver.get(CasesPage.url)
     return CasesPage(driver=driver)
 
+
 @pytest.fixture
 def partner_page(driver):
     driver.get(PartnerPage.url)
     return PartnerPage(driver=driver)
 
+
 @pytest.fixture
 def help_page(driver):
     driver.get(HelpPage.url)
     return HelpPage(driver=driver)
+
 
 @pytest.fixture
 def registration_main_page(driver):
@@ -94,7 +98,7 @@ def registration_main_page(driver):
 
 @pytest.fixture(scope='session')
 def load_env():
-    load_dotenv()
+    load_dotenv('.test_env')
 
 
 @pytest.fixture(scope='session')
@@ -114,6 +118,10 @@ def registration_page(registration_main_page, no_cabinet_credentials):
 
 @pytest.fixture(scope='session')
 def create_account(config, credentials):
+    if not config['create_account']:
+        yield  # Хак, иначе pytest ругается, что мы не дошли до следующего yield
+        return
+
     driver = get_driver(config['browser'])
 
     driver.get(RegistrationMainPage.url)
@@ -125,7 +133,7 @@ def create_account(config, credentials):
     page = HqPage(driver)
     driver.quit()
 
-    yield page
+    yield
 
     driver = get_driver(config['browser'])
 
@@ -148,14 +156,17 @@ def audience_page(hq_page):
     hq_page.driver.get(AudiencePage.url)
     return AudiencePage(driver=hq_page.driver)
 
+
 @pytest.fixture
 def webinar_page(driver):
     driver.get(WebinarsPage.url)
     return WebinarsPage(driver=driver)
 
+
 @pytest.fixture
 def companies_page(hq_page):
     return CompaniesPage(hq_page.driver)
+
 
 @pytest.fixture
 def ad_groups_page(hq_page):
@@ -169,7 +180,7 @@ def ad_groups_page(hq_page):
 def ad_group_creation_page(ad_groups_page):
     return ad_groups_page.go_to_creation()
 
- 
+
 @pytest.fixture
 def ecomm_page(hq_page):
     hq_page.driver.get(EcommPage.url)
@@ -181,7 +192,7 @@ def sites_page(hq_page):
     hq_page.driver.get(SitesPage.url)
     return SitesPage(driver=hq_page.driver)
 
- 
+
 @pytest.fixture
 def ad_group_drafts_page(ad_group_creation_page):
     ad_group_creation_page.driver.get(AdGroupDraftsPage.url)

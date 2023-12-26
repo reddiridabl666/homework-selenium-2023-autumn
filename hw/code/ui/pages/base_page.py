@@ -1,7 +1,8 @@
 import time
 from typing import List
 
-import allure                                                                                                           # type: ignore
+# type: ignore
+import allure
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
 from selenium.webdriver.remote.webelement import WebElement
@@ -12,7 +13,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 from ui.locators import basic_locators
 from ui.wait_conditions import element_in_viewport, elements_count_changed
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 import time
 import os
 
@@ -30,7 +31,8 @@ class BasePage(object):
         while time.time() - started < timeout:
             if self.driver.current_url.startswith(self.url):
                 return True
-        raise PageNotOpenedExeption(f'{self.url} did not open in {timeout} sec, current url {self.driver.current_url}')
+        raise PageNotOpenedExeption(
+            f'{self.url} did not open in {timeout} sec, current url {self.driver.current_url}')
 
     def __init__(self, driver: RemoteWebDriver):
         self.driver = driver
@@ -58,8 +60,11 @@ class BasePage(object):
             return False
 
     def is_not_visible(self, locator, timeout: float | None = None):
-        self.wait(timeout).until(EC.invisibility_of_element(locator))
-        return True
+        try:
+            self.wait(timeout).until(EC.invisibility_of_element(locator))
+            return True
+        except:
+            return False
 
     def find(self, locator, timeout: float | None = None) -> WebElement:
         return self.wait(timeout).until(EC.visibility_of_element_located(locator))
@@ -89,11 +94,13 @@ class BasePage(object):
         return self.wait(timeout).until(wait_cond)
 
     def get_new_count(self, locator, start_size, timeout: float | None = None):
-        elems = self.wait(timeout).until(elements_count_changed(locator, start_size))
+        elems = self.wait(timeout).until(
+            elements_count_changed(locator, start_size))
         return len(elems)
 
     def wait_for_count_of_elements(self, locator, count, timeout: float | None = None):
-        self.wait(timeout).until(lambda _: len(self.find_multiple(locator)) == count)
+        self.wait(timeout).until(lambda _: len(
+            self.find_multiple(locator)) == count)
 
     def switch_to_new_tab(self):
         assert len(self.driver.window_handles) > 1
@@ -120,7 +127,7 @@ class BasePage(object):
         elem.location_once_scrolled_into_view
 
         self.wait(timeout).until(element_in_viewport(locator))
-        
+
         elem.click()
 
         return elem
@@ -164,7 +171,8 @@ class BasePage(object):
         return elem
 
     def is_disabled(self, locator, timeout=None):
-        self.wait(timeout).until(EC.element_attribute_to_include(locator, 'disabled'))
+        self.wait(timeout).until(
+            EC.element_attribute_to_include(locator, 'disabled'))
         return True
 
     @allure.step('Fill in')
@@ -187,33 +195,26 @@ class BasePage(object):
         select = Select(self.find(locator))
         select.select_by_visible_text(value)
 
-    @allure.step('Check url')
-    def check_url(self, url, timeout=None):
-        self.wait(timeout).until(EC.url_matches(url))
-
     @allure.step('Check if enabled')
     def is_enabled(self, locator, timeout=5) -> bool:
         elem = self.find(locator, timeout=timeout)
         return elem.is_enabled()
-      
-    def assert_url(self, url, timeout=None):
-        if timeout is None:
-            timeout = 5
-        try:
-            self.wait(timeout).until(EC.url_matches(url))
-        except:
-            raise PageNotOpenedExeption(f'{url} did not open in {timeout} sec, current url {self.driver.current_url}')
 
     def wait_for_redirect(self, timeout: float | None = None):
         self.wait(timeout).until(EC.url_changes(self.driver.current_url))
 
-    def has_error(self, locator, error='Обязательное поле'):
-        elem = self.find(self.locators.ERROR)
-        self.find_from(elem, locator)
-        self.find_from(elem, self.locators.BY_TEXT(error))
+    def form_error(self, locator, error) -> WebElement:
+        try:
+            error_container = self.find(self.locators.ERROR)
+            self.find_from(error_container, locator)
+            error = self.find_from(
+                error_container, self.locators.BY_TEXT(error))
+            return error
+        except TimeoutException:
+            return None
 
-    def hover(self, locator):
-        elem = self.wait().until(EC.presence_of_element_located(locator))
+    def hover(self, locator, cond=EC.presence_of_element_located):
+        elem = self.wait().until(cond(locator))
         hover = ActionChains(self.driver).move_to_element(elem)
         hover.perform()
 

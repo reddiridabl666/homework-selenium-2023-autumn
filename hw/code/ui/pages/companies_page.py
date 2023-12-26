@@ -3,7 +3,8 @@ from ui.pages.base_page import BasePage
 from ui.pages.hq_page import HqPage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import TimeoutException
+
 
 class CompaniesPage(HqPage):
     url = 'https://ads.vk.com/hq/dashboard/ads'
@@ -45,19 +46,18 @@ class CompaniesPage(HqPage):
     def get_target_input(self):
         try:
             return self.find(self.locators.TARGET_INPUT)
-        except NoSuchElementException:
+        except TimeoutException:
             return None
         
     def get_mobile_target_input(self):
         try:
             return self.find(self.locators.MOBILE_TARGET_INPUT)
-        except NoSuchElementException:
+        except TimeoutException:
             return None
-
         
     def go_to_root(self):
         self.find(self.locators.ROOT).click()
-    
+
     def click_drafts_btn(self):
         self.find(self.locators.DRAFTS_BUTTON).click()
 
@@ -65,4 +65,3 @@ class CompaniesPage(HqPage):
         input = self.find(self.locators.SEARCH_FIELD)
         input.click()
         input.send_keys(query)
-        

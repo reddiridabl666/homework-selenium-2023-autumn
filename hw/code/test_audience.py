@@ -28,9 +28,12 @@ class TestAudience(BaseCase):
     keywords_name = 'Аудитория с ключевыми словами'
     based_on_other_name = 'Аудитория на основе старой'
 
+    RULE_AND = 'и'
+    RULE_OR = 'или'
+
     def test_long_audience_name(self, audience_page):
         audience_page.set_audience_name('a'*256)
-        audience_page.has_long_name_error()
+        assert audience_page.long_name_error() is not None
 
     def test_create_keywords(self, audience_page):
         data = keywords_payload()
@@ -38,34 +41,32 @@ class TestAudience(BaseCase):
         audience_page.add_source(audience_page.KEYWORDS, data)
         assert audience_page.get_source(0) == data
 
-    @pytest.mark.parametrize('days', ['31'])
-    def test_create_keywords_invalid_days(self, audience_page, days):
-        data = keywords_payload(days=days)
+    def test_create_keywords_invalid_days(self, audience_page, ):
+        invalid_days = '31'
+        data = keywords_payload(days=invalid_days)
         audience_page.set_audience_name(self.keywords_name)
         audience_page.add_source(audience_page.KEYWORDS, data)
         assert audience_page.get_source(0)['days'] == '30'
 
-    def test_edit_audience(self, audience_page):
-        name = self.keywords_name
-        audience_page.create_audience(name, data=keywords_payload())
-        audience_page.open_edit_modal(name)
-        audience_page.save_audience()
-        audience_page.delete_audience(name)
+    def test_edit_audience(self, audience_page, keyword_audience):
+        audience_page.open_edit_modal(self.keywords_name)
+        assert audience_page.save_audience()
 
     def test_boolean_rule(self, audience_page):
         audience_page.set_audience_name(self.keywords_name)
 
-        audience_page.add_source(data=keywords_payload(name='Условие 1'))
-        audience_page.add_source(data=keywords_payload(name='Условие 2'))
+        first_source_name = 'Условие 1'
+        second_source_name = 'Условие 2'
 
-        audience_page.set_rule('и')
-        assert audience_page.get_rule() == 'и'
+        audience_page.add_source(data=keywords_payload(name=first_source_name))
+        audience_page.add_source(
+            data=keywords_payload(name=second_source_name))
 
-        audience_page.set_rule('или')
-        assert audience_page.get_rule() == 'или'
+        audience_page.set_rule(self.RULE_AND)
+        assert audience_page.get_rule() == self.RULE_AND
 
-    def test_create_from_other(self, keyword_audience, audience_based_on_other):
-        pass
+        audience_page.set_rule(self.RULE_OR)
+        assert audience_page.get_rule() == self.RULE_OR
 
     def test_filter_audience(self, keyword_audience, audience_based_on_other, audience_page):
         audience_page.filter_audiences(shown=[audience_page.KEYWORDS])
