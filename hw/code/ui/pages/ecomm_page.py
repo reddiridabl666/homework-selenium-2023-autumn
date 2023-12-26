@@ -5,6 +5,8 @@ from selenium.webdriver.support import expected_conditions as EC
 
 
 class CreateCatalogModal:
+    CATALOG_PATH = 'files/catalog_products.csv'
+
     def __init__(self, page):
         self.page = page
         self.locators = page.locators
@@ -18,29 +20,28 @@ class CreateCatalogModal:
     def click_manual_btn(self):
         self.page.click(self.locators.create_catalog_modal.MANUAL_BTN)
 
-    def check_feed(self):
-        self.page.is_visible(self.locators.create_catalog_modal.FEED_LABEL)
+    def is_feed_visible(self):
+        return self.page.is_visible(self.locators.create_catalog_modal.FEED_LABEL)
 
-    def check_marketplace(self):
-        self.page.is_visible(
+    def is_marketplace_visible(self):
+        return self.page.is_visible(
             self.locators.create_catalog_modal.MARKETPLACE_LABEL)
 
-    def check_manual(self):
-        self.page.is_visible(self.locators.create_catalog_modal.MANUAL_LABEL)
+    def is_manual_visible(self):
+        return self.page.is_visible(self.locators.create_catalog_modal.MANUAL_LABEL)
 
     def create_catalog_from_file(self):
-        file_path = 'files/catalog_products.csv'
         self.page.upload_file(
-            self.locators.create_catalog_modal.MANUAL_FILE_SELECTOR, file_path)
+            self.locators.create_catalog_modal.MANUAL_FILE_SELECTOR, self.CATALOG_PATH)
 
         self.page.click(self.locators.create_catalog_modal.SUBMIT_CATALOG_BTN)
 
-    def check_loading_started(self):
+    def has_loading_started(self):
         self.page.wait(30).until(
             EC.visibility_of_element_located(self.locators.FEED_LOADING))
         return True
 
-    def check_loading_finished(self):
+    def has_loading_finished(self):
         self.page.wait(600).until(
             EC.invisibility_of_element_located(self.locators.FEED_LOADING))
         return True
@@ -57,8 +58,8 @@ class EcommPage(BasePage):
     def click_create_catalog_btn(self):
         self.click(self.locators.CREATE_CATALOG_BTN)
 
-    def check_catalog_btn_visible(self):
-        self.is_visible(self.locators.CREATE_CATALOG_MODAL)
+    def is_catalog_btn_visible(self):
+        return self.is_visible(self.locators.CREATE_CATALOG_MODAL)
 
     def click_catalog(self):
         self.click(self.locators.CATALOG)
@@ -66,8 +67,8 @@ class EcommPage(BasePage):
     def open_catalog_options(self):
         self.click(self.locators.SETTINGS_BTN)
 
-    def check_catalog_options_modal(self):
-        self.is_visible(self.locators.SETTINGS_MODAL)
+    def is_catalog_options_modal_open(self):
+        return self.is_visible(self.locators.SETTINGS_MODAL)
 
     def click_tab(self, tab_name):
         self.click(self.locators.SPAN_BY_TEXT(tab_name))
