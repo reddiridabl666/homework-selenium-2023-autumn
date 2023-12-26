@@ -13,8 +13,7 @@ tabs = [
     ('Монетизация', 'https://ads.vk.com/partner', True),
 ]
 
-groups = [("https://vk.com/vk_ads"),
-          ("https://ok.ru/group/64279825940712"), ("https://t.me/vk_ads")]
+groups = [("https://vk.com/vk_ads"), ("https://ok.ru/group/64279825940712"), ("https://t.me/vk_ads")]
 
 
 class TestFooter(BaseCase):
@@ -41,13 +40,13 @@ class TestFooter(BaseCase):
         assert self.is_url_open(url)
 
     def test_footer_language(self, main_page: MainPage):
-        assert main_page.get_footer_language() == "RU"
+        assert main_page.get_footer_language() == main_page.LANG_RU
 
-        main_page.select_language("English")
-        assert main_page.get_footer_language() == "EN"
+        main_page.select_language(main_page.LANG_SELECT_EN)
+        assert main_page.get_footer_language() == main_page.LANG_EN
 
-        main_page.select_language("Русский")
-        assert main_page.get_footer_language() == "RU"
+        main_page.select_language(main_page.LANG_SELECT_RU)
+        assert main_page.get_footer_language() == main_page.LANG_RU
 
     def test_footer_about(self, main_page: MainPage):
         main_page.click_footer_about()

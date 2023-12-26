@@ -6,17 +6,19 @@ idea_themes = [("Сайты", 1), ("Сообщества", 4)]
 
 idea_statuses = [("Уже в работе", 2), ("Реализована", 1)]
 
-idea_card = [("Создать Библиотеку Рекламы", 48),
-             ("Получить ссылку на созданную лид-форму", 9)]
+idea_card = [("Создать Библиотеку Рекламы", 48), ("Получить ссылку на созданную лид-форму", 9)]
 
 
 class TestUpvote(BaseCase):
+    SEARCH_BY_TITLE = "Получить"
+    SEARCH_BY_ID = "10"
+
     def test_upvote_search_by_title(self, upvote_page: UpvotePage):
-        upvote_page.fill_search("Получить")
+        upvote_page.fill_search(self.SEARCH_BY_TITLE)
         upvote_page.wait_for_count_of_ideas(1)
 
     def test_upvote_search_by_id(self, upvote_page: UpvotePage):
-        upvote_page.fill_search("10")
+        upvote_page.fill_search(self.SEARCH_BY_ID)
         upvote_page.wait_for_count_of_ideas(1)
 
     @pytest.mark.parametrize("theme_name,ideas_count", idea_themes)
