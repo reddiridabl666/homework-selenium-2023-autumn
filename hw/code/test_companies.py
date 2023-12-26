@@ -17,7 +17,8 @@ class TestCompanies(BaseCase):
     def test_input_appearance(self, companies_page):
         companies_page.click_create_btn()
         companies_page.select_site_target()
-        assert (companies_page.has_target_input())
+        assert(companies_page.get_target_input() is not None)
+    
 
     def test_site_neccessary_error(self, companies_page):
         companies_page.click_create_btn()
@@ -48,7 +49,7 @@ class TestCompanies(BaseCase):
     def test_mobile_input_appearance(self, companies_page):
         companies_page.click_create_btn()
         companies_page.select_mobileapp_target()
-        assert (companies_page.has_mobile_target_input())
+        assert(companies_page.get_mobile_target_input() is not None)
 
     def test_unfinished_company_appearance(self, companies_page):
         companies_page.click_create_btn()
