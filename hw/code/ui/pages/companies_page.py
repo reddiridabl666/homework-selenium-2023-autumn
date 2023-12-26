@@ -42,19 +42,18 @@ class CompaniesPage(HqPage):
     def select_mobileapp_target(self):
         self.find(self.locators.MOBILEAPP_TARGET).click()
 
-    def has_target_input(self):
+    def get_target_input(self):
         try:
-            elem = self.find(self.locators.TARGET_INPUT)
-            return True
+            return self.find(self.locators.TARGET_INPUT)
         except NoSuchElementException:
-            return False
+            return None
+        
+    def get_mobile_target_input(self):
+        try:
+            return self.find(self.locators.MOBILE_TARGET_INPUT)
+        except NoSuchElementException:
+            return None
 
-    def has_mobile_target_input(self):
-        try:
-            elem = self.find(self.locators.MOBILE_TARGET_INPUT)
-            return True
-        except NoSuchElementException:
-            return False
         
     def go_to_root(self):
         self.find(self.locators.ROOT).click()
