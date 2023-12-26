@@ -39,8 +39,8 @@ class HelpPage(BasePage):
         action.move_to_element_with_offset(search, -30, -30).click()
         action.perform()
 
-    def check_search_suggestions(self):
-        self.is_visible(self.locators.SEARCH_SUGGESTIONS)
+    def are_search_suggestions_visible(self):
+        return self.is_visible(self.locators.SEARCH_SUGGESTIONS)
 
-    def check_search_suggestions_invisible(self):
-        self.is_not_visible(self.locators.SEARCH_SUGGESTIONS)
+    def are__search_suggestions_invisible(self):
+        return self.is_not_visible(self.locators.SEARCH_SUGGESTIONS)

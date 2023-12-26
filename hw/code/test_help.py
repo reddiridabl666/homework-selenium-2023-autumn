@@ -4,6 +4,9 @@ import pytest
 
 
 class TestHelp(BaseCase):
+    SEARCH_QUERY = "создание"
+
+
     def test_authorize_redirect(self, help_page):
         help_page.click_authorize_link()
         assert self.is_url_open(
@@ -38,11 +41,11 @@ class TestHelp(BaseCase):
         assert self.is_url_open("ads.vk.com/help/categories/partner")
 
     def test_search_clues(self, help_page):
-        help_page.fill_search("создание")
-        help_page.check_search_suggestions()
+        help_page.fill_search(self.SEARCH_QUERY)
+        assert help_page.are_search_suggestions_visible()
 
     def test_search_clues_disappear(self, help_page):
-        help_page.fill_search("создание")
-        help_page.check_search_suggestions()
+        help_page.fill_search(self.SEARCH_QUERY)
+        assert help_page.are_search_suggestions_visible()
         help_page.unfocus_search()
-        help_page.check_search_suggestions_invisible()
+        assert help_page.are_search_suggestions_invisible()
