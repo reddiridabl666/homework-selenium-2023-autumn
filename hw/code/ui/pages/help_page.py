@@ -1,6 +1,8 @@
 from ui.locators.basic_locators import HelpPageLocators
 from ui.pages.base_page import BasePage
 from selenium.webdriver import ActionChains
+from selenium.webdriver.support import expected_conditions as EC
+
 
 class HelpPage(BasePage):
     url = 'https://ads.vk.com/help'
@@ -39,8 +41,8 @@ class HelpPage(BasePage):
         action.move_to_element_with_offset(search, -30, -30).click()
         action.perform()
 
-    def are_search_suggestions_visible(self):
-        return self.is_visible(self.locators.SEARCH_SUGGESTIONS)
-
-    def are__search_suggestions_invisible(self):
-        return self.is_not_visible(self.locators.SEARCH_SUGGESTIONS)
+    def get_search_suggestions(self, timeout=5):
+        return self.get_element(self.locators.SEARCH_SUGGESTIONS, timeout=timeout)
+    
+    def wait_until_search_suggestion_disappear(self):
+        self.wait_until_element_not_visible(self.locators.SEARCH_SUGGESTIONS)
