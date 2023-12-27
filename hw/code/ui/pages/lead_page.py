@@ -16,23 +16,20 @@ class TextInput:
     def fill(self, text: str) -> WebElement:
         return self.page.fill_in(self.input_locator, text)
 
-    def has_error(self) -> bool:
-        return self.page.is_visible(self.error_locator, 1)
+    def get_error(self) -> str | None:
+        if not self.page.is_visible(self.error_locator, 1):
+            return None
 
-    def get_error(self) -> str:
         return self.page.find(self.error_locator).text
 
-    def fill_and_get_error(self, text: str) -> tuple[True, str] | tuple[False, None]:
+    def fill_and_get_error(self, text: str) -> str | None:
         self.fill(text)
         if self.is_last_page:
             self.page.click_processing_save()
         else:
             self.page.click_processing_next()
 
-        if self.has_error():
-            return (True, self.get_error())
-
-        return (False, None)
+        return self.get_error()
 
 
 class LeadPage(BasePage):
@@ -86,10 +83,10 @@ class LeadPage(BasePage):
         self.wait_for_count_of_elements(self.locators.IMAGE_CONTAINER_IMGS, 1)
         self.click_may_be_stale(self.locators.IMAGE_CONTAINER_IMGS)
 
-    def has_processing_formal_logo_error(self) -> bool:
-        return self.is_visible(self.locators.LEAD_PROCESSING_FORMAL_LOGO_ERROR)
+    def get_processing_formal_logo_error(self) -> str | None:
+        if not self.is_visible(self.locators.LEAD_PROCESSING_FORMAL_LOGO_ERROR, 1):
+            return None
 
-    def get_processing_formal_logo_error(self) -> str:
         return self.find(self.locators.LEAD_PROCESSING_FORMAL_LOGO_ERROR).text
 
     def processing_formal_and_go_next(self, title: str | None = None):
@@ -107,8 +104,11 @@ class LeadPage(BasePage):
     def processing_question_add_answer(self, question_number: int):
         self.click(self.locators.LEAD_PROCESSING_QUESTION_ADD_ANSWER(question_number))
 
-    def processing_question_has_error(self) -> bool:
-        return self.is_visible(self.locators.LEAD_PROCESSING_QUESTION_ERROR)
+    def get_processing_question_error(self) -> str | None:
+        if not self.is_visible(self.locators.LEAD_PROCESSING_QUESTION_ERROR):
+            return None
+
+        return self.find(self.locators.LEAD_PROCESSING_QUESTION_ERROR).text
 
     def processing_question_fill_title(self, question_number: int, title: str):
         self.fill_in(self.locators.LEAD_PROCESSING_QUESTION_TITLE(question_number), title)
