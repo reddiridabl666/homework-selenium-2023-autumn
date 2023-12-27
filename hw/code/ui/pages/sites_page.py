@@ -14,20 +14,20 @@ class SitesPage(BasePage):
     def close_add_pixel_modal(self):
         self.click(self.locators.CLOSE_MODAL_BTN)
 
-    def is_pixel_modal_opened(self):
-        return self.is_visible(self.locators.ADD_PIXEL_MODAL)
+    def get_pixel_modal(self, timeout=5):
+        return self.get_element(self.locators.ADD_PIXEL_MODAL, timeout=timeout)
 
-    def is_pixel_modal_closed(self):
-        return self.is_not_visible(self.locators.ADD_PIXEL_MODAL)
+    def wait_for_pixel_modal_close(self):
+        return self.wait_until_element_not_visible(self.locators.ADD_PIXEL_MODAL)
 
     def fill_domain_input(self, text):
         self.fill_in(self.locators.DOMAIN_INPUT, text)
 
-    def submit_btn_enabled(self):
-        return self.find(self.locators.SUBMIT_BTN).is_enabled()
+    def get_submit_btn(self):
+        return self.find(self.locators.DOMAIN_SUBMIT_BTN)
 
     def click_submit_btn(self):
         self.click(self.locators.DOMAIN_SUBMIT_BTN)
-
-    def is_pixel_created_modal_visible(self):
-        return self.is_visible(self.locators.PIXEL_ADDED_MODAL)
+   
+    def get_pixel_created_modal(self):
+        return self.get_element(self.locators.PIXEL_ADDED_MODAL)

@@ -51,6 +51,9 @@ class BasePage(object):
             timeout = 5
         return WebDriverWait(self.driver, timeout=timeout)
 
+    def wait_until_element_not_visible(self, locator, timeout: float | None = None):
+        return self.wait(timeout).until(EC.invisibility_of_element_located(locator))
+
     def is_visible(self, locator, timeout: float | None = None):
         try:
             elem = self.find(locator, timeout)
@@ -66,8 +69,8 @@ class BasePage(object):
         except:
             return False
 
-    def find(self, locator, timeout: float | None = None) -> WebElement:
-        return self.wait(timeout).until(EC.visibility_of_element_located(locator))
+    def find(self, locator, timeout: float | None = None, cond=EC.visibility_of_element_located) -> WebElement:
+        return self.wait(timeout).until(cond(locator))
 
     def find_invisible(self, locator, timeout=None) -> WebElement:
         return self.wait(timeout).until(EC.presence_of_element_located(locator))
@@ -92,6 +95,12 @@ class BasePage(object):
             return False
 
         return self.wait(timeout).until(wait_cond)
+    
+    def get_element(self, locator, timeout: float | None = None, cond=EC.visibility_of_all_elements_located) -> WebElement:
+        try:
+            return self.find(locator, timeout)
+        except TimeoutException:
+            return None
 
     def get_new_count(self, locator, start_size, timeout: float | None = None):
         elems = self.wait(timeout).until(
