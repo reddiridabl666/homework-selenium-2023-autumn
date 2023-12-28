@@ -1,4 +1,3 @@
-import time
 from ui.pages.base_page import BasePage
 from ui.locators.basic_locators import EcommPageLocators
 from selenium.webdriver.support import expected_conditions as EC
@@ -20,13 +19,13 @@ class CreateCatalogModal:
 
     def click_manual_btn(self):
         self.page.click(self.locators.create_catalog_modal.MANUAL_BTN)
-   
+
     def get_feed(self):
         return self.page.get_element(self.locators.create_catalog_modal.FEED_LABEL)
-   
+
     def get_marketplace(self):
         return self.page.get_element(self.locators.create_catalog_modal.MARKETPLACE_LABEL)
- 
+
     def get_manual(self):
         return self.page.get_element(self.locators.create_catalog_modal.MANUAL_LABEL)
 
@@ -35,7 +34,7 @@ class CreateCatalogModal:
             self.locators.create_catalog_modal.MANUAL_FILE_SELECTOR, self.CATALOG_PATH)
 
         self.page.click(self.locators.create_catalog_modal.SUBMIT_CATALOG_BTN)
-        
+
     def get_loading_animation(self):
         return self.page.get_element(self.page.locators.FEED_LOADING, timeout=30)
 
@@ -62,7 +61,7 @@ class EcommPage(BasePage):
 
     def open_catalog_options(self):
         self.click(self.locators.SETTINGS_BTN)
-   
+
     def get_catalog_options_modal(self):
         return self.get_element(self.locators.SETTINGS_MODAL)
 

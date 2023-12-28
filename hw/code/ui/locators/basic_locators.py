@@ -244,8 +244,10 @@ class CasesLocators(MainPageLocators):
 
 
 class WebinarLocators(BasePageLocators):
-    WEBINAR_CARD = (By.CLASS_NAME, 'Event_wrapper__3_Si5')
-    REGISTER_BUTTON = (By.XPATH, '//*[@class="CallToAction_title__kRjng"]/a')
+    WEBINAR_CARD = (By.XPATH, "//*[contains(@class, 'Event_wrapper__')]")
+    REGISTER_BUTTON = (
+        By.XPATH, '//*[contains(@class, "CallToAction_title__")]/a')
+    BACK_BUTTON = (By.XPATH, "//*[contains(@class, 'Summary_leftArrow__')]")
 
 
 class CompaniesLocators(HqPageLocators):

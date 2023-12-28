@@ -30,7 +30,7 @@ class CompaniesPage(HqPage):
         input.send_keys(money_value)
         input.send_keys(Keys.RETURN)
 
-    def click_contitnue_btn(self):
+    def click_continue_btn(self):
         self.find(self.locators.CONTINUE_BUTTON).click()
 
     def create_company(self, url, money):
@@ -38,7 +38,7 @@ class CompaniesPage(HqPage):
         self.select_site_target()
         self.input_site_value(url)
         self.input_money_value(money)
-        self.click_contitnue_btn()
+        self.click_continue_btn()
 
     def select_mobileapp_target(self):
         self.find(self.locators.MOBILEAPP_TARGET).click()
@@ -48,18 +48,21 @@ class CompaniesPage(HqPage):
             return self.find(self.locators.TARGET_INPUT)
         except TimeoutException:
             return None
-        
+
     def get_mobile_target_input(self):
         try:
             return self.find(self.locators.MOBILE_TARGET_INPUT)
         except TimeoutException:
             return None
-        
+
     def go_to_root(self):
         self.find(self.locators.ROOT).click()
 
     def click_drafts_btn(self):
         self.find(self.locators.DRAFTS_BUTTON).click()
+
+    def company_id(self):
+        return self.driver.current_url.split('/')[-1]
 
     def input_search_query(self, query):
         input = self.find(self.locators.SEARCH_FIELD)

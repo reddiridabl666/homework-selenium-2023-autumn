@@ -1,7 +1,6 @@
 import time
 from typing import List
 
-# type: ignore
 import allure
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
@@ -95,7 +94,7 @@ class BasePage(object):
             return False
 
         return self.wait(timeout).until(wait_cond)
-    
+
     def get_element(self, locator, timeout: float | None = None, cond=EC.visibility_of_all_elements_located) -> WebElement:
         try:
             return self.find(locator, timeout)

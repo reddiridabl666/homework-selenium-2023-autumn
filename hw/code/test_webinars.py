@@ -13,6 +13,8 @@ class TestWebinar(BaseCase):
     def test_back_click_redirect(self, webinar_page):
         webinar = webinar_page.get_webinar_card()
         webinar.click()
+        webinar_page.click_back_button()
+        assert self.is_url_open(webinar_page.url)
 
     def test_register_redirect(self, webinar_page):
         webinar = webinar_page.get_webinar_card()
