@@ -66,9 +66,12 @@ class MainPageLocators(BasePageLocators):
         By.XPATH, "//*[contains(@class, 'HeaderWrapper_mobileMenuButton__')]")
 
     BULLETS_TAB = (By.CLASS_NAME, "Bullets_wrapper__MrE8_")
-    ACTIVE_SLIDER = (By.CLASS_NAME, "MainSlider_active__hCfdG")
+    BULLETS = (By.XPATH, "//div[contains(@class, 'Bullets_box')]")
+    NON_ACTIVE_BULLET = (By.XPATH, "//div[contains(@class, 'Bullets_box') and not(contains(@class, 'Active'))]")
+
+    ACTIVE_SLIDER = (By.XPATH, "MainSlider_active__hCfdG")
     ACTIVE_SLIDER_IMAGE = (
-        By.XPATH, '//*[@class="MainSlider_active__hCfdG"]//img')
+        By.XPATH, '//*[contains(@class, "MainSlider_active")]//img')
 
     FOOTER_GO_TO_ACCOUNT = (
         By.XPATH, "//*[contains(@class, 'Footer_leftContent__')]/a[text()='Перейти в кабинет']")
