@@ -10,6 +10,8 @@ class MainPage(BasePage):
     url = 'https://ads.vk.com/'
     locators = basic_locators.MainPageLocators()
 
+    ACTIVE_BULLET_CLASS = "Active"
+
     LANG_RU = "RU"
     LANG_SELECT_RU: Literal["Русский"] = "Русский"
     LANG_EN = "EN"
@@ -76,9 +78,19 @@ class MainPage(BasePage):
             return None
 
     def get_carousel_active_img(self):
-        element = self.find(self.locators.ACTIVE_SLIDER).find_element(By.XPATH, "//img")
+        element = self.find(self.locators.ACTIVE_SLIDER_IMAGE)
         return element.get_attribute('src')
+    
+    def get_bullets(self):
+        return self.find_multiple(self.locators.BULLETS)
+    
+    def get_bullet(self, bullet_id):
+        return self.get_bullets()[bullet_id]
+    
+    def wait_until_bullet_becomes_inactive(self, bullet_id, timeout=10):
+        ec = lambda _: self.ACTIVE_BULLET_CLASS not in self.get_bullet(bullet_id).get_attribute("class")
+        return self.wait(timeout).until(ec)
 
     def click_nonactive_tab(self):
-        button = self.find(self.locators.BULLETS_TAB).find_element(By.CLASS_NAME, "Bullets_box__xAFrY")
+        button = self.find(self.locators.NON_ACTIVE_BULLET)
         button.click()
