@@ -16,28 +16,43 @@ class TextInput:
     def fill(self, text: str) -> WebElement:
         return self.page.fill_in(self.input_locator, text)
 
-    def has_error(self) -> bool:
-        return self.page.is_visible(self.error_locator, 1)
+    def get_error(self) -> str | None:
+        if not self.page.is_visible(self.error_locator, 1):
+            return None
 
-    def get_error(self) -> str:
         return self.page.find(self.error_locator).text
 
-    def fill_and_get_error(self, text: str) -> tuple[True, str] | tuple[False, None]:
+    def fill_and_get_error(self, text: str) -> str | None:
         self.fill(text)
         if self.is_last_page:
             self.page.click_processing_save()
         else:
             self.page.click_processing_next()
 
-        if self.has_error():
-            return (True, self.get_error())
-
-        return (False, None)
+        return self.get_error()
 
 
 class LeadPage(BasePage):
     url = 'https://ads.vk.com/hq/leadads/leadforms'
     locators = basic_locators.LeadPageLocators()
+
+    PROCESSING_FORMAL_TITLE = "title"
+    PROCESSING_FORMAL_COMPANY = "company"
+    PROCESSING_FORMAL_TEXT_TITLE = "text_title"
+    PROCESSING_FORMAL_COMPACT_DESC = "desc"
+
+    PROCESSING_QUESTION_1_ANSWER_1 = "a 1 1"
+    PROCESSING_QUESTION_1_ANSWER_2 = "a 1 2"
+
+    PROCESSING_QUESTION_TITLE = "q_title"
+
+    PROCESSING_RESULT_TITLE = "result title"
+    PROCESSING_RESULT_DESC = "result desc"
+
+    PROCESSING_SETTINGS_FULL_NAME = "Лат Ми Ан"
+    PROCESSING_SETTINGS_ADDRESS = "ул Пушкина дом"
+
+    PROCESSING_SETTINGS_MAX_LENGTH = 65
 
     def get_processing_stage(self) -> str:
         return self.find(self.locators.LEAD_PROCESSING_STAGE).text
@@ -68,19 +83,19 @@ class LeadPage(BasePage):
         self.wait_for_count_of_elements(self.locators.IMAGE_CONTAINER_IMGS, 1)
         self.click_may_be_stale(self.locators.IMAGE_CONTAINER_IMGS)
 
-    def has_processing_formal_logo_error(self) -> bool:
-        return self.is_visible(self.locators.LEAD_PROCESSING_FORMAL_LOGO_ERROR)
+    def get_processing_formal_logo_error(self) -> str | None:
+        if not self.is_visible(self.locators.LEAD_PROCESSING_FORMAL_LOGO_ERROR, 1):
+            return None
 
-    def get_processing_formal_logo_error(self) -> str:
         return self.find(self.locators.LEAD_PROCESSING_FORMAL_LOGO_ERROR).text
 
     def processing_formal_and_go_next(self, title: str | None = None):
         if title is not None:
             self.processing_formal_title().fill(title)
         self.processing_formal_select_logo()
-        self.processing_formal_company().fill("company")
-        self.processing_formal_text_title().fill("text_title")
-        self.processing_formal_compact_desc().fill("desc")
+        self.processing_formal_company().fill(self.PROCESSING_FORMAL_COMPANY)
+        self.processing_formal_text_title().fill(self.PROCESSING_FORMAL_TEXT_TITLE)
+        self.processing_formal_compact_desc().fill(self.PROCESSING_FORMAL_COMPACT_DESC)
         self.click_processing_next()
 
     def processing_question_add_question(self):
@@ -89,8 +104,11 @@ class LeadPage(BasePage):
     def processing_question_add_answer(self, question_number: int):
         self.click(self.locators.LEAD_PROCESSING_QUESTION_ADD_ANSWER(question_number))
 
-    def processing_question_has_error(self) -> bool:
-        return self.is_visible(self.locators.LEAD_PROCESSING_QUESTION_ERROR)
+    def get_processing_question_error(self) -> str | None:
+        if not self.is_visible(self.locators.LEAD_PROCESSING_QUESTION_ERROR):
+            return None
+
+        return self.find(self.locators.LEAD_PROCESSING_QUESTION_ERROR).text
 
     def processing_question_fill_title(self, question_number: int, title: str):
         self.fill_in(self.locators.LEAD_PROCESSING_QUESTION_TITLE(question_number), title)
@@ -117,8 +135,8 @@ class LeadPage(BasePage):
         return TextInput(self, self.locators.LEAD_PROCESSING_SETTINGS_INN, True)
 
     def processing_settings_and_save(self):
-        self.processing_settings_full_name().fill("Лат Ми Ан")
-        self.processing_settings_address().fill("ул Пушкина дом")
+        self.processing_settings_full_name().fill(self.PROCESSING_SETTINGS_FULL_NAME)
+        self.processing_settings_address().fill(self.PROCESSING_SETTINGS_ADDRESS)
         self.click_processing_save()
 
     def search(self, title_or_id: str | int):

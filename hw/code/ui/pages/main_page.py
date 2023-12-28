@@ -12,6 +12,11 @@ class MainPage(BasePage):
 
     ACTIVE_BULLET_CLASS = "Active"
 
+    LANG_RU = "RU"
+    LANG_SELECT_RU: Literal["Русский"] = "Русский"
+    LANG_EN = "EN"
+    LANG_SELECT_EN: Literal["English"] = "English"
+
     def click_logo(self):
         self.click(self.locators.LOGO)
 
@@ -56,8 +61,7 @@ class MainPage(BasePage):
         return self.find(self.locators.FOOTER_LANGUAGE_CONTENT).text
 
     def open_education_dropdown(self):
-        self.hover(self.locators.EDUCATION_TAB,
-                   cond=EC.visibility_of_element_located)
+        self.hover(self.locators.EDUCATION_TAB, cond=EC.visibility_of_element_located)
 
     def education_dropdown(self):
         try:

@@ -3,7 +3,7 @@ from ui.pages.base_page import BasePage
 from ui.pages.hq_page import HqPage
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import TimeoutException
 
 
 class CompaniesPage(HqPage):
@@ -43,20 +43,18 @@ class CompaniesPage(HqPage):
     def select_mobileapp_target(self):
         self.find(self.locators.MOBILEAPP_TARGET).click()
 
-    def has_target_input(self):
+    def get_target_input(self):
         try:
-            elem = self.find(self.locators.TARGET_INPUT)
-            return True
-        except NoSuchElementException:
-            return False
-
-    def has_mobile_target_input(self):
+            return self.find(self.locators.TARGET_INPUT)
+        except TimeoutException:
+            return None
+        
+    def get_mobile_target_input(self):
         try:
-            elem = self.find(self.locators.MOBILE_TARGET_INPUT)
-            return True
-        except NoSuchElementException:
-            return False
-
+            return self.find(self.locators.MOBILE_TARGET_INPUT)
+        except TimeoutException:
+            return None
+        
     def go_to_root(self):
         self.find(self.locators.ROOT).click()
 
